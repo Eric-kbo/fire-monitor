@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <iframe class="map" src="./map.html"></iframe>
+    <iframe class="map" src="./gmap.html"></iframe>
   </div>
 </template>
 

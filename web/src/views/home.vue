@@ -5,8 +5,7 @@
       <input v-model="search" placeholder="输入设备名称" />
       <button class="searchBtn">查找</button>
     </div>
-    <!-- v-infinite-scroll="loadMore" -->
-    <ul class="list" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+    <ul class="list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue></chart-vue>
       </li>
@@ -35,7 +34,8 @@ export default {
   data() {
     return {
       list: [1, 2, 3],
-      resul: [],
+      result: [],
+      search: '',
       tableData: {
         title: ['a', 'b', 'c', 'd'],
         data: [[1, 4, 4, 34], [745, 163, 743, 41], [46, 746, 646, 46], [456, 46, 67, 76]]
@@ -43,16 +43,16 @@ export default {
     };
   },
   methods: {
-    // loadMore() {
-    //   this.loading = true;
-    //   setTimeout(() => {
-    //     let last = this.list[this.list.length - 1];
-    //     for (let i = 1; i <= 5; i++) {
-    //       this.list.push(last + i);
-    //     }
-    //     this.loading = false;
-    //   }, 2500);
-    // }
+    loadMore() {
+      this.loading = true;
+      setTimeout(() => {
+        let last = this.list[this.list.length - 1];
+        for (let i = 1; i <= 3; i++) {
+          this.list.push(last + i);
+        }
+        this.loading = false;
+      }, 2000);
+    }
   },
 }
 </script>
