@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1>PLOT</h1>
+    <h1>ALERT</h1>
     <mt-button class="btn" type="default" size="small" @click="goto">go to detail</mt-button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'plot',
+  name: 'alert',
   methods: {
     goto() {
       this.$router.push({

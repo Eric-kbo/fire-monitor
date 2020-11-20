@@ -20,9 +20,9 @@ const routes = [
     component: () => import('../views/gmap.vue')
   },
   {
-    name: 'plot',
-    path: "/plot",
-    component: () => import('../views/plot.vue')
+    name: 'alert',
+    path: "/alert",
+    component: () => import('../views/alert.vue')
   },
   {
     name: 'log',

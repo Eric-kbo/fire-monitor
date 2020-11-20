@@ -9,7 +9,7 @@
         <i slot="icon" class="tabbaricon iconfont iconditu"></i>
         地图
       </li>
-      <li id="plot" @click="goto('plot')">
+      <li id="alert" @click="goto('alert')">
         <i slot="icon" class="tabbaricon iconfont iconicon"></i>
         图表
       </li>
@@ -42,8 +42,8 @@ div.mask {
   display: block;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 199;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 3;
 }
 .sidebar {
   cursor: pointer;
@@ -53,7 +53,7 @@ div.mask {
   right: 0;
   width: 50vw;
   height: 100vh;
-  z-index: 299;
+  z-index: 4;
   border: 1px solid #ccc;
   border-right: none;
 }

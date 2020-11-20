@@ -22,7 +22,8 @@ h1{
 }
 
 div .mint-header{
-  background-color: #0AA284;
-  border:1px solid #DCDFE6;
+  background-color: #fff;
+  color: #000;
+  border-bottom:1px solid #c5c9d1;
 }
 

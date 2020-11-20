@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>MAP</h1>
+  <div class="map-container">
+    <iframe class="map" src="./map.html"></iframe>
   </div>
 </template>
 
@@ -10,5 +10,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.map-container {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.map {
+  height: 80vh;
+  max-height: 552px;
+  margin: 10px 5px;
+}
 </style>

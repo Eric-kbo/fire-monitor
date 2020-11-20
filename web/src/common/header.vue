@@ -8,7 +8,9 @@
         <i class="iconfont iconcaidan navicon" @click="openSideBar"></i>
       </mt-button>
     </mt-header>
-    <sidebar-vue @change="closeSidebar" class="sidebar" v-if="sidebarVisible"></sidebar-vue>
+    <transition name="fade" mode="out-in">
+      <sidebar-vue @change="closeSidebar" class="sidebar" v-if="sidebarVisible"></sidebar-vue>
+    </transition>
   </div>
 </template>
 
@@ -43,6 +45,7 @@ export default {
 <style scoped>
 .header {
   width: 100%;
+  z-index: 2;
 }
 .mt-header {
   width: 100%;
@@ -50,12 +53,25 @@ export default {
 .navicon {
   font-size: 22px;
 }
+.sidebar {
+  z-index: 999;
+}
 
-/* .sidebar {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  position: fixed;
-  top: 0;
-  right: 0;
-} */
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-leave,
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
 </style>
