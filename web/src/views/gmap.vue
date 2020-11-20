@@ -1,24 +1,30 @@
 <template>
   <div class="map-container">
-    <iframe class="map" src="./gmap.html"></iframe>
+    <!-- <iframe id="iframe" src="http://localhost:5000/index.html"></iframe> -->
+    <iframe id="iframe" src="./iframe/gmap.html"></iframe>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'gmap'
+  name: 'gmap',
+  mounted() {
+
+  },
 }
 </script>
 
 <style scoped>
 .map-container {
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  position: fixed;
+  left: -6px;
+  top: -1px;
+  width: 100%;
+  height: calc(100vh - 120px);
 }
-.map {
-  height: 80vh;
+#iframe {
+  width: 101%;
+  height: 100%;
   max-height: 552px;
   margin: 10px 5px;
 }

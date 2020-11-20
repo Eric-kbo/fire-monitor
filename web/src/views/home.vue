@@ -1,11 +1,11 @@
 <template>
-  <div class="display-flex home">
+  <div class="home">
     <div class="search-bar">
-      <span>设备</span>
-      <input v-model="search" placeholder="输入设备名称" />
+      <span>综合显示</span>
+      <input class="search-input" v-model="search" placeholder="输入设备名称" />
       <button class="searchBtn">查找</button>
     </div>
-    <ul class="list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+    <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue></chart-vue>
       </li>
@@ -33,9 +33,10 @@ export default {
   },
   data() {
     return {
-      list: [1, 2, 3],
-      result: [],
+      // 搜索关键字
       search: '',
+      // 设备数量极其相关数据
+      list: [1, 2, 3],
       tableData: {
         title: ['a', 'b', 'c', 'd'],
         data: [[1, 4, 4, 34], [745, 163, 743, 41], [46, 746, 646, 46], [456, 46, 67, 76]]
@@ -43,41 +44,54 @@ export default {
     };
   },
   methods: {
-    loadMore() {
-      this.loading = true;
-      setTimeout(() => {
-        let last = this.list[this.list.length - 1];
-        for (let i = 1; i <= 3; i++) {
-          this.list.push(last + i);
-        }
-        this.loading = false;
-      }, 2000);
-    }
+
   },
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .home {
-  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  .search-bar {
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    height: 50px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    z-index: 1;
+    .search-input {
+      margin: 0 10px;
+      height: 30px;
+      vertical-align: middle;
+      border-radius: 2px;
+      border: 1px solid #666;
+    }
+    .searchBtn {
+      user-select: none;
+      height: 30px;
+      border-radius: 2px;
+      padding: 0 10px;
+      box-sizing: border-box;
+      border: 1px solid #666;
+      background-color: #eee;
+      &:active {
+        background-color: rgba(35, 184, 184, 0.63);
+      }
+    }
+  }
 }
-.search-bar {
-  position: fixed;
-  top: 40px;
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-  background-color: #fff;
-  padding: 5px 0;
-  z-index: 1;
-}
-.search-bar input {
-  margin: 0 10px;
-}
-.searchBtn {
-  height: 20px;
-  line-height: 16px;
-}
+
 .list {
   width: 100%;
   margin-top: 20px;

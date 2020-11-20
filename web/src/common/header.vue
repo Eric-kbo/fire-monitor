@@ -1,16 +1,18 @@
 <template>
   <div class="header">
-    <mt-header class="mt-header" title="标题过长会隐藏后面的内容啊哈哈哈哈">
-      <router-link to="/plot" slot="left" v-if="routeName=='detail'">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-      <mt-button slot="right">
-        <i class="iconfont iconcaidan navicon" @click="openSideBar"></i>
-      </mt-button>
-    </mt-header>
-    <transition name="fade" mode="out-in">
-      <sidebar-vue @change="closeSidebar" class="sidebar" v-if="sidebarVisible"></sidebar-vue>
-    </transition>
+    <md-toolbar class="nav display-flex">
+      <h2 class="md-title flex_1">
+        <img src="../assets/images/logo.png" alt srcset />
+        <span class="title">启泰传感</span>
+      </h2>
+      <md-button class="md-icon-button" @click="openSidebar">
+        <md-icon>
+          <i class="iconfont iconcaidan navicon"></i>
+        </md-icon>
+      </md-button>
+    </md-toolbar>
+
+    <sidebar-vue class="sidebar" v-if="sidebarVisible" @change="closeSidebar"></sidebar-vue>
   </div>
 </template>
 
@@ -27,51 +29,35 @@ export default {
     };
   },
   computed: {
-    routeName() {
-      return this.$route.name;
-    }
+
   },
   methods: {
-    openSideBar() {
+    openSidebar() {
       this.sidebarVisible = true;
     },
     closeSidebar() {
       this.sidebarVisible = false;
     }
+
   },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
-  width: 100%;
+  background-color: #fff;
   z-index: 2;
-}
-.mt-header {
   width: 100%;
-}
-.navicon {
-  font-size: 22px;
-}
-.sidebar {
-  z-index: 999;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-leave,
-.fade-enter-to {
-  opacity: 1;
-}
-
-.fade-enter-active {
-  transition: opacity 0.5s;
-}
-
-.fade-leave-active {
-  transition: opacity 0.5s;
+  .nav {
+    width: 100%;
+    .navicon {
+      font-size: 22px;
+      color: #000;
+    }
+  }
+  .title {
+    vertical-align: bottom;
+    line-height: 40px;
+  }
 }
 </style>

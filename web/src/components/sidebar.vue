@@ -1,20 +1,23 @@
 <template>
   <div class="mask" @click="close">
     <ul class="sidebar">
-      <li id="home" @click="goto('home')">
-        <i slot="icon" class="tabbaricon iconfont iconhome"></i>
+      <h4 class="img-container">
+        <img src="../assets/images/logo.png" alt srcset />
+      </h4>
+      <li id="home" @click="goto('home')" :class="$route.name=='home'? 'active':''">
+        <i slot="icon" class="tabbaricon iconfont iconxianshi2"></i>
         主页
       </li>
-      <li id="gmap" @click="goto('gmap')">
-        <i slot="icon" class="tabbaricon iconfont iconditu"></i>
+      <li id="gmap" @click="goto('gmap')" :class="$route.name=='gmap'? 'active':''">
+        <i slot="icon" class="tabbaricon iconfont iconditu1"></i>
         地图
       </li>
-      <li id="alert" @click="goto('alert')">
-        <i slot="icon" class="tabbaricon iconfont iconicon"></i>
+      <li id="alert" @click="goto('alert')" :class="$route.name=='alert'? 'active':''">
+        <i slot="icon" class="tabbaricon iconfont iconjinggao1"></i>
         图表
       </li>
-      <li id="log" @click="goto('log')">
-        <i slot="icon" class="tabbaricon iconfont icontubiao"></i>
+      <li id="log" @click="goto('log')" :class="$route.name=='log'? 'active':''">
+        <i slot="icon" class="tabbaricon iconfont iconshujuzhongxin"></i>
         日志
       </li>
     </ul>
@@ -36,34 +39,35 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div.mask {
   position: fixed;
-  display: block;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.1);
   z-index: 3;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .sidebar {
-  cursor: pointer;
-  background-color: #fff;
   position: fixed;
   top: 0;
   right: 0;
   width: 50vw;
   height: 100vh;
   z-index: 4;
+  background-color: #fff;
   border: 1px solid #ccc;
   border-right: none;
+  .img-container {
+    text-align: center;
+  }
 }
 .sidebar li {
   height: 8vh;
   line-height: 8vh;
   text-align: center;
-  border-bottom: 1px solid #ccc;
 }
-.sidebar li:hover {
-  color: #0aa284;
+.active {
+  color: rgb(14, 180, 180);
+  background-color: rgba(14, 180, 180, 0.1);
 }
 </style>

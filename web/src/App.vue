@@ -20,16 +20,19 @@ export default {
 }
 </script>
 
-<style scoped>
-.header {
-  position: fixed;
-  top: 0;
-}
-.view {
-  margin-top: 40px;
-}
-.tabbar {
-  position: fixed;
-  bottom: 0;
+<style lang="scss" scoped>
+#app {
+  width: 100vw;
+  .header {
+    position: fixed;
+    top: 0;
+  }
+  .view {
+    margin-top: 50px;
+  }
+  .tabbar {
+    position: fixed;
+    bottom: 0;
+  }
 }
 </style>

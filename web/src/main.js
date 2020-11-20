@@ -4,9 +4,11 @@ import App from './App.vue';
 import '@/assets/fonts/iconfont.css';
 import "@/common/common.css";
 // 引入UI库
-import MintUI from 'mint-ui';
-import 'mint-ui/lib/style.css';
-Vue.use(MintUI);
+import VueMaterial from 'vue-material';
+import 'vue-material/dist/vue-material.css';
+Vue.use(VueMaterial);
+
+
 // 引入echarts
 import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;

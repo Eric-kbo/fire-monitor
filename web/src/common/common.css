@@ -18,12 +18,9 @@ h1{
 
 .display-flex{
   display: flex;
-  flex-direction: column;
 }
 
-div .mint-header{
-  background-color: #fff;
-  color: #000;
-  border-bottom:1px solid #c5c9d1;
+.flex_1{
+  flex:1
 }
 
