@@ -1,0 +1,28 @@
+html,
+body,
+ul,
+li,
+div{
+  margin: 0;
+  padding:0;
+}
+
+ul li {
+  list-style: none;
+}
+
+h1{
+  text-align: center;
+  margin: 0;
+}
+
+.display-flex{
+  display: flex;
+  flex-direction: column;
+}
+
+div .mint-header{
+  background-color: #0AA284;
+  border:1px solid #DCDFE6;
+}
+
