@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      echart: {},
       option: {
         title: {
           text: ''
@@ -22,7 +23,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+          data: ['直接访问', '搜索引擎']
         },
         grid: {
           left: '3%',
@@ -45,24 +46,6 @@ export default {
         },
         series: [
           {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
             name: '直接访问',
             type: 'line',
             stack: '总量',
@@ -79,11 +62,17 @@ export default {
     };
   },
   mounted() {
+    // 初始化图表
     this.init();
+    // 让图表自适应
+    window.addEventListener("resize", () => {
+      this.echart.resize();
+    });
   },
   methods: {
     init() {
-      const myChart = this.$echarts.init(this.$refs.chart);
+      this.echart = this.$echarts.init(this.$refs.chart);
+      // 暂时使用本地数据
       let option = this.option;
       // 随机数据
       option.series.forEach((element, index) => {
@@ -91,25 +80,7 @@ export default {
           return Math.floor(Math.random() * 999);
         });
       });
-
-      // 随机类型
-      let randomType = Math.floor(Math.random() * 4);
-      switch (randomType) {
-        case 0:
-          option.series[0].areaStyle = {};
-          option.series[0].smooth = true;
-          break;
-        case 1:
-          option.series[0].smooth = true;
-          break;
-        case 2:
-          option.series[0].areaStyle = {};
-          break;
-        default:
-          break;
-      }
-      // 随机颜色
-      myChart.setOption(option);
+      this.echart.setOption(option);
     }
   },
 }

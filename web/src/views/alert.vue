@@ -6,8 +6,8 @@
         <p>{{item.time}}</p>
       </li>
     </ul>
-    <md-button class="md-fab md-clean switchDate">
-      <i class="iconfont icon iconhistory" :class="{'rotate-go':rotate}" @click="switchDate"></i>
+    <md-button class="md-fab md-clean switchDate" :class="{'rotate-go':rotate}">
+      <i class="iconfont icon iconhistory" @click="switchDate"></i>
     </md-button>
   </div>
 </template>
@@ -28,11 +28,9 @@ export default {
   },
   methods: {
     goto(item) {
-      setTimeout(() => {
-        this.$router.push({
-          name: 'detail',
-          params: item
-        }, 1000);
+      this.$router.push({
+        name: 'detail',
+        params: item
       });
     },
     switchDate() {
@@ -40,7 +38,7 @@ export default {
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.rotate = false;
-      }, 700);
+      }, 300);
 
     }
   },
@@ -62,23 +60,25 @@ export default {
 .switchDate {
   z-index: 1;
   position: fixed;
+  display: block;
   right: 20px;
   bottom: 100px;
   justify-self: flex-end;
+  box-shadow: 0 0 1px 1px #ccc;
   .icon {
     display: block;
     font-size: 26px;
   }
-  .rotate-go {
-    animation: rotate 0.5s ease-in;
+}
+.rotate-go {
+  animation: reverse 0.3s ease-in;
+}
+@keyframes reverse {
+  from {
+    transform: rotate(0deg);
   }
-  @keyframes rotate {
-    form {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(-360deg);
-    }
+  to {
+    transform: rotate(-360deg);
   }
 }
 </style>

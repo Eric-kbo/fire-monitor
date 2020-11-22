@@ -6,19 +6,19 @@
       </h4>
       <li id="home" @click="goto('home')" :class="$route.name=='home'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconxianshi2"></i>
-        主页
+        综合显示
       </li>
       <li id="gmap" @click="goto('gmap')" :class="$route.name=='gmap'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconditu1"></i>
-        地图
+        GIS模块
       </li>
       <li id="alert" @click="goto('alert')" :class="$route.name=='alert'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconjinggao1"></i>
-        图表
+        告警列表
       </li>
       <li id="log" @click="goto('log')" :class="$route.name=='log'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconshujuzhongxin"></i>
-        日志
+        数据中心
       </li>
     </ul>
   </div>
@@ -52,11 +52,9 @@ div.mask {
   top: 0;
   right: 0;
   width: 50vw;
-  height: 100vh;
+  // height: 100vh;
   z-index: 4;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-right: none;
   .img-container {
     text-align: center;
   }

@@ -1,17 +1,12 @@
 <template>
   <div class="header">
     <md-toolbar class="nav display-flex">
-      <h2 class="md-title flex_1">
+      <div class="md-title flex_1">
         <img src="../assets/images/logo.png" alt srcset />
         <span class="title">启泰传感</span>
-      </h2>
-      <md-button class="md-icon-button" @click="openSidebar">
-        <md-icon>
-          <i class="iconfont iconcaidan navicon"></i>
-        </md-icon>
-      </md-button>
+      </div>
+      <i class="iconfont iconmenu-fill navicon" @click="openSidebar"></i>
     </md-toolbar>
-
     <sidebar-vue class="sidebar" v-if="sidebarVisible" @change="closeSidebar"></sidebar-vue>
   </div>
 </template>
@@ -51,12 +46,17 @@ export default {
   .nav {
     width: 100%;
     .navicon {
-      font-size: 22px;
-      color: #000;
+      font-size: 26px;
+      color: #444;
+      &.active {
+        color: #000;
+        background-color: #ccc;
+      }
     }
   }
   .title {
     vertical-align: bottom;
+    font-size: 20px;
     line-height: 40px;
   }
 }

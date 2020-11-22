@@ -7,7 +7,7 @@ div{
   padding:0;
 }
 
-ul li {
+li {
   list-style: none;
 }
 
@@ -23,4 +23,6 @@ h1{
 .flex_1{
   flex:1
 }
-
+.display-block{
+  display: block;
+}

@@ -11,27 +11,22 @@ const routes = [
   },
   {
     name: 'home',
-    path: "/home",
     component: () => import('../views/home.vue')
   },
   {
     name: 'gmap',
-    path: "/gmap",
     component: () => import('../views/gmap.vue')
   },
   {
     name: 'alert',
-    path: "/alert",
     component: () => import('../views/alert.vue')
   },
   {
     name: 'log',
-    path: "/log",
     component: () => import('../views/log.vue')
   },
   {
     name: 'detail',
-    path: "/detail",
     component: () => import('../views/detail.vue')
   },
 ];
@@ -44,6 +39,7 @@ routes.forEach(route => {
 // 路径自动获取函数
 function getAbsolutePath() {
   let path = location.pathname;
+  // 截取到路径的最后一个/
   return path.substring(0, path.lastIndexOf('/') + 1);
 }
 // 最后创建路由对象，设置切换方式，设置路由得base，导入路由表
