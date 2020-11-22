@@ -2,12 +2,11 @@ import Vue from 'vue';
 import App from './App.vue';
 // 引入矢量字体图标和全局样式
 import '@/assets/fonts/iconfont.css';
-import "@/common/common.css";
+import "@/common/common.scss";
 // 引入UI库
 import VueMaterial from 'vue-material';
 import 'vue-material/dist/vue-material.css';
 Vue.use(VueMaterial);
-
 
 // 引入echarts
 import echarts from 'echarts';

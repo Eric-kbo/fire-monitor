@@ -21,8 +21,9 @@ function serialize(params) {
 const host = './mock';
 
 const http = {
-
-  getHome: (params) => axios.get(host + "/home/get.json" + serialize(params)),
-
+  getHistory: (params) => axios.get(host + "/devices/status-history.json" + serialize(params)),
+  getRealtime: (params) => axios.get(host + "/devices/status-realtime.json" + serialize(params)),
+  getWarningList: (params) => axios.get(host + "/devices/warning-list.json" + serialize(params)),
+  getWarningStatistics: (params) => axios.get(host + "/devices/warning-statistics.json" + serialize(params)),
 };
 export default http;

@@ -8,82 +8,63 @@
 export default {
   name: 'chart',
   props: {
-    // option: {
-    //   type: [Object]
-    // }
+    option: {
+      type: [Object, Array],
+    }
   },
   data() {
     return {
       echart: {},
-      option: {
-        title: {
-          text: ''
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: ['直接访问', '搜索引擎']
-        },
+    };
+  },
+  watch: {
+    option: {
+      handler() {
+        this.init();
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    // 初始化图表
+    this.init();
+  },
+  methods: {
+    init() {
+      this.echart = this.$echarts.init(this.$refs.chart);
+      // 设置默认参数
+      let defaultO = {
+        // 下载功能(不确定是否需要)
+        // toolbox: {
+        //   feature: {
+        //     saveAsImage: {}
+        //   }
+        // },
+        // 设置canvas的grid布局
         grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
           containLabel: true
         },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        },
+        // y轴统一设置为value
         yAxis: {
           type: 'value'
         },
-        series: [
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '搜索引擎',
-            type: 'line',
-            stack: '总量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
-        ]
+      };
+      // 合并外部接口传入的参数
+      if (this.option) {
+        let option = Object.assign(defaultO, this.option);
+        this.echart.setOption(option);
       }
-    };
-  },
-  mounted() {
-    // 初始化图表
-    this.init();
-    // 让图表自适应
-    window.addEventListener("resize", () => {
-      this.echart.resize();
-    });
-  },
-  methods: {
-    init() {
-      this.echart = this.$echarts.init(this.$refs.chart);
-      // 暂时使用本地数据
-      let option = this.option;
-      // 随机数据
-      option.series.forEach((element, index) => {
-        option.series[index].data = element.data.map(() => {
-          return Math.floor(Math.random() * 999);
-        });
-      });
-      this.echart.setOption(option);
+      // 让图表自适应(APP不需要，浏览器需要)
+      // window.addEventListener("resize", () => {
+      //   this.echart.resize();
+      // });
     }
-  },
+  }
 }
+
 </script>
 
 <style scoped>
