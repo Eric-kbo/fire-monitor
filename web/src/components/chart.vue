@@ -58,9 +58,9 @@ export default {
         this.echart.setOption(option);
       }
       // 让图表自适应(APP不需要，浏览器需要)
-      // window.addEventListener("resize", () => {
-      //   this.echart.resize();
-      // });
+      window.addEventListener("resize", () => {
+        this.echart.resize();
+      });
     }
   }
 }

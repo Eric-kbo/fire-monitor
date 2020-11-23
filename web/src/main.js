@@ -12,12 +12,6 @@ Vue.use(VueMaterial);
 import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
 
-// 按需引入echarts中的图表(后期针对性优化再考虑)
-// import echarts from "echarts/lib/echarts";
-// import "echarts/lib/chart/bar";
-// import "echarts/lib/component/tooltip";
-// import "echarts/lib/component/title";
-
 // 引入接口
 import http from "./request/http";
 Vue.prototype.$http = http;
@@ -28,6 +22,7 @@ import router from './router';
 // import store from "./store";
 
 Vue.config.productionTip = false;
+
 new Vue({
   router,
   render: h => h(App),
