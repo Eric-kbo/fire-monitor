@@ -34,59 +34,6 @@
 
 ### 设备
 
-#### 历史状态查询
-
-```json
-HTTP GET /devices/status-history
-#输入
-ids: '设备A,设备B' 	 #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是所有设备
-date: '2020-06-22'	#指定日期
-#输出
-{
-    "err":null,
-    "val":{
-        "设备A": [{		#设备编号
-            "hydraulic_pressure":90, #水压
-            "temperature":80,		#温度
-            "energy":70,    	 #电量
-            "voltage":7.26,     #电压
-            "signal_intensity":29,  #信号强度
-            "status":"离线",       	#状态
-            "status_of_hydraulic_pressure":0, #水压状态，0：正常，1：不正常
-            "status_of_valve":0,				#阀门状态，0：关闭，1：开启
-            "status_of_hit_down":1,			 #撞倒状态，0：否，1：是
-            "?":"2017-06-22 00:00:00",	  #接受时间
-            "?":1414						#发送次数
-		},{		
-            "hydraulic_pressure":90, #水压
-            "temperature":80,		#温度
-            "energy":70,    	 #电量
-            "voltage":7.26,     #电压
-            "signal_intensity":29,  #信号强度
-            "status":"离线",       	#状态
-            "status_of_hydraulic_pressure":0, #水压状态，0：正常，1：不正常
-            "status_of_valve":0,				#阀门状态，0：关闭，1：开启
-            "status_of_hit_down":1,			 #撞倒状态，0：否，1：是
-            "?":"2017-06-22 00:00:00",	  #接受时间
-            "?":1414						#发送次数	
-		}],
-       	 "设备B": [{
-            "hydraulic_pressure":90, #水压
-            "temperature":80,		#温度
-            "energy":70,    	 #电量
-            "voltage":7.26,     #电压
-            "signal_intensity":29,  #信号强度
-            "status":"离线",       	#状态
-            "status_of_hydraulic_pressure":0, #水压状态，0：正常，1：不正常
-            "status_of_valve":0,				#阀门状态，0：关闭，1：开启
-            "status_of_hit_down":1,			 #撞倒状态，0：否，1：是
-            "?":"2017-06-22 00:00:00",	  #接受时间
-            "?":1414						#发送次数		
-         }]
-    }
-}
-```
-
 #### 实时状态查询
 
 ```json
@@ -95,33 +42,47 @@ HTTP GET /devices/status-realtime
 ids: '设备A,设备B' #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是所有设备
 #输出
 {
-    "err": null,
+    "err": null,		
     "val": { 
         "设备A": {	#设备编号
-            "hydraulic_pressure":90, #水压
-            "temperature":80,		#温度
-            "energy":70,    	 #电量
-            "voltage":7.26,     #电压
-            "signal_intensity":29,  #信号强度
-            "status":"离线",       	#状态
-            "status_of_hydraulic_pressure":0, #水压状态，0：正常，1：不正常
-            "status_of_valve":0,				#阀门状态，0：关闭，1：开启
-            "status_of_hit_down":1,			 #撞倒状态，0：否，1：是
-            "?":"2017-06-22 00:00:00",	  #接受时间
-            "?":1414						#发送次数
+            "hydraulic_pressure":90, 		 #水压
+            "temperature":80,				 #温度
+            "energy":70,    	 			 #电量
+            "voltage":7.26,     			 #电压
+            "signal_intensity":29,  		 #信号强度
+            "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
+            "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
+            "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
+			"status_of_low_temperature":0,	#低温状态，0：正常，1：报警
+			"status_of_high_temperature":0,	#高温状态，0：正常，1：报警
+            "status_of_slope":0,	#倾斜状态，0：正常，1：报警
+			"status_of_vibration":0,	#振动状态，0：正常，1：报警
+            "status_of_energy":0,		#电量状态，0：正常，1：报警
+            "status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
+            "status_of_water_quality":0, #水质状态，0：正常，1：报警
+            "status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
+            "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
+            "time": "2020-06-22 14:20"		#检测时间
         },
         "设备B": {
-            "hydraulic_pressure":90, #水压
-            "temperature":80,		#温度
-            "energy":70,    	 #电量
-            "voltage":7.26,     #电压
-            "signal_intensity":29,  #信号强度
-            "status":"离线",       	#状态
-            "status_of_hydraulic_pressure":0, #水压状态，0：正常，1：不正常
-            "status_of_valve":0,				#阀门状态，0：关闭，1：开启
-            "status_of_hit_down":1,			 #撞倒状态，0：否，1：是
-            "?":"2017-06-22 00:00:00",	  #接受时间
-            "?":1414						#发送次数
+            "hydraulic_pressure":90, 		 #水压
+            "temperature":80,				 #温度
+            "energy":70,    	 			 #电量
+            "voltage":7.26,     			 #电压
+            "signal_intensity":29,  		 #信号强度
+            "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
+            "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
+            "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
+			"status_of_low_temperature":0,	#低温状态，0：正常，1：报警
+			"status_of_high_temperature":0,	#高温状态，0：正常，1：报警
+            "status_of_slope":0,	#倾斜状态，0：正常，1：报警
+			"status_of_vibration":0,	#振动状态，0：正常，1：报警
+            "status_of_energy":0,		#电量状态，0：正常，1：报警
+            "status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
+            "status_of_water_quality":0, #水质状态，0：正常，1：报警
+            "status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
+            "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
+            "time": "2020-06-22 14:20"		#检测时间
         }
 	}
 }
