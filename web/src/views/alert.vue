@@ -6,11 +6,10 @@
         <div class="display-flex">
           <div class="iconfont iconjinggao alert-logo"></div>
           <div class="flex_1">
-          <p>{{item.name}}</p>
-          <p>{{item.location}}</p>
-          <p class="text-right time">{{item.time}}</p>
+            <p>{{item.name}}</p>
+            <p>{{item.location}}</p>
+            <p class="text-right time">{{item.time}}</p>
           </div>
-       
         </div>
       </li>
     </ul>
@@ -26,13 +25,13 @@ export default {
   data() {
     return {
       alertList: [
-        {name:'设备A', location: "湖大三号厨房", time: '2019-10-10 10:24:00' },
-        {name:'设备B', location: "湖大四号厨房", time: '2019-10-10 10:24:00' },
-        {name:'设备C', location: "湖大五号厨房", time: '2019-10-10 10:24:00' }
+        { name: '设备A', location: "湖大三号厨房", time: '2019-10-10 10:24:00' },
+        { name: '设备B', location: "湖大四号厨房", time: '2019-10-10 10:24:00' },
+        { name: '设备C', location: "湖大五号厨房", time: '2019-10-10 10:24:00' }
       ],
       rotate: false,
       timer: null,
-      mode:'history'
+      mode: 'history'
     };
   },
   methods: {
@@ -57,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 .alert {
   padding: 15px 10px 10px 10px;
-  h4{
+  h4 {
     margin: 10px 0;
   }
 }
@@ -67,7 +66,7 @@ export default {
   margin: 0 20px;
   padding: 0 10px;
   align-items: center;
-  p{
+  p {
     height: 20px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -75,14 +74,15 @@ export default {
   &:active {
     background-color: #ccc;
   }
-  .alert-logo{
+  .alert-logo {
     color: rgb(235, 38, 38);
     font-size: 30px;
     line-height: 50px;
     margin: 0 10px 0 0;
   }
-  .time{
-    color:rgb(7, 160, 109)  }
+  .time {
+    color: rgb(7, 160, 109);
+  }
 }
 .switchDate {
   z-index: 1;
@@ -91,7 +91,7 @@ export default {
   right: 20px;
   bottom: 100px;
   justify-self: flex-end;
-  box-shadow: 0 0 1px 1px #ccc;
+  box-shadow: 0 0 2px 2px #ccc;
   .icon {
     display: block;
     font-size: 26px;

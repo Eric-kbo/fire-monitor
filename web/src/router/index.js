@@ -36,6 +36,7 @@ routes.forEach(route => {
   route.path = route.path || "/" + route.name || "";
 });
 
+
 // 路径自动获取函数
 function getAbsolutePath() {
   let path = location.pathname;
@@ -49,6 +50,9 @@ const router = new VueRouter({
   // vue-router里提供了一个base的属性，代表应用的基目录
   base: getAbsolutePath(),
   routes
+});
+router.afterEach(() => {
+  window.scrollTo(0,0);
 });
 
 // 导出路由

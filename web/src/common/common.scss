@@ -2,28 +2,41 @@ html,
 body,
 ul,
 li,
-div{
+div {
   margin: 0;
-  padding:0;
+  padding: 0;
 }
 
 li {
   list-style: none;
 }
 
-h1{
+h1 {
   text-align: center;
   margin: 0;
 }
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+  // display: none;
+}
 
-.display-flex{
+/*正常情况下滑块的样式*/
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.display-flex {
   display: flex;
 }
 
-.flex_1{
-  flex:1
+.flex_1 {
+  flex: 1;
 }
-.display-block{
+.display-block {
   display: block;
 }
 
@@ -32,4 +45,39 @@ h1{
 }
 .text-right {
   text-align: right;
+}
+
+// 日期选择器弹出框
+// .md-overlay {
+//   display: none;
+// }
+.md-datepicker-dialog {
+  background-color: #fff;
+}
+.md-datepicker {
+  &.md-field {
+    margin-bottom: 10px;
+    & > .md-icon {
+      z-index: 1;
+    }
+  }
+  .md-ripple {
+    z-index: 1;
+  }
+  .md-button-content {
+    z-index: 1;
+  }
+  .md-fab,
+  .md-icon-button {
+    z-index: 1;
+  }
+  .md-input {
+    pointer-events: none;
+  }
+}
+
+.search-bar{
+  .md-ripple{
+    z-index: 1;
+  }
 }

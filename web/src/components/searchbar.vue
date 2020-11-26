@@ -1,8 +1,10 @@
 <template>
   <div class="search-bar">
-    <span>{{tagTitle}}</span>
-    <input class="search-input" v-model="model.search" placeholder="请输入设备名称,用逗号分隔" autocomplete />
-    <button class="searchBtn" @click="change">{{btnTitle}}</button>
+    <md-field>
+      <!-- <label>{{tagTitle}}</label> -->
+      <md-input class="search-input" v-model="model.search" placeholder="请输入设备名称,用逗号分隔"></md-input>
+    </md-field>
+    <md-button class="md-elevation-2" @click="change">{{btnTitle}}</md-button>
   </div>
 </template>
 
@@ -41,39 +43,30 @@ export default {
 .search-bar {
   width: 100%;
   height: 36px;
-  padding: 20px 0;
+  padding: 10px;
+  padding-right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
-  vertical-align: middle;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
   z-index: 1;
   .search-input {
-    margin: 0 10px;
-    height: 24px;
-    min-width: 180px;
-    vertical-align: middle;
-    border: none;
     border-bottom: 1px solid #666;
-    outline: none;
+    height: 36px;
     &:focus {
       border-bottom: 1px solid #000;
     }
   }
-  .searchBtn {
-    user-select: none;
-    height: 24px;
-    padding: 0 10px;
-    box-sizing: border-box;
-    border: none;
-    box-shadow: 1px 1px 1px 0px #ccc;
-    &:active {
-      box-shadow: 0px 0px 2px 2px #ccc;
-      background-color: #ddd;
+  .search-button {
+    padding: 0;
+    height: 32px;
+    background-color: #eee;
+    box-shadow: -1px 1px 1px 1px #ccc;
+  }
+  .md-button{
+    .md-ripple{
+      z-index: 1;
     }
   }
+  
 }
 </style>

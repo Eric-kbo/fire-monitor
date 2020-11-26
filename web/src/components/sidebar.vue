@@ -2,7 +2,7 @@
   <div class="mask" @click="close">
     <ul class="sidebar">
       <h4 class="img-container">
-        <!-- <img src="../assets/images/logo.png" alt srcset /> -->
+        <img src="../assets/images/logo.png" alt srcset />
       </h4>
       <li id="home" @click="goto('home')" :class="$route.name=='home'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconxianshi2"></i>
@@ -52,7 +52,7 @@ div.mask {
   top: 0;
   right: 0;
   width: 50vw;
-  // height: 100vh;
+  height: 100vh;
   z-index: 4;
   background-color: #fff;
   .img-container {

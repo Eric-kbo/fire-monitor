@@ -3,7 +3,6 @@
     <searchbar tagTitle="综合显示" btnTitle="查找" :model="home" @change="search()"></searchbar>
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
-        {{index}}
         <chart-vue :option="item"></chart-vue>
       </li>
     </ul>
@@ -24,7 +23,7 @@
 <script>
 import searchbar from "../components/searchbar";
 import chartVue from '../components/chart';
-export default { 
+export default {
   name: 'home',
   components: {
     searchbar,
@@ -147,7 +146,7 @@ export default {
 .home {
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
+  padding-top: 20px;
   padding-bottom: 60px;
 }
 

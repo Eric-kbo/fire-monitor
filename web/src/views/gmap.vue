@@ -1,21 +1,39 @@
 <template>
   <div class="map-container">
-    <map-vue></map-vue>
+    <baidu-map :zoom="zoom" class="map" center="长沙" @ready="handler"></baidu-map>
   </div>
 </template>
 
 <script>
-import mapVue from "../components/map";
 export default {
-  name: 'gmap',
-  components: {
-    mapVue
+  data() {
+    return {
+      address: '长沙',
+      zoom:12,
+    };
   },
   mounted() {
-
+  },
+  methods: {
+    handler({ BMap, map }) {
+      console.log(BMap, map);
+    }
   },
 }
 </script>
+
+<style>
+/* 地图容器必须设置宽和高属性 */
+.map {
+  position: fixed;
+  top:60px;
+  /* left:0 有用，不要删 */
+  left: 0px;
+  padding: 0;
+  width: 100%;
+  height: calc(100vh - 116px);
+}
+</style>
 
 <style scoped>
 .map-container {
@@ -25,10 +43,5 @@ export default {
   width: 100%;
   height: calc(100vh - 120px);
 }
-#iframe {
-  width: 101%;
-  height: 100%;
-  max-height: 552px;
-  margin: 10px 5px;
-}
+
 </style>

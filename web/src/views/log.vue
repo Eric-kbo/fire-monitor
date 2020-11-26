@@ -1,12 +1,20 @@
 <template>
   <div class="log">
-    <div class="datePick">
-      <span>从</span>
-      <input class="date-input" id="date1" type="date" />
-      <span>到</span>
-      <input class="date-input" id="date2" type="date" />
+    <div class="datePicker">
+      <div>
+        <md-datepicker v-model="dateStart" md-immediately>
+          <label>起始日期</label>
+        </md-datepicker>
+      </div>
+      <div>
+        <md-datepicker v-model="dateEnd" md-immediately>
+          <label>截止日期</label>
+        </md-datepicker>
+      </div>
     </div>
+
     <searchbar tagTitle="数据中心" btnTitle="统计" :model="log" @change="search()"></searchbar>
+
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue :option="item"></chart-vue>
@@ -26,6 +34,8 @@ export default {
   },
   data() {
     return {
+      dateStart: new Date(),
+      dateEnd: new Date(),
       log: { search: '' },
       list: [{
         title: {
@@ -69,21 +79,13 @@ export default {
 .log {
   padding-top: 10px;
   padding-bottom: 60px;
-}
-
-.datePick {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 10px 10px 0;
-  .date-input {
-    height: 20px;
-    min-width: 120px;
-
-    vertical-align: center;
-  }
-  span {
-    margin: 0 5px;
+  .datePicker {
+    margin: 0 10px;
+    z-index: 1;
   }
 }
+.list {
+  margin-top: 20px;
+}
+
 </style>
