@@ -1,22 +1,22 @@
 # chntek-web
 
-## Project setup
-```
+## 安装依赖
+```shell
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+### 运行在开发环境
+```shell
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
+### 编译打包
+```shell
 npm run build
 ```
 
-### Lints and fixes files
-```
+### 检查和修复代码格式
+```shell
 npm run lint
 ```
 

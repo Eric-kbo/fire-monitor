@@ -1,12 +1,16 @@
 <template>
   <div class="map-container">
-    <!-- <iframe id="iframe" src="./iframe/gmap.html"></iframe> -->
+    <map-vue></map-vue>
   </div>
 </template>
 
 <script>
+import mapVue from "../components/map";
 export default {
   name: 'gmap',
+  components: {
+    mapVue
+  },
   mounted() {
 
   },

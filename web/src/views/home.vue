@@ -24,7 +24,7 @@
 <script>
 import searchbar from "../components/searchbar";
 import chartVue from '../components/chart';
-export default {
+export default { 
   name: 'home',
   components: {
     searchbar,

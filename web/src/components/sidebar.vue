@@ -2,7 +2,7 @@
   <div class="mask" @click="close">
     <ul class="sidebar">
       <h4 class="img-container">
-        <img src="../assets/images/logo.png" alt srcset />
+        <!-- <img src="../assets/images/logo.png" alt srcset /> -->
       </h4>
       <li id="home" @click="goto('home')" :class="$route.name=='home'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconxianshi2"></i>

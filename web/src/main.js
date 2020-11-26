@@ -20,8 +20,14 @@ Vue.prototype.$http = http;
 import router from './router';
 // 引入全局状态管理(后期增加功能时考虑)
 // import store from "./store";
+import BaiduMap from 'vue-baidu-map';
+Vue.use(BaiduMap, {
+  ak: 'K18lYgrmUNVR5tfqNyYuGNr0bEgidM02'
+});
 
 Vue.config.productionTip = false;
+
+
 
 new Vue({
   router,
