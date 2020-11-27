@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <header-vue class="header"></header-vue>
-    <router-view class="view"></router-view>
+    <keep-alive>
+      <router-view class="view"></router-view>
+    </keep-alive>
     <tabbar-vue class="tabbar"></tabbar-vue>
   </div>
 </template>

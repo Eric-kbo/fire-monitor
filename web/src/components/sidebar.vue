@@ -16,7 +16,7 @@
         <i slot="icon" class="tabbaricon iconfont iconjinggao1"></i>
         告警列表
       </li>
-      <li id="log" @click="goto('log')" :class="$route.name=='log'? 'active':''">
+      <li id="data" @click="goto('data')" :class="$route.name=='data'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconshujuzhongxin"></i>
         数据中心
       </li>

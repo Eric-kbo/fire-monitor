@@ -1,19 +1,17 @@
 <template>
   <div class="log">
     <div class="datePicker">
-      <div>
-        <md-datepicker v-model="dateStart" md-immediately>
-          <label>起始日期</label>
-        </md-datepicker>
+      <div class="display-flex date">
+        <label for="dateStart">先选择一个起始日期：</label>
+        <input class="data-input flex_1" id="dateStart" type="date" v-model="dateStart" />
       </div>
-      <div>
-        <md-datepicker v-model="dateEnd" md-immediately>
-          <label>截止日期</label>
-        </md-datepicker>
+      <div class="display-flex date">
+        <label for="dateEnd">再选择一个截止日期：</label>
+        <input class="data-input flex_1" id="dateEnd" type="date" v-model="dateEnd" />
       </div>
     </div>
 
-    <searchbar tagTitle="数据中心" btnTitle="统计" :model="log" @change="search()"></searchbar>
+    <searchbar tagTitle="数据中心" btnTitle="点这里查询" :model="log" @change="search()"></searchbar>
 
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
@@ -82,10 +80,12 @@ export default {
   .datePicker {
     margin: 0 10px;
     z-index: 1;
+    .date {
+      margin: 10px 0;
+    }
   }
 }
 .list {
   margin-top: 20px;
 }
-
 </style>

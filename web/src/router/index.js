@@ -22,8 +22,8 @@ const routes = [
     component: () => import('../views/alert.vue')
   },
   {
-    name: 'log',
-    component: () => import('../views/log.vue')
+    name: 'data',
+    component: () => import('../views/data.vue')
   },
   {
     name: 'detail',
@@ -52,7 +52,7 @@ const router = new VueRouter({
   routes
 });
 router.afterEach(() => {
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 });
 
 // 导出路由
