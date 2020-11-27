@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <searchbar tagTitle="综合显示" btnTitle="查找" :model="home" @change="search()"></searchbar>
+    <searchbar tagTitle="综合显示" btnTitle="查找" :model="searchData" @change="search()"></searchbar>
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue :option="item"></chart-vue>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       // 搜索关键字
-      home: { search: '' },
+      searchData: { search: '' },
       // 相关数据
       list: [],
       // 表格的数据
@@ -58,7 +58,7 @@ export default {
       this.getHistory();
     },
     getHistory() {
-      let params = this.home.search;
+      let params = this.searchData.search;
       this.$http.getHistory(params).then(res => {
         this.dataTransform(res.data.val);
         // 手动刷新组件，关键

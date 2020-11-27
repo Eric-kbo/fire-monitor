@@ -9,7 +9,7 @@ export default {
   data() {
     return {
       address: '长沙',
-      zoom:12,
+      zoom: 12,
     };
   },
   mounted() {
@@ -26,7 +26,7 @@ export default {
 /* 地图容器必须设置宽和高属性 */
 .map {
   position: fixed;
-  top:60px;
+  top: 60px;
   /* left:0 有用，不要删 */
   left: 0px;
   padding: 0;
@@ -43,5 +43,4 @@ export default {
   width: 100%;
   height: calc(100vh - 120px);
 }
-
 </style>

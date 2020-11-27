@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <searchbar tagTitle="数据中心" btnTitle="点这里查询" :model="log" @change="search()"></searchbar>
+    <searchbar tagTitle="数据中心" btnTitle="点这里查询" :model="searchData" @change="search()"></searchbar>
 
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
@@ -32,9 +32,9 @@ export default {
   },
   data() {
     return {
-      dateStart: new Date(),
-      dateEnd: new Date(),
-      log: { search: '' },
+      dateStart: new Date().toISOString().slice(0, 10),
+      dateEnd: new Date().toISOString().slice(0, 10),
+      searchData: { search: '' },
       list: [{
         title: {
           text: '压力'
@@ -64,9 +64,13 @@ export default {
       }],
     };
   },
+  mounted() {
+
+  },
   methods: {
     search() {
-      console.log(this.log.search);
+      // console.log(this.searchData.search);
+      // 搜索接口
     }
   },
 
