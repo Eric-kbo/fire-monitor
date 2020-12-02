@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <baidu-map :zoom="zoom" class="map" center="长沙" @ready="handler"></baidu-map>
+    <baidu-map :zoom="zoom" class="map" :center="center" @ready="handler"></baidu-map>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      address: '长沙',
+      center: '长沙',
       zoom: 12,
     };
   },
