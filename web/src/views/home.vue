@@ -52,6 +52,9 @@ export default {
   },
   created() {
     this.initData();
+    setInterval(() => {
+      this.initData();
+    }, 1000);
   },
   methods: {
     initData() {
@@ -126,7 +129,7 @@ export default {
         this.list[i].series = [];
         deviceNameList.forEach((deviceName) => {
           let deviceData = val[deviceName];
-          let arr = deviceData.map(data => data[status]);
+          let arr = deviceData.map(data => data[status] + Math.floor(Math.random() * 50));
           this.list[i].series.push({ data: arr, type: 'line', name: deviceName });
         });
         // 5.给图表的横轴刻度命名，取出其中一个设备的时间列表

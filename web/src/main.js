@@ -1,5 +1,8 @@
+//解决es6兼容
+import 'babel-polyfill';
 import Vue from 'vue';
 import App from './App.vue';
+
 // 引入矢量字体图标和全局样式
 import '@/assets/fonts/iconfont.css';
 import "@/common/common.scss";

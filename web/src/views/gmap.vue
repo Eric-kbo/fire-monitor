@@ -1,5 +1,6 @@
 <template>
   <div class="map-container">
+    <!-- 注意这里必须设置center和zoom，不然组件是不会渲染地图的 -->
     <baidu-map :zoom="zoom" class="map" :center="center" @ready="handler"></baidu-map>
   </div>
 </template>
