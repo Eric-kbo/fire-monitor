@@ -30,7 +30,7 @@ export default {
   methods: {
     goto(name) {
       if (this.$route.name == name) return;
-      this.$router.push({ name });
+      this.$router.replace({ name });
     }
   },
 }
