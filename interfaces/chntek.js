@@ -13,9 +13,7 @@ const chntek = new function () {
                 headers: { 'Authorization': '12' }
             })
             if (data.err) throw data.err
-
             let val = {}
-
             for (id in data.val) {
                 let objs = data.val[id]
                 val[id] = []
@@ -67,24 +65,23 @@ const chntek = new function () {
                     "date_time": obj.monitorsTime,			//时间
                 })
             }
+            console.log(val)
             return val
         },
-        async warningStatistics(id, date) {
-            let val = {
-                "设备A": {
-                    "1990-02-11": 60, //告警数量
-                    "1990-02-12": 50
+        async warningStatistics(devices, dateStart, dateEnd) {
+            const { data } = await axios.get(`${host}/api/Terminal/WarningList`, {
+                params: {
+                    date_begin: dateStart,
+                    date_end: dateEnd,
+                    ids: devices
                 },
-                "设备B": {
-                    "1990-02-11": 60,
-                    "1990-02-12": 50
-                }
-            }
-
-            return val
+                headers: { 'Authorization': '12' }
+            })
+            if (data.err) throw data.err
+            console.log(data.val)
+            return data.val
         }
     }
-
 
     this.transDeviceStatus = async (ids, date) => {
         let devices = await this.devices.statusHistory(ids, date)
@@ -97,12 +94,15 @@ const chntek = new function () {
             , '20:00', '21:00', '22:00', '23:00']
         let hydraulicPressures = []
         let energies = []
-
-
         for (name in devices) {
             let device = devices[name]
             legendData.push(name)
             let hydraulicPressureData = {
+                name: name,
+                data: []
+            }
+
+            let temperatureData = {
                 name: name,
                 data: []
             }
@@ -112,7 +112,7 @@ const chntek = new function () {
                 data: []
             }
 
-            for (t = 0, hydraulicPressure = 0, energy = 100; t < 24; t++) {
+            for (t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24; t++) {
                 for (detail of device) {
                     let time = new Date(`2000-01-01 ${detail.time}`)
                     let hours = time.getHours()
@@ -125,10 +125,12 @@ const chntek = new function () {
                 }
 
                 hydraulicPressureData.data.push(hydraulicPressure)
+                temperatureData.data.push(temperature)
                 energyData.data.push(energy)
             }
 
             hydraulicPressures.push(hydraulicPressureData)
+            temperatures.push(temperatureData);
             energies.push(energyData)
         }
 
@@ -138,42 +140,69 @@ const chntek = new function () {
             xAxis: { data: xAxisData },
             series: hydraulicPressures
         }, {
+            title: { text: '温度' },
+            legend: { data: legendData },
+            xAxis: { data: xAxisData },
+            series: temperatures
+        }, {
             title: { text: '电量' },
             legend: { data: legendData },
             xAxis: { data: xAxisData },
             series: energies
         }]
-        console.log(JSON.stringify(val))
+        console.log(val)
         return val
     }
 
-    async function transWarningList(date) {
+    this.transWarningList = async (date) => {
         let warnings = await this.devices.warningList(date)
         return warnings
     }
 
-    async function transStatistics(devices, dateStart, dateEnd) {
-        let warningStatistics = await this.devices.warningStatistics(date)
-        return {
-            title: {
-                text: '统计信息'
-            },
-            legend: {
-                data: ['设备1', '设备2']
-            },
-            xAxis: {
-                data: ['02-01', '02-02', '02-03', '02-04']
-            },
-            series: [{
-                name: '设备1',
-                data: [120, 132, 101, 134]
-            }, {
-                name: '设备2',
-                data: [220, 182, 191, 234]
-            }]
+    this.transStatistics = async (ids, dateStart, dateEnd) => {
+        let devices = await this.devices.warningStatistics(ids, dateStart, dateEnd)
+
+        let legendData = []
+        let xAxisData = []
+        let warningStatistics = []
+        for (name in devices) {
+            let device = devices[name]
+            for (date in device) {
+                if (-1 == xAxisData.indexOf(date))
+                    xAxisData.push(date)
+            }
         }
+
+        xAxisData.sort((a, b) => Date.parse(a) - Date.parse(b))
+  
+        for (name in devices) {
+            let device = devices[name]
+            legendData.push(name)
+            let countData = {
+                name: name,
+                data: []
+            }
+
+            for (t of xAxisData) {
+                let count = device[t]
+                countData.data.push(count ? count : 0)
+            }
+
+            warningStatistics.push(countData)
+        }
+
+        let val = [{
+            title: { text: '统计信息' },
+            legend: { data: legendData },
+            xAxis: { data: xAxisData },
+            series: warningStatistics
+        }]
+
+        return val
     }
 }
 
 //export default chntek
 chntek.transDeviceStatus('00017,00018', '2020-12-03')
+chntek.transWarningList('2020-12-03')
+chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03')

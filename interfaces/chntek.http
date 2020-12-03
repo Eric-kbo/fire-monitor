@@ -12,6 +12,6 @@ Authorization: 12
 ###
 GET http://iot.chntek.com:3410/api/Terminal/WarningList
     ?ids=00017,00018
-    &beginDate=2020-12-01
-    &endDate=2020-12-03
+    &date_begin=2020-11-01
+    &date_end=2020-12-03
 Authorization: 12
