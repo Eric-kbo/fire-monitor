@@ -18,8 +18,8 @@ const routes = [
     component: () => import('../views/gmap.vue')
   },
   {
-    name: 'alert',
-    component: () => import('../views/alert.vue')
+    name: 'warn',
+    component: () => import('../views/warn.vue')
   },
   {
     name: 'data',
@@ -46,7 +46,7 @@ function getAbsolutePath() {
 // 最后创建路由对象，设置切换方式，设置路由的base，导入路由表
 const router = new VueRouter({
   // 使用什么方式切换路由
-  mode: "hash", //  history  hash
+  mode: "history", //  history  hash
   // vue-router里提供了一个base的属性，代表应用的基目录
   base: getAbsolutePath(),
   routes

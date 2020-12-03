@@ -81,3 +81,32 @@ h1 {
     z-index: 1;
   }
 }
+
+// warn detail 页面的展示信息
+.alert-message {
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+  margin: 10px 10px;
+  padding: 0 10px;
+  align-items: center;
+  p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  &:active {
+    background-color: #ccc;
+  }
+  .icon-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .alert-logo {
+      color: rgb(235, 38, 38);
+      font-size: 30px;
+      margin: 0 10px 0 0;
+    }
+  }
+  .time {
+    color: rgb(7, 160, 109);
+  }
+}

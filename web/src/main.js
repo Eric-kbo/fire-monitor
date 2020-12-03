@@ -16,8 +16,8 @@ import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
 
 // 引入接口
-import http from "./request/http";
-Vue.prototype.$http = http;
+import chntek from "./request/chntek";
+Vue.prototype.$chntek = chntek;
 
 // 引入路由
 import router from './router';

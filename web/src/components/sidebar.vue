@@ -12,7 +12,7 @@
         <i slot="icon" class="tabbaricon iconfont iconditu1"></i>
         GIS模块
       </li>
-      <li id="alert" @click="goto('alert')" :class="$route.name=='alert'? 'active':''">
+      <li id="alert" @click="goto('warn')" :class="$route.name=='warn'? 'active':''">
         <i slot="icon" class="tabbaricon iconfont iconjinggao1"></i>
         告警列表
       </li>

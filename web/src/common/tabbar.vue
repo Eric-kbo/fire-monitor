@@ -8,7 +8,7 @@
       <i class="tabbaricon iconfont iconditu1"></i>
       <p>GIS模块</p>
     </md-bottom-bar-item>
-    <md-bottom-bar-item @click="goto('alert')" :class="$route.name=='alert'? 'active':'default'">
+    <md-bottom-bar-item @click="goto('warn')" :class="$route.name=='warn'? 'active':'default'">
       <i class="tabbaricon iconfont iconjinggao1"></i>
       <p>告警列表</p>
     </md-bottom-bar-item>

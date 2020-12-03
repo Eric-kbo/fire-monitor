@@ -31,116 +31,38 @@ export default {
   },
   data() {
     return {
+      date: new Date().toISOString().slice(0, 10),
       // 搜索关键字
-      searchData: { search: '' },
-      // 相关数据
+      searchData: { search: '00017,00018' },
+      // 图表相关数据
       list: [],
       // 表格的数据
       tableData: {
         title: ['a', 'b', 'c', 'd'],
-        data: [[1, 4, 4, 34], [745, 163, 743, 41], [46, 746, 646, 46], [456, 46, 67, 76]]
+        data: []
       }
     };
   },
-  watch: {
-    list: {
-      handler() {
-
-      },
-      deep: true
-    }
-  },
   created() {
     this.initData();
-    setInterval(() => {
-      this.initData();
-    }, 1000);
   },
   methods: {
     initData() {
       this.getHistory();
     },
-    getHistory() {
-      let params = this.searchData.search;
-      this.$http.getHistory(params).then(res => {
-        this.dataTransform(res.data.val);
-        // 手动刷新组件，关键
-        this.$forceUpdate();
-      }).catch((e) => { console.log(e); });
-    },
-    dataTransform(val) {
-      // 定义一个方法取到hour字符
-      function getHour(val) {
-        // 注意这里是按照空格分开的
-        return val.split(' ')[1].slice(0, 2);
-      }
-      // 拿到每个设备的名字组成的列表
-      let deviceNameList = Object.keys(val);
-      // 使用这个数组遍历每个设备
-      deviceNameList.forEach(deviceName => {
-        let deviceData = val[deviceName];
-        // 每个设备的数据根据时间顺序原地排序，注意排序比较的次数要比数据长度少一次
-        for (let i = 0; i < deviceData.length - 1; i++) {
-          if (getHour(deviceData[i].timestamp) - (getHour(deviceData[i + 1].timestamp)) > 0) {
-            let temp = deviceData[i];
-            deviceData[i] = deviceData[i + 1];
-            deviceData[i + 1] = temp;
-          }
-        }
-        // 赋值回去
-        val[deviceName] = deviceData;
-      });
-      // 设备数据排序后，映射到图表
-      // 1.定义图表数量
-      let chartsNumber = 3;
-      for (let i = 0; i < chartsNumber; i++) {
-        this.list[i] = {};
-      }
-      // 2.定义每个图表的名字
-      this.list[0].title = { text: "水压" };
-      this.list[1].title = { text: "温度" };
-      this.list[2].title = { text: "电量" };
-      // 遍历图表
-      for (let i = 0; i < chartsNumber; i++) {
-
-        // 3.给图表中的每根线命名
-        this.list[i].legend = { data: [] };
-        this.list[i].legend.data = deviceNameList;
-        this.list[i].series = [];
-        for (let j = 0; j < deviceNameList.length; j++) {
-          this.list[i].series[j] = { name: '' };
-          this.list[i].series[j].name = deviceNameList[j];
-        }
-        // 4.给每根线赋值，有多少设备就有多少线
-        let status = '';
-        switch (i) {
-          case 0:
-            status = 'hydraulic_pressure';
-            break;
-          case 1:
-            status = 'temperature';
-            break;
-          case 2:
-            status = 'energy';
-            break;
-          default:
-            break;
-        }
-        this.list[i].series = [];
-        deviceNameList.forEach((deviceName) => {
-          let deviceData = val[deviceName];
-          let arr = deviceData.map(data => data[status] + Math.floor(Math.random() * 50));
-          this.list[i].series.push({ data: arr, type: 'line', name: deviceName });
-        });
-        // 5.给图表的横轴刻度命名，取出其中一个设备的时间列表
-        this.list[i].xAxis = { data: [], type: 'category', boundaryGap: false };
-        this.list[i].xAxis.data = val[deviceNameList[0]].map(item => getHour(item.timestamp));
-      }
-
-      return this.list;
-    },
     search() {
-    }
+      this.getHistory();
+    },
+    async getHistory() {
+      // let params = {
+      //   ids: this.searchData.search,
+      //   date: this.date
+      // };
+      // this.list = await this.$chntek.transDeviceStatus(params.ids, params.date);
+      let data = [{ "title": { "text": "压力" }, "legend": { "data": ["00017", "00018"] }, "xAxis": { "data": ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"] }, "series": [{ "name": "00017", "type": "line", "data": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }, { "name": "00018", "type": "line", "data": [0, "0.116", "0.116", "0.116", "0.116", "0.116", "0.116", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117"] }] }, { "title": { "text": "电量" }, "legend": { "data": ["00017", "00018"] }, "xAxis": { "data": ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"] }, "series": [{ "name": "00017", "type": "line", "data": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100] }, { "name": "00018", "type": "line", "data": [100, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99] }] }];
+      this.list = JSON.parse(JSON.stringify(data));
+    },
+
   },
 }
 </script>

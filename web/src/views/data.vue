@@ -34,43 +34,22 @@ export default {
     return {
       dateStart: new Date().toISOString().slice(0, 10),
       dateEnd: new Date().toISOString().slice(0, 10),
-      searchData: { search: '' },
-      list: [{
-        title: {
-          text: '压力'
-        },
-        legend: {
-          data: ['直接访问', '搜索引擎']
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        },
-        series: [
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '搜索引擎',
-            type: 'line',
-            stack: '总量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
-        ]
-      }],
+      searchData: { search: '00017,00018' },
+      list: [],
     };
   },
   mounted() {
-
+    this.initData();
   },
   methods: {
-    search() {
-      // console.log(this.searchData.search);
-      // 搜索接口
+    async initData() {
+      // let data = await this.$chntek.transStatistics();
+      let data = [{ "title": { "text": "统计信息" }, "legend": { "data": ["00017", "00018"] }, "xAxis": { "data": ["2020-11-16", "2020-11-17", "2020-11-18", "2020-11-19", "2020-11-20", "2020-11-21", "2020-11-22", "2020-11-23", "2020-11-24", "2020-11-25", "2020-11-26", "2020-11-27", "2020-11-28", "2020-11-29", "2020-11-30", "2020-12-01", "2020-12-02"] }, "series": [{ "name": "00017", "type": "line", "data": [0, 0, 4, 4, 4, 1, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0] }, { "name": "00018", "type": "line", "data": [4, 12, 12, 12, 12, 13, 11, 9, 10, 10, 13, 10, 11, 12, 12, 12, 12] }] }];
+      this.list = JSON.parse(JSON.stringify(data));
+      console.log(this.list);
+    },
+    async search() {
+      // this.list = await this.$chntek.transStatistics();
     }
   },
 
