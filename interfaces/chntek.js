@@ -93,6 +93,7 @@ const chntek = new function () {
             , '15:00', '16:00', '17:00', '18:00', '19:00'
             , '20:00', '21:00', '22:00', '23:00']
         let hydraulicPressures = []
+        let temperatures = []
         let energies = []
         for (name in devices) {
             let device = devices[name]
