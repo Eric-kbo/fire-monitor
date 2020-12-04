@@ -51,6 +51,8 @@ const router = new VueRouter({
   base: getAbsolutePath(),
   routes
 });
+
+// 切换路由的是滚动条复位
 router.afterEach(() => {
   window.scrollTo(0, 0);
 });

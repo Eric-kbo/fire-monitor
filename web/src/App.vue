@@ -36,6 +36,7 @@ export default {
   }
   .view {
     margin-top: 50px;
+    padding-bottom: 100px;
   }
   .tabbar {
     position: fixed;

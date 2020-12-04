@@ -1,12 +1,13 @@
-查询设备状态
+查询设备状态  
+
 ```js
-输入参数:
+// 输入参数:
 {
     devices:["设备1","设备2"]
 }
-转换函数:
+// 转换函数:
 function transDeviceStatus([]){}
-输出结果:
+// 输出结果:
 [
     {
          title: {
@@ -26,7 +27,7 @@ function transDeviceStatus([]){}
                 {
                     name: '设备2',
                     data: [220, 182, 191, 234]
-                }       
+                }
             ]
     },
      {
@@ -47,21 +48,22 @@ function transDeviceStatus([]){}
                 {
                     name: '设备2',
                     data: [220, 182, 191, 234]
-                }       
+                }
             ]
     }
 ]
 ```
 
-查询警告信息
+查询警告信息  
+
 ```js
-输入参数:
+// 输入参数:
 {
     date:"2020-10-11"
 }
-转换函数:
+// 转换函数:
 function transWarningList(){}
-输出结果:
+// 输出结果:
 {
 "val": [
     {
@@ -93,16 +95,17 @@ function transWarningList(){}
 }
 ```
 
-查询统计信息
+查询统计信息   
+
 ```js
-输入参数:
+// 输入参数:
 {
     devices:["设备1","设备2"]
     dateStart:"2020-02-01",
     dateEnd:"2020-02-04"
 }
 function transStatistics{}
-输出结果:
+// 输出结果:
 {
      title: {
         text: '统计信息'
@@ -116,14 +119,14 @@ function transStatistics{}
     series: [
             {
                 name: '设备1',
+                type: 'line',
                 data: [120, 132, 101, 134]
             },
             {
                 name: '设备2',
+                type: 'line',
                 data: [220, 182, 191, 234]
-            }       
-		]
+            }
+    ]
     }
-
 ```
-

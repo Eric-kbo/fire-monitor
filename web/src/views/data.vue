@@ -65,6 +65,8 @@ export default {
     z-index: 1;
     .date {
       margin: 10px 0;
+      height: 28px;
+      line-height: 28px;
     }
   }
 }

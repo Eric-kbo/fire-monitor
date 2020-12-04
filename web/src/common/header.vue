@@ -2,8 +2,8 @@
   <div class="header">
     <md-toolbar class="nav display-flex">
       <div class="md-title flex_1">
-        <img src="../assets/images/logo.png" alt srcset />
-        <span class="title">启泰传感</span>
+        <!-- <img src="../assets/images/logo.png" alt srcset /> -->
+        <!-- <span class="title">启泰传感</span> -->
       </div>
       <i class="iconfont iconmenu-fill navicon" @click="openSidebar"></i>
     </md-toolbar>
@@ -48,6 +48,7 @@ export default {
     .navicon {
       font-size: 26px;
       color: #444;
+      margin-right: 10px;
       &.active {
         color: #000;
         background-color: #ccc;

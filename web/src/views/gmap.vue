@@ -2,46 +2,66 @@
   <div class="map-container">
     <!-- 注意这里必须设置center和zoom，不然组件是不会渲染地图的 -->
     <baidu-map class="map" center="长沙" :zoom="zoom" @ready="handler">
-      <!-- <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation> -->
+      <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
       <bm-marker
         v-for="(item,index) in list"
-        :key="index"
+        :key="item.id"
         :position="{lng: item.lng, lat: item.lat}"
         :dragging="false"
-        @click="infoWindowOpen"
+        @click="infoWindowOpen(index)"
+      ></bm-marker>
+      <bm-info-window
+        v-for="(item,index) in list"
+        :show="show && currentMark == index"
+        :key="index"
+        :width="220"
+        :closeOnClick="true"
+        :autoPan="true"
+        :position="{lng: item.lng, lat: item.lat}"
+        @close="infoWindowClose"
+        class="message-box"
       >
-        <bm-info-window
-          :show="show"
-          :closeOnClick="true"
-          :autoPan="true"
-          v-if="show"
-          :position="{lng: item.lng, lat: item.lat}"
-          @close="infoWindowClose"
-          @open="infoWindowOpen"
-          class="message-box"
-        >
-          <p class="display-flex">
-            <span class="flex_1">设备</span>
-            {{item.id}}
-          </p>
-          <p class="display-flex">
-            <span class="flex_1">水压</span>
-            {{item.hydraulic_pressure}}
-          </p>
-          <p class="display-flex">
-            <span class="flex_1">温度</span>
-            {{item.temperature}}
-          </p>
-          <p class="display-flex">
-            <span class="flex_1">电量</span>
-            {{item.energy}}
-          </p>
-          <p class="display-flex">
-            <span class="flex_1">时间</span>
-            {{item.time}}
-          </p>
-        </bm-info-window>
-      </bm-marker>
+        <p class="display-flex message">
+          <span class="flex_1">设备</span>
+          {{item.id}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">水压</span>
+          {{item.hydraulic_pressure}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">温度</span>
+          {{item.temperature}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">电量</span>
+          {{item.energy}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">时间</span>
+          {{item.time}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">时间</span>
+          {{item.time}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">时间</span>
+          {{item.time}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">时间</span>
+          {{item.time}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">时间</span>
+          {{item.time}}
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">时间</span>
+          {{item.time}}
+        </p>
+      </bm-info-window>
     </baidu-map>
   </div>
 </template>
@@ -51,9 +71,10 @@ export default {
   data() {
     return {
       date: new Date().toISOString().slice(0, 10),
-      zoom: 8,
+      zoom: 10,
       show: false,
       list: [],
+      currentMark: 0,
       position: {
         lng: 114.74880433,
         lat: 28.2842444,
@@ -64,6 +85,9 @@ export default {
 
   },
   methods: {
+    // addZoom(zoom) {
+    //   this.zoom = zoom;
+    // },
     handler({ BMap, map }) {
       console.log(BMap, map);
       this.getData();
@@ -121,7 +145,8 @@ export default {
       }
       ];
     },
-    infoWindowOpen(item) {
+    infoWindowOpen(index) {
+      this.currentMark = index;
       this.show = true;
     },
     infoWindowClose() {
@@ -131,7 +156,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 /* 地图容器必须设置宽和高属性 */
 .map {
   position: fixed;
@@ -142,9 +167,6 @@ export default {
   width: 100%;
   height: calc(100vh - 116px);
 }
-</style>
-
-<style scoped>
 .map-container {
   position: fixed;
   left: -6px;
@@ -153,3 +175,4 @@ export default {
   height: calc(100vh - 120px);
 }
 </style>
+
