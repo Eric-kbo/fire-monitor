@@ -1,8 +1,4 @@
-html,
-body,
-ul,
-li,
-div {
+* {
   margin: 0;
   padding: 0;
 }
@@ -31,64 +27,35 @@ h1 {
 
 .display-flex {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
 }
-
 .flex_1 {
   flex: 1;
 }
+
 .display-block {
   display: block;
 }
 
 .text-left {
-  text-align: lef;
+  text-align: left;
+}
+.text-center {
+  text-align: center;
 }
 .text-right {
   text-align: right;
-}
-
-// 日期选择器弹出框
-// .md-overlay {
-//   display: none;
-// }
-.md-datepicker-dialog {
-  background-color: #fff;
-}
-.md-datepicker {
-  &.md-field {
-    margin-bottom: 10px;
-    & > .md-icon {
-      z-index: 1;
-    }
-  }
-  .md-ripple {
-    z-index: 1;
-  }
-  .md-button-content {
-    z-index: 1;
-  }
-  .md-fab,
-  .md-icon-button {
-    z-index: 1;
-  }
-  .md-input {
-    pointer-events: none;
-  }
-}
-
-.search-bar{
-  .md-ripple{
-    z-index: 1;
-  }
 }
 
 // warn detail 页面的展示信息
 .alert-message {
   text-align: left;
   border-bottom: 1px solid #ccc;
-  margin: 10px 10px;
   padding: 0 10px;
   align-items: center;
+
   cursor: pointer;
   p {
     margin-top: 5px;
@@ -109,5 +76,11 @@ h1 {
   }
   .time {
     color: rgb(7, 160, 109);
+  }
+}
+
+body {
+  /deep/.md-menu-content-container {
+    background-color: #fff;
   }
 }

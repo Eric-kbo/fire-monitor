@@ -25,12 +25,10 @@ import router from './router';
 // import store from "./store";
 import BaiduMap from 'vue-baidu-map';
 Vue.use(BaiduMap, {
-  ak: 'K18lYgrmUNVR5tfqNyYuGNr0bEgidM02'
+  ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
 });
 
 Vue.config.productionTip = false;
-
-
 
 new Vue({
   router,

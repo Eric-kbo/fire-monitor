@@ -6,17 +6,6 @@
         <chart-vue :option="item"></chart-vue>
       </li>
     </ul>
-    <table class="table">
-      <thead class="thead"></thead>
-      <tbody>
-        <tr class="first-row">
-          <th v-for="(item,index) in tableData.title" :key="index">{{item}}</th>
-        </tr>
-        <tr v-for="(item,index) in tableData.data" :key="index">
-          <td v-for="(val,key) in item" :key="key">{{val}}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
@@ -33,34 +22,31 @@ export default {
     return {
       date: new Date().toISOString().slice(0, 10),
       // 搜索关键字
-      searchData: { search: '00017,00018' },
+      searchData: { search: '' },
       // 图表相关数据
       list: [],
-      // 表格的数据
-      tableData: {
-        title: ['a', 'b', 'c', 'd'],
-        data: []
-      }
     };
   },
   created() {
     this.initData();
   },
   methods: {
-    initData() {
-      this.getHistory();
+    async initData() {
+      // 上线时删除
+      let params = {
+        ids: '00006,00008,00018',
+        date: this.date
+      };
+      params.date = '2020-12-03';  //  上线时删除
+      this.list = await this.$chntek.transDeviceStatus(params.ids, params.date);
     },
-    search() {
-      this.getHistory();
-    },
-    async getHistory() {
-      // let params = {
-      //   ids: this.searchData.search,
-      //   date: this.date
-      // };
-      // this.list = await this.$chntek.transDeviceStatus(params.ids, params.date);
-      let data = [{ "title": { "text": "压力" }, "legend": { "data": ["00017", "00018"] }, "xAxis": { "data": ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"] }, "series": [{ "name": "00017", "type": "line", "data": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }, { "name": "00018", "type": "line", "data": [0, "0.116", "0.116", "0.116", "0.116", "0.116", "0.116", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117", "0.117"] }] }, { "title": { "text": "电量" }, "legend": { "data": ["00017", "00018"] }, "xAxis": { "data": ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"] }, "series": [{ "name": "00017", "type": "line", "data": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100] }, { "name": "00018", "type": "line", "data": [100, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99] }] }];
-      this.list = JSON.parse(JSON.stringify(data));
+    async search() {
+      let params = {
+        ids: this.searchData.search,
+        date: this.date
+      };
+      params.date = '2020-12-03';  //  上线时删除
+      this.list = await this.$chntek.transDeviceStatus(params.ids, params.date);
     },
 
   },
@@ -71,29 +57,14 @@ export default {
 .home {
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
-  padding-bottom: 60px;
+  padding-top: 10px;
 }
-
 .list {
-  width: 100%;
   margin-top: 20px;
+  margin-bottom: 60px;
   .item {
     text-align: center;
     border-bottom: 1px solid #eee;
-  }
-}
-
-.table {
-  margin: 10px;
-  text-align: center;
-  border-collapse: collapse;
-  th,
-  td {
-    border: 1px solid #ccc;
-  }
-  .first-row {
-    background-color: #eee;
   }
 }
 </style>

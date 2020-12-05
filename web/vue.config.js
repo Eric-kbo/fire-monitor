@@ -30,10 +30,16 @@ module.exports = {
           }
         }
       };
+      if (config.warnHandler) {
+        config.warnHandler.call(null, msg, vm, trace);
+      } else if (hasConsole && (!config.silent)) {
+        console.log('');
+      }
       // 合并webpack配置
       Object.assign(config, {
         optimization
       });
+
     } else {
       // 为开发环境修改配置...
       config.mode = 'development';

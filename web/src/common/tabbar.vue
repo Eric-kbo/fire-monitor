@@ -38,8 +38,6 @@ export default {
 
 <style lang="scss" scoped>
 .tabbar {
-  box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, 0.2),
-    0 -5px 8px 1px rgba(0, 0, 0, 0.14), 0 -2px 10px 2px rgba(0, 0, 0, 0.12);
   background-color: #fff;
   p {
     margin: 8px 0 0 0;

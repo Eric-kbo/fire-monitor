@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+
 // 注册路由插件 VueRouter 使其全局可用
 Vue.use(VueRouter);
 
@@ -52,7 +53,7 @@ const router = new VueRouter({
   routes
 });
 
-// 切换路由的是滚动条复位
+// 切换路由的时候滚动条复位
 router.afterEach(() => {
   window.scrollTo(0, 0);
 });

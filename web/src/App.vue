@@ -1,18 +1,32 @@
 <template>
-  <div id="app">
-    <header-vue class="header"></header-vue>
-    <keep-alive>
-      <router-view class="view"></router-view>
-    </keep-alive>
+  <div class="page-container">
+    <md-app md-mode="fixed">
+      <md-app-toolbar class="md-primary header display-flex">
+        <headbar-vue></headbar-vue>
+        <div class="md-toolbar-section-end">
+          <md-button class="md-icon-button" @click="menuChange()">
+            <md-icon class="iconfont iconmenu-fill"></md-icon>
+          </md-button>
+        </div>
+      </md-app-toolbar>
+      <md-app-drawer :md-active.sync="menuVisible" :md-right="true">
+        <sidebar-vue @change="menuChange()"></sidebar-vue>
+      </md-app-drawer>
+      <md-app-content>
+        <keep-alive>
+          <router-view class="view"></router-view>
+        </keep-alive>
+      </md-app-content>
+    </md-app>
     <tabbar-vue class="tabbar"></tabbar-vue>
   </div>
 </template>
 
 <script>
 
-import headerVue from './common/header.vue';
+import headbarVue from './common/headbar.vue';
 import tabbarVue from './common/tabbar.vue';
-
+import sidebarVue from "./common/sidebar.vue";
 export default {
   name: 'App',
   data() {
@@ -21,26 +35,48 @@ export default {
     };
   },
   components: {
-    headerVue,
-    tabbarVue
+    headbarVue,
+    tabbarVue,
+    sidebarVue
+  },
+  methods: {
+    menuChange() {
+      this.menuVisible = !this.menuVisible;
+    }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-#app {
+/deep/.md-app {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
   width: 100vw;
-  .header {
-    position: fixed;
-    top: 0;
+  &.md-fixed .md-app-scroller {
+    overflow-x: hidden;
   }
-  .view {
-    margin-top: 50px;
-    padding-bottom: 100px;
+  .md-app-content {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    min-height: 50%;
+    .view {
+      padding: 0;
+      margin: 0;
+      width: 100vw;
+    }
   }
-  .tabbar {
-    position: fixed;
-    bottom: 0;
+  .md-drawer {
+    width: 50vw;
+    max-width: 200px;
   }
+}
+.header {
+  height: 60px;
+}
+.tabbar {
+  position: fixed;
+  bottom: 0;
 }
 </style>

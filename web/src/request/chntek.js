@@ -14,10 +14,10 @@ function Chntek() {
             });
             if (data.err) throw data.err;
             let val = {};
-            for (id in data.val) {
+            for (let id in data.val) {
                 let objs = data.val[id];
                 val[id] = [];
-                for (obj of objs) {
+                for (let obj of objs) {
                     let dt = new Date(obj.monitorsTime);
 
                     val[id].push({
@@ -43,7 +43,7 @@ function Chntek() {
                     });
                 }
             }
-            console.log(val);
+            // console.log(val);
             return val;
         },
         async warningList(date) {
@@ -57,7 +57,7 @@ function Chntek() {
 
             let val = [];
 
-            for (obj of data.val) {
+            for (let obj of data.val) {
                 val.push({
                     "id": obj.terminalNum,		//设备编号
                     "location": obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
@@ -92,7 +92,8 @@ function Chntek() {
             , '20:00', '21:00', '22:00', '23:00'];
         let hydraulicPressures = [];
         let energies = [];
-        for (name in devices) {
+        let temperatures = [];
+        for (let name in devices) {
             let device = devices[name];
             legendData.push(name);
             let hydraulicPressureData = {
@@ -113,8 +114,8 @@ function Chntek() {
                 data: []
             };
 
-            for (t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24; t++) {
-                for (detail of device) {
+            for (let t = 0, hydraulicPressure = '0.000', temperature = '0.000', energy = 100; t < 24; t++) {
+                for (let detail of device) {
                     let time = new Date(`2000-01-01 ${detail.time}`);
                     let hours = time.getHours();
 
@@ -124,7 +125,6 @@ function Chntek() {
                         break;
                     }
                 }
-
                 hydraulicPressureData.data.push(hydraulicPressure);
                 temperatureData.data.push(temperature);
                 energyData.data.push(energy);
@@ -162,11 +162,10 @@ function Chntek() {
 
     this.transStatistics = async (ids, dateStart, dateEnd) => {
         let devices = await this.devices.warningStatistics(ids, dateStart, dateEnd);
-
         let legendData = [];
         let xAxisData = [];
         let warningStatistics = [];
-        for (name in devices) {
+        for (let name in devices) {
             let device = devices[name];
             for (date in device) {
                 if (-1 == xAxisData.indexOf(date))
@@ -176,7 +175,7 @@ function Chntek() {
 
         xAxisData.sort((a, b) => Date.parse(a) - Date.parse(b));
 
-        for (name in devices) {
+        for (let name in devices) {
             let device = devices[name];
             legendData.push(name);
             let countData = {
@@ -189,7 +188,6 @@ function Chntek() {
                 let count = device[t];
                 countData.data.push(count ? count : 0);
             }
-
             warningStatistics.push(countData);
         }
 
@@ -206,9 +204,9 @@ function Chntek() {
 
 const chntek = new Chntek();
 
-export default chntek;
-
 // chntek.transDeviceStatus('00017,00018', '2020-12-03');
-// chntek.devices.statusHistory('00006,00008', '2020-12-03');
 // chntek.transWarningList('2020-12-03');
-// chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03');
+// chntek.devices.statusHistory('00006,00008,00011,00014', '2020-12-03');
+// chntek.transStatistics('00017,00018', '2020-11-02', '2020-12-03');
+
+export default chntek;

@@ -1,6 +1,5 @@
 <template>
   <div class="detail">
-    <md-button @click="goto('warn')">返回</md-button>
     <div class="display-flex alert-message">
       <div class="icon-box">
         <i class="iconfont iconjinggao alert-logo"></i>
@@ -24,14 +23,10 @@ export default {
     };
   },
   methods: {
-    goto(name) {
-      if (this.$route.name == name) return;
-      this.$router.replace({ name });
-    }
+
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      console.log(to);
       vm.model = to.params;
     }
     );
@@ -44,17 +39,14 @@ export default {
 <style lang="scss" scoped>
 .detail {
   padding-top: 15px;
+  .alert-message {
+    margin-top: 20px;
+  }
 }
 .para {
   text-align: center;
 }
 .md-button {
-  z-index: 1;
-  justify-self: flex-start;
-  box-shadow: 0 0 2px 2px #ccc;
-  .icon {
-    display: block;
-    font-size: 16px;
-  }
+  border: 1px solid #666;
 }
 </style>

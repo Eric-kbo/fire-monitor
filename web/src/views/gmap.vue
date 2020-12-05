@@ -1,40 +1,54 @@
 <template>
   <div class="map-container">
     <!-- 注意这里必须设置center和zoom，不然组件是不会渲染地图的 -->
-    <baidu-map class="map" center="长沙" :zoom="zoom" @ready="handler">
-      <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+    <baidu-map class="map" :center="center" :zoom="zoom" @ready="onReady">
+      <!-- 自定义组件 -->
+      <bm-control anchor="BMAP_ANCHOR_BOTTOM_LEFT">
+        <!--  -->
+        <md-field class="select-address" :validity="''">
+          <label for="address">选择一个地点</label>
+          <md-select v-model="current" name="address" id="address" key="adress">
+            <md-option :value="index" v-for="(item,index) in list" :key="index">{{item.id}}</md-option>
+          </md-select>
+        </md-field>
+      </bm-control>
+      <!-- 缩放组件 -->
+      <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT"></bm-navigation>
+      <!-- 标记组件 -->
       <bm-marker
         v-for="(item,index) in list"
         :key="item.id"
         :position="{lng: item.lng, lat: item.lat}"
         :dragging="false"
+        :offset="{width: 0 , height: 0}"
         @click="infoWindowOpen(index)"
       ></bm-marker>
+      <!-- 信息窗体 -->
       <bm-info-window
         v-for="(item,index) in list"
         :show="show && currentMark == index"
         :key="index"
         :width="220"
         :closeOnClick="true"
-        :autoPan="true"
+        :offset="{width: 0 , height: 0}"
         :position="{lng: item.lng, lat: item.lat}"
         @close="infoWindowClose"
         class="message-box"
       >
         <p class="display-flex message">
-          <span class="flex_1">设备</span>
-          {{item.id}}
+          <span class="flex_1">设备名称:</span>
+          编号{{item.id}}
         </p>
         <p class="display-flex message">
-          <span class="flex_1">水压</span>
+          <span class="flex_1">当前水压:</span>
           {{item.hydraulic_pressure}}
         </p>
         <p class="display-flex message">
-          <span class="flex_1">温度</span>
+          <span class="flex_1">当前温度:</span>
           {{item.temperature}}
         </p>
         <p class="display-flex message">
-          <span class="flex_1">电量</span>
+          <span class="flex_1">当前电量:</span>
           {{item.energy}}
         </p>
         <p class="display-flex message">
@@ -42,24 +56,12 @@
           {{item.time}}
         </p>
         <p class="display-flex message">
-          <span class="flex_1">时间</span>
-          {{item.time}}
+          <span class="flex_1">经度</span>
+          {{item.longitude}}
         </p>
         <p class="display-flex message">
-          <span class="flex_1">时间</span>
-          {{item.time}}
-        </p>
-        <p class="display-flex message">
-          <span class="flex_1">时间</span>
-          {{item.time}}
-        </p>
-        <p class="display-flex message">
-          <span class="flex_1">时间</span>
-          {{item.time}}
-        </p>
-        <p class="display-flex message">
-          <span class="flex_1">时间</span>
-          {{item.time}}
+          <span class="flex_1">纬度</span>
+          {{item.latitude}}
         </p>
       </bm-info-window>
     </baidu-map>
@@ -71,79 +73,61 @@ export default {
   data() {
     return {
       date: new Date().toISOString().slice(0, 10),
-      zoom: 10,
+      zoom: 8,
       show: false,
       list: [],
+      current: 0,
       currentMark: 0,
-      position: {
-        lng: 114.74880433,
-        lat: 28.2842444,
-      }
+      center: '长沙'
     };
   },
-  mounted() {
+  watch: {
+    current(newV) {
+      this.$nextTick(() => {
+        this.center = {
+          lng: this.list[newV].lng,
+          lat: this.list[newV].lat
+        };
+        this.infoWindowOpen(newV);
+      });
 
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.infoWindowOpen(0);
+    }, 0);
   },
   methods: {
-    // addZoom(zoom) {
-    //   this.zoom = zoom;
-    // },
-    handler({ BMap, map }) {
-      console.log(BMap, map);
+    onReady({ BMap, map }) {
       this.getData();
     },
     async getData() {
-      // let warningList = await this.$chntek.transWarningList(this.date);
-      // let deviceList = warningList.map(item => item.id);
-      // let deviceString = deviceList.join(',');
-      // let resultObj = this.$chntek.devices.statusHistory(deviceString, date);
-      // let array = Object.keys(resultObj).filter(key => {
-      //   return Object[key] != [];
-      // });
-      // array = array.map(item => {
-      //   return {
-      //     id: item,
-      //     lng: resultObj[item].longitude.slice(1),
-      //     lat: resultObj[item].latitude.slice(1),
-      //   };
-      // });
-      this.list = [{
-        id: '00006',
-        hydraulic_pressure: '0.224',
-        temperature: '15.5',
-        energy: 99,
-        signal_intensity: 4,
-        longitude: 'E113.74880433',
-        lng: 114.74880433,
-        latitude: 'N28.2842444',
-        lat: 28.2842444,
-        time: '8:39:13'
-      },
-      {
-        id: '00008',
-        hydraulic_pressure: '0.030',
-        temperature: '14.1',
-        energy: 99,
-        signal_intensity: 10,
-        longitude: 'E113.61641049',
-        lng: 113.61641049,
-        latitude: 'N28.15573705',
-        lat: 27.15573705,
-        time: '1:43:38'
-      },
-      {
-        id: '00011',
-        hydraulic_pressure: '0.030',
-        temperature: '14.1',
-        energy: 99,
-        signal_intensity: 10,
-        longitude: 'E113.61641049',
-        lng: 112.61641049,
-        latitude: 'N28.15573705',
-        lat: 28.15573705,
-        time: '1:43:38'
-      }
-      ];
+      this.date = '2020-12-03'; // 上线时请删除或将其注释
+      let warningList = await this.$chntek.transWarningList(this.date);
+      let deviceList = warningList.map(item => item.id);
+      let deviceString = deviceList.join(',');
+      let resultObj = await this.$chntek.devices.statusHistory(deviceString, this.date);
+      // 过滤空数组
+      let array = Object.keys(resultObj).filter(key => {
+        return resultObj[key] != [] && resultObj[key][0].longitude && resultObj[key][0].longitude;
+      });
+      // 从数组的第一个元素中映射需要展示的数据
+      this.list = array.map(item => {
+        return {
+          id: item,
+          hydraulic_pressure: resultObj[item][0].hydraulic_pressure,
+          temperature: resultObj[item][0].temperature,
+          energy: resultObj[item][0].energy,
+          time: resultObj[item][0].time,
+          longitude: resultObj[item][0].longitude,
+          latitude: resultObj[item][0].latitude,
+          lng: resultObj[item][0].longitude.slice(1),
+          lat: resultObj[item][0].latitude.slice(1),
+        };
+
+      });
+      this.center = this.list[0];
     },
     infoWindowOpen(index) {
       this.currentMark = index;
@@ -173,6 +157,20 @@ export default {
   top: -1px;
   width: 100%;
   height: calc(100vh - 120px);
+}
+.select-address {
+  margin-left: 5px;
+  padding-left: 5px;
+  width: 150px;
+  box-shadow: 2px 2px 2px 1px #ddd;
+  label {
+    padding-left: 5px;
+  }
+}
+.md-field,
+.address {
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 </style>
 
