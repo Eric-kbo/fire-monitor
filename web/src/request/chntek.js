@@ -6,14 +6,18 @@ function Chntek() {
     this.devices = {
         async statusHistory(ids, date) {
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
-                params: {
-                    searchDate: date,
-                    ids: ids
-                },
+                params: ids.trim() == ''
+                    ? {
+                        searchDate: date
+                    } : {
+                        searchDate: date,
+                        ids: ids
+                    },
                 headers: { 'Authorization': '12' }
             });
             if (data.err) throw data.err;
             let val = {};
+            if (!data.val) throw new Error('数据为空');
             for (let id in data.val) {
                 let objs = data.val[id];
                 val[id] = [];
@@ -43,7 +47,7 @@ function Chntek() {
                     });
                 }
             }
-            // console.log(val);
+            console.log(val);
             return val;
         },
         async warningList(date) {
@@ -151,12 +155,12 @@ function Chntek() {
             xAxis: { data: xAxisData },
             series: energies
         }];
-        // console.log(JSON.stringify(val));
+        console.log(JSON.stringify(val));
         return val;
     };
     this.transWarningList = async (date) => {
         let warnings = await this.devices.warningList(date);
-        // console.log(JSON.stringify(warnings));
+        console.log(warnings);
         return warnings;
     };
 
@@ -167,7 +171,7 @@ function Chntek() {
         let warningStatistics = [];
         for (let name in devices) {
             let device = devices[name];
-            for (date in device) {
+            for (let date in device) {
                 if (-1 == xAxisData.indexOf(date))
                     xAxisData.push(date);
             }
@@ -184,7 +188,7 @@ function Chntek() {
                 data: []
             };
 
-            for (t of xAxisData) {
+            for (let t of xAxisData) {
                 let count = device[t];
                 countData.data.push(count ? count : 0);
             }
@@ -192,21 +196,28 @@ function Chntek() {
         }
 
         let val = [{
-            title: { text: '统计信息' },
+            title: { text: '统计' },
             legend: { data: legendData },
             xAxis: { data: xAxisData },
             series: warningStatistics
         }];
-        // console.log(JSON.stringify(val));
+        console.log(JSON.stringify(val));
         return val;
     };
 };
 
 const chntek = new Chntek();
 
+
+
+// chntek.transDeviceStatus('', '2020-12-03');
 // chntek.transDeviceStatus('00017,00018', '2020-12-03');
-// chntek.transWarningList('2020-12-03');
-// chntek.devices.statusHistory('00006,00008,00011,00014', '2020-12-03');
-// chntek.transStatistics('00017,00018', '2020-11-02', '2020-12-03');
+
+// Warn
+// chntek.transWarningList('2020-12-06');
+
+// chntek.devices.statusHistory('', '2020-12-03');
+// chntek.transStatistics('00017,00018', '2020-11-06', '2020-12-06');
+// chntek.transStatistics('', '2020-11-06', '2020-12-06');
 
 export default chntek;
