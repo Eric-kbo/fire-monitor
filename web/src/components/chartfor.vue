@@ -20,7 +20,7 @@ export default {
         title: {
           text: '',
           show: true,// 控制标题显示
-          bottom: -2,
+          bottom: 40,
           left: -2,
           textStyle: {
             fontSize: 14
@@ -45,10 +45,7 @@ export default {
           boundaryGap: false,
           axisLabel: {
             interval: 0,
-            rotate: 0,
-            formatter: (value) => {
-              return value;
-            }
+            rotate: 45
           },
         },
         // y轴统一设置为value
@@ -84,21 +81,15 @@ export default {
       this.echart = this.$echarts.init(this.$refs.chart);
       // 外部配置
       if (this.option) {
-        console.log(this.option.title.text);
         this.echart.clear();
-        if (this.option.title.text == '统计') {
-          let length = this.option.xAxis.data.length;
-          this.defaultO.xAxis.axisLabel.rotate = 60;
-          this.defaultO.xAxis.axisLabel.formatter = (value, index) => {
-            if (index != 0 && index % Math.floor(length / 5) == 0) {
-              return value;
-            }
-          };
-        }
+        let length = this.option.xAxis.data.length;
+        this.defaultO.xAxis.axisLabel.formatter = (value, index) => {
+          if (index != 0 && index % Math.floor(length / 7) == 0) {
+            return value;
+          }
+        };
         this.echart.setOption(this.defaultO);
         this.echart.setOption(this.option);
-
-        // this.echart.setOption(this.defaultO);
       }
       // 让图表自适应(APP不需要，浏览器需要)
       window.addEventListener("resize", () => {

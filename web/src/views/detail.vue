@@ -8,7 +8,7 @@
         <p>设备: {{model.id}}</p>
         <p>地点: {{model.location==0?'未获取到地点':model.location}}</p>
         <p>类型: {{model.warning_type}}</p>
-        <p class="text-right time">{{model.date_time}}</p>
+        <p class="text-right time">{{model.time}}</p>
       </div>
     </div>
   </div>

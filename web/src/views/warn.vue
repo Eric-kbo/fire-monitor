@@ -35,15 +35,11 @@ export default {
   },
   methods: {
     async getToday() {
-      // this.warningList = await this.$chntek.transWarningListOfToday();
-      let list = await this.$chntek.transWarningList('2020-12-04');
-      this.warningList = list.slice(0, 5);
+      this.warningList = await this.$chntek.transWarningListOfToday();
     },
-    async getMonth() {
-      // this.warningList = await this.$chntek.transWarningListOfMonth(params);
-      let list = await this.$chntek.transWarningList('2020-12-04');
-      list = list.slice(0, 5);
-      this.warningList.concat(list);
+    async getMonth(params) {
+      let list = await this.$chntek.transWarningListOfMonths(params);
+      this.warningList.push(...list);
     },
     async decMonth() {
       this.month -= 1;
@@ -51,24 +47,20 @@ export default {
         this.year -= 1;
         this.month = 12;
       }
-      let params = this.year + '-' + (this.month < 10 ? '0' + this.month : this.month);
+      let params = this.year + '-' + (this.month < 10 ? '0' + this.month : this.month) + '-01';
       console.log(params);
-      let result = await this.getMonth(params);
-      this.warningList.push(result);
+      this.getMonth(params);
     },
     switchMode() {
       this.history = !this.history;
       this.animation();
       if (this.history) {
-        let params = this.year + '-' + (this.month < 10 ? '0' + this.month : this.month);
-        console.log(params);
+        let params = this.year + '-' + (this.month < 10 ? '0' + this.month : this.month) + '-01';
         this.warningList = [];
         this.getMonth(params);
       } else {
         this.getToday();
-
       }
-
     },
     // 旋转动画
     animation() {
@@ -78,13 +70,7 @@ export default {
         this.rotate = false;
       }, 300);
     },
-    // 路由跳转
-    goto(item) {
-      this.$router.push({
-        name: 'detail',
-        params: item
-      });
-    },
+
   },
 }
 </script>
