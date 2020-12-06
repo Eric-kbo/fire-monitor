@@ -30,7 +30,7 @@
         :width="220"
         :closeOnClick="true"
         :autoPan="true"
-        :offset="{width: 0 , height: 0}"
+        :offset="{width: -6 , height: -15}"
         :position="{lng: item.lng, lat: item.lat}"
         @close="infoWindowClose"
         class="message-box"
