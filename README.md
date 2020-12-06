@@ -22,7 +22,7 @@
 |                 | 告警模块 | ~~界面-当天告警~~  <br />~~界面-历史告警~~  <br />~~界面-告警详情~~  <br />功能-查询告警信息  <br />功能-告警通知 | 3天  | 刘楚门<br />周存根 |
 |                 | 数据中心 | ~~界面-设备告警统计~~  <br />功能-查询设备告警统计           | 1天  | 刘楚门<br />周存根 |
 |                 | 接口测试 | ~~接口-查询设备告警统计~~  <br />~~接口-查询告警信息~~  <br />~~接口-查询设备数据~~ | 2天  | 刘楚门             |
-|                 | 接口文档 | ~~接口-查询告警信息~~  <br />~~接口-查询设备数据~~  <br />~~接口-查询设备告警统计~~  <br />~~GIS地图密钥~~ | >7天 | 启泰传感           |
+|                 | 接口文档 | ~~接口-查询告警信息~~  <br />~~接口-查询设备数据~~  <br />~~接口-查询设备告警统计~~  <br />接口-获取所有设备编号<br />~~GIS地图密钥~~ | 不定 | 启泰传感           |
 |                 | 测试真机 | 多种的安卓机型                                               | 不定 |                    |
 |                 |          |                                                              |      |                    |
 
@@ -34,23 +34,24 @@
 
 ### 设备
 
+实时状态查询
+
 #### 历史状态查询
 
 ```json
 #方法
 statusHistory(
     ids: '设备A,设备B',	  #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是所有设备
-    dete: '2020-12-03'	 #指定日期的历史
 )
 #错误
 抛出异常
 #输出
 {
-    "设备A": {	#设备编号
-            "hydraulic_pressure":90, 		 #水压
-            "temperature":80,				 #温度
-            "energy":70,    	 			 #电量
-            "signal_intensity":29,  		 #信号强度
+    "设备A": [{	#设备编号
+            "hydraulic_pressure":90, 		 #水压 MPa
+            "temperature":80,				 #温度  °C
+            "energy":70,    	 			 #电量  %
+            "signal_intensity":29,  		 #信号强度 db
             "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
             "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
             "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
@@ -65,9 +66,9 @@ statusHistory(
             "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
             "longitude":1.2281,		#设备经度
             "latitude":13.128,		#设备纬度
-            "time": "14:20:00"		#检测时间
-	},
-    "设备B": {
+            "time": "2010-12-10 14:20:00"		#检测时间
+	}],
+    "设备B": [{
         "hydraulic_pressure":90, 		 #水压
         "temperature":80,				 #温度
         "energy":70,    	 			 #电量
@@ -86,8 +87,8 @@ statusHistory(
         "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
         "longitude":1.2281,		#设备经度
         "latitude":13.128,		#设备纬度
-        "time": "14:20:00"		#检测时间
-    }
+        "time": "2010-14-10 10:20:00"		#检测时间
+    }]
 }
 ```
 
@@ -95,8 +96,9 @@ statusHistory(
 
 ```json
 #方法
-warningList(
-    dete: '2020-12-03'	 #指定日期的历史
+warningListOfToday() #当天
+warningListOfMonths(
+    dete: '2020-12-1'	 #指定月的历史
 )
 #错误
 抛出异常
@@ -106,12 +108,12 @@ warningList(
         "id":"设备A",		#设备编号
         "location":"长沙市望城区望城区管委会主楼6F男卫", #地点
         "warning_type":"信号低报警、负温标志、压力传感器报警",	#警告类型
-        "time":"11:22:00",			#时间
+        "time":	"2010-12-12 11:22:00",			#时间
     },{
         "id":"设备B",
         "location":"长沙市望城区望城区管委会主楼2F男卫",
         "warning_type":"低水压警告",
-        "time":"07:22:12",
+        "time":"2010-12-12 07:22:12",
     }
 ]
 ```
@@ -148,13 +150,25 @@ warningStatistics(
 
 ### 设备
 
-#### 历史状态查询
+#### 所有设备编号
 
 ```json
+HTTP GET http://iot.chntek.com:3410/api/Terminal/Devices
+Authorization: 12
+#输入
+#输出
+['00017','000018']
+```
+
+#### 状态查询
+
+```json
+#查询当天的设备状态，如果该设备当天没有状态则用最近的状态替代
 HTTP GET http://iot.chntek.com:3410/api/Terminal/HistoryData
 Athorization: 12
 #输入
 ids: '设备A,设备B' #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是所有设备
+date: '2010-12-24' 
 #输出
 {
     "err": null,		
@@ -194,10 +208,11 @@ ids: '设备A,设备B' #被查询的设备编号，如果是多个设备则用�
 #### 告警状态
 
 ```json
+#查询指定月份的告警状态
 HTTP GET http://iot.chntek.com:3410/api/Terminal/RealTimeData
 Athorization: 12
 #输入
-date:'2020-10-22' 	#指定日期的告警列表
+date:'2020-10-01' 	#指定月的告警列表
 #输出
 {
     "err":null,

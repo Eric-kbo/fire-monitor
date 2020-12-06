@@ -4,12 +4,28 @@ const host = 'http://iot.chntek.com:3410'
 
 const chntek = new function () {
     this.devices = {
-        async statusHistory(ids, date) {
+        async deviceIds() {
+            const { data } = await axios.get(`${host}/api/Terminal/GetAllDevice`, {
+                headers: { 'Authorization': '12' }
+            })
+            if (data.Err) throw data.Err
+            if (data.err) throw data.err
+            console.log(data.val)
+            return data.val
+        },
+        async statusHistory(ids) {
+            if (ids.trim() == '') {
+                let devicesIds = await this.deviceIds()
+                for (let id of devicesIds) {
+                    ids + id + ','
+                }
+            }
+
+            let dt = new Date
+            let date = dt.toLocaleDateString().replace(new RegExp('/', 'g'), '-')
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
                 params: ids.trim() == ''
-                    ? {
-                        searchDate: date
-                    } : {
+                    ? { searchDate: date } : {
                         searchDate: date,
                         ids: ids
                     },
@@ -17,12 +33,10 @@ const chntek = new function () {
             })
             if (data.err) throw data.err
             let val = {}
-            for (id in data.val) {
+            for (let id in data.val) {
                 let objs = data.val[id]
                 val[id] = []
-                for (obj of objs) {
-                    let dt = new Date(obj.monitorsTime)
-
+                for (let obj of objs) {
                     val[id].push({
                         "hydraulic_pressure": obj.pressure, //水压
                         "temperature": obj.temper,		//温度
@@ -42,11 +56,10 @@ const chntek = new function () {
                         "status_of_low_signal_intensity": 0,//低信号状态，0：正常，1：报警
                         "longitude": obj.longitude,		        //设备经度
                         "latitude": obj.latitude,		        //设备纬度
-                        "time": `${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`		//检测时间
+                        "time": obj.monitorsTime		//检测时间
                     })
                 }
             }
-
             return val
         },
         async warningList(date) {
@@ -56,16 +69,17 @@ const chntek = new function () {
                 },
                 headers: { 'Authorization': '12' }
             })
+            if (data.Err) throw data.Err
             if (data.err) throw data.err
 
             let val = []
 
-            for (obj of data.val) {
+            for (let obj of data.val) {
                 val.push({
                     "id": obj.terminalNum,		//设备编号
                     "location": obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
                     "warning_type": obj.warnName,	//警告类型
-                    "date_time": obj.monitorsTime,			//时间
+                    "time": obj.monitorsTime,			//时间
                 })
             }
             console.log(val)
@@ -81,24 +95,23 @@ const chntek = new function () {
                 headers: { 'Authorization': '12' }
             })
             if (data.err) throw data.err
-            console.log(data.val)
             return data.val
         }
     }
 
-    this.transDeviceStatus = async (ids, date) => {
-        let devices = await this.devices.statusHistory(ids, date)
+    this.transDeviceStatus = async (ids) => {
+        let devices = await this.devices.statusHistory(ids)
 
         let legendData = []
-        let xAxisData = ['00:00', '01:00', '02:00', '03:00'
-            , '04:00', '05:00', '06:00', '07:00', '08:00'
-            , '09:00', '10:00', '11:00', '12:00', '14:00'
-            , '15:00', '16:00', '17:00', '18:00', '19:00'
-            , '20:00', '21:00', '22:00', '23:00']
+        let xAxisData = ['00', '01', '02', '03'
+            , '04', '05', '06', '07', '08'
+            , '09', '10', '11', '12', '14'
+            , '15', '16', '17', '18', '19'
+            , '20', '21', '22', '23']
         let hydraulicPressures = []
         let temperatures = []
         let energies = []
-        for (name in devices) {
+        for (let name in devices) {
             let device = devices[name]
             legendData.push(name)
             let hydraulicPressureData = {
@@ -116,12 +129,11 @@ const chntek = new function () {
                 data: []
             }
 
-            for (t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24; t++) {
-                for (detail of device) {
-                    let time = new Date(`2000-01-01 ${detail.time}`)
-                    let hours = time.getHours()
+            for (let t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24; t++) {
+                for (let detail of device) {
+                    let time = new Date(detail.time)
 
-                    if (t == hours) {
+                    if (t == time.getHours()) {
                         hydraulicPressure = detail['hydraulic_pressure']
                         energy = detail['energy']
                         break
@@ -158,9 +170,41 @@ const chntek = new function () {
         return val
     }
 
-    this.transWarningList = async (date) => {
+    this.transWarningListOfToday = async () => {
+        let dt = new Date()
+        let m = dt.getMonth() + 1
+        let d = dt.getDay() + 1
+        m = m < 10 ? '0' + m : m
+        d = d < 10 ? '0' + d : d
+        let date = `${dt.getFullYear()}-${m}-${d}`
+
         let warnings = await this.devices.warningList(date)
-        return warnings
+
+        let warningsDisposed = []
+        for (let warning of warnings) {
+            let dt2 = new Date(warning.time)
+            if (dt.toLocaleDateString() != dt2.toLocaleDateString()) 
+                continue
+            warningsDisposed.push(warning)
+        }
+
+        console.log(warningsDisposed)
+        return warningsDisposed
+    }
+
+    this.transWarningListOfMonths = async (date) => {
+        let warnings = await this.devices.warningList(date)
+
+        let dt = new Date()
+        let warningsDisposed = []
+        for (let warning of warnings) {
+            let dt2 = new Date(warning.time)
+            if (dt.toLocaleDateString() == dt2.toLocaleDateString()) 
+                continue
+            warningsDisposed.push(warning)
+        }
+        console.log(warningsDisposed)
+        return warningsDisposed
     }
 
     this.transStatistics = async (ids, dateStart, dateEnd) => {
@@ -169,9 +213,9 @@ const chntek = new function () {
         let legendData = []
         let xAxisData = []
         let warningStatistics = []
-        for (name in devices) {
+        for (let name in devices) {
             let device = devices[name]
-            for (date in device) {
+            for (let date in device) {
                 if (-1 == xAxisData.indexOf(date))
                     xAxisData.push(date)
             }
@@ -179,7 +223,7 @@ const chntek = new function () {
 
         xAxisData.sort((a, b) => Date.parse(a) - Date.parse(b))
 
-        for (name in devices) {
+        for (let name in devices) {
             let device = devices[name]
             legendData.push(name)
             let countData = {
@@ -187,7 +231,7 @@ const chntek = new function () {
                 data: []
             }
 
-            for (t of xAxisData) {
+            for (let t of xAxisData) {
                 let count = device[t]
                 countData.data.push(count ? count : 0)
             }
@@ -207,6 +251,29 @@ const chntek = new function () {
 }
 
 //export default chntek
-chntek.transDeviceStatus('', '2020-12-03')
-// chntek.transWarningList('2020-12-03')
-// chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03')n
+//chntek.transDeviceStatus('')
+//chntek.transWarningListOfToday()
+//chntek.transWarningListOfMonths('2020-12-01')
+//chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03')
+
+try {
+    document.addEventListener('deviceready', async () => {
+        //启用后台运行模式
+        window.cordova.plugins.backgroundode.enable()
+
+        setInterval(async () => {
+            let warningsLength = window.localStorage.getItem('warningsLength')
+            let warnings = await chntek.transWarningListOfToday()
+            if (warnings == warningsLength) {
+                window.cordova.plugins.notification.local.schedule({
+                    test: '有新的告警信息！'
+                })
+            }
+
+            window.localStorage.setItem('warningsLength', warnings.length)
+        }, 60000)
+    })
+}
+catch (e) {
+    console.error(e)
+}
