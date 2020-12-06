@@ -23,7 +23,6 @@ export default {
     };
   },
   methods: {
-
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -31,8 +30,6 @@ export default {
     }
     );
   }
-
-
 }
 </script>
 

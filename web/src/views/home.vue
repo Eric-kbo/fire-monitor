@@ -28,25 +28,22 @@ export default {
     };
   },
   created() {
-    this.initData();
+    let search = localStorage.getItem('SearchHome');
+    if (search) {
+      this.searchData.search = JSON.parse(search);
+      this.search();
+    }
   },
   methods: {
-    async initData() {
-      // 上线时删除
-      let params = {
-        ids: '00006,00008,00018',
-        date: this.date
-      };
-      params.date = '2020-12-03';  //  上线时删除
-      this.list = await this.$chntek.transDeviceStatus(params.ids, params.date);
-    },
     async search() {
       let params = {
-        ids: this.searchData.search,
+        devices: this.searchData.search,
         date: this.date
       };
       params.date = '2020-12-03';  //  上线时删除
-      this.list = await this.$chntek.transDeviceStatus(params.ids, params.date);
+      localStorage.setItem('SearchHome', JSON.stringify(params.devices));
+      console.log(params.devices, params.date);
+      this.list = await this.$chntek.transDeviceStatus(params.devices, params.date);
     },
 
   },

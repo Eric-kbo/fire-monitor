@@ -23,8 +23,8 @@ export default {
   },
   watch: {
     model: {
-      handler() {
-        this.model.search = this.model.search.replace(/，/g, ',');
+      handler(newV) {
+        this.model.search = newV.search.replace(/，/g, ',');
       },
       deep: true
     }

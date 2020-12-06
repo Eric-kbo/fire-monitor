@@ -3,15 +3,14 @@
     <!-- 注意这里必须设置center和zoom，不然组件是不会渲染地图的 -->
     <baidu-map class="map" :center="center" :zoom="zoom" @ready="onReady">
       <!-- 自定义组件 -->
-      <bm-control anchor="BMAP_ANCHOR_BOTTOM_LEFT">
-        <!--  -->
+      <!-- <bm-control anchor="BMAP_ANCHOR_BOTTOM_LEFT">
         <md-field class="select-address" :validity="''">
           <label for="address">选择一个地点</label>
           <md-select v-model="current" name="address" id="address" key="adress">
             <md-option :value="index" v-for="(item,index) in list" :key="index">{{item.id}}</md-option>
           </md-select>
         </md-field>
-      </bm-control>
+      </bm-control>-->
       <!-- 缩放组件 -->
       <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT"></bm-navigation>
       <!-- 标记组件 -->
@@ -36,31 +35,31 @@
         class="message-box"
       >
         <p class="display-flex message">
-          <span class="flex_1">设备名称:</span>
-          编号{{item.id}}
+          <span class="flex_1">设备编号:</span>
+          {{item.id}}
         </p>
         <p class="display-flex message">
           <span class="flex_1">当前水压:</span>
-          {{item.hydraulic_pressure}}
+          {{item.hydraulic_pressure}}Kpa
         </p>
         <p class="display-flex message">
           <span class="flex_1">当前温度:</span>
-          {{item.temperature}}
+          {{item.temperature}}°C
         </p>
         <p class="display-flex message">
           <span class="flex_1">当前电量:</span>
-          {{item.energy}}
+          {{item.energy}}%
         </p>
         <p class="display-flex message">
-          <span class="flex_1">时间</span>
+          <span class="flex_1">监测时间:</span>
           {{item.time}}
         </p>
         <p class="display-flex message">
-          <span class="flex_1">经度</span>
+          <span class="flex_1">坐标经度:</span>
           {{item.longitude}}
         </p>
         <p class="display-flex message">
-          <span class="flex_1">纬度</span>
+          <span class="flex_1">坐标纬度</span>
           {{item.latitude}}
         </p>
       </bm-info-window>
@@ -88,26 +87,26 @@ export default {
           lng: this.list[newV].lng,
           lat: this.list[newV].lat
         };
-        this.infoWindowOpen(newV);
+        setTimeout(() => {
+          console.log(this.list[newV]);
+          this.infoWindowOpen(newV);
+        }, 0);
       });
 
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.infoWindowOpen(0);
-    }, 0);
+    // setTimeout(() => {
+    //   this.infoWindowOpen(0);
+    // }, 0);
   },
   methods: {
     onReady({ BMap, map }) {
       this.getData();
     },
     async getData() {
-      this.date = '2020-12-03'; // 上线时请删除或将其注释
-      let warningList = await this.$chntek.transWarningList(this.date);
-      let deviceList = warningList.map(item => item.id);
-      let deviceString = deviceList.join(',');
-      let resultObj = await this.$chntek.devices.statusHistory(deviceString, this.date);
+      this.date = '2020-12-04';//上线时删除
+      let resultObj = await this.$chntek.devices.statusHistory('', this.date);
       // 过滤空数组
       let array = Object.keys(resultObj).filter(key => {
         return resultObj[key] != [] && resultObj[key][0].longitude && resultObj[key][0].longitude;
@@ -125,7 +124,6 @@ export default {
           lng: resultObj[item][0].longitude.slice(1),
           lat: resultObj[item][0].latitude.slice(1),
         };
-
       });
       this.center = this.list[0];
     },
@@ -162,7 +160,7 @@ export default {
   margin-left: 5px;
   padding-left: 5px;
   width: 150px;
-  box-shadow: 2px 2px 2px 1px #ddd;
+  box-shadow: 2px 2px 2px 1px rgba(255, 255, 255, 0.5);
   label {
     padding-left: 5px;
   }

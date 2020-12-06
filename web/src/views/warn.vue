@@ -39,13 +39,13 @@ export default {
   },
   methods: {
     async getData() {
-      let timestamp = Date.now();
+      let params = this.date;
+      params = '2020-12-04';
       if (this.yesterday) {
-        timestamp -= 24 * 60 * 60 * 1000;
+        params = '';
       };
-      let params = new Date(timestamp).toISOString().slice(0, 10);
-      params = '2020-12-03'; // 上线时删除
       this.warningList = await this.$chntek.transWarningList(params);
+      console.log(this.warningList);
     },
     goto(item) {
       this.$router.push({

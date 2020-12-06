@@ -38,32 +38,30 @@ export default {
       list: [],
     };
   },
-  mounted() {
-    this.initData();
+  created() {
+    let timestamp1 = Date.now();
+    let timestamp2 = timestamp1 - 30 * 24 * 60 * 60 * 1000;
+    this.dateStart = new Date(timestamp2).toISOString().slice(0, 10);
+    this.dateEnd = new Date(timestamp1).toISOString().slice(0, 10);
+    let search = localStorage.getItem('SearchData');
+    if (search) {
+      this.searchData.search = JSON.parse(search);
+      this.search();
+    }
   },
   methods: {
-    async initData() {
-      let timestamp1 = Date.now();
-      let timestamp2 = timestamp1 - 30 * 24 * 60 * 60 * 1000;
-      this.dateStart = new Date(timestamp2).toISOString().slice(0, 10);
-      this.dateEnd = new Date(timestamp1).toISOString().slice(0, 10);
-      let params = {
-        devices: '00017,00018',
-        dateStart: this.dateStart,
-        dateEnd: this.dateEnd
-      };
-      this.list = await this.$chntek.transStatistics(params);
-    },
     async search() {
       let params = {
         devices: this.searchData.search,
         dateStart: this.dateStart,
-        dateStart: this.dateEnd
+        dateEnd: this.dateEnd
       };
-      this.list = await this.$chntek.transStatistics(params);
+      localStorage.setItem('SearchData', JSON.stringify(params.devices));
+      console.log(params.devices, params.dateStart, params.dateEnd);
+      this.list = await this.$chntek.transStatistics(params.devices, params.dateStart, params.dateEnd);
+      console.log(this.list);
     }
   },
-
 }
 </script>
 
