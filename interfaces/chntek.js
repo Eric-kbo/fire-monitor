@@ -6,10 +6,13 @@ const chntek = new function () {
     this.devices = {
         async statusHistory(ids, date) {
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
-                params: {
-                    searchDate: date,
-                    ids: ids
-                },
+                params: ids.trim() == ''
+                    ? {
+                        searchDate: date
+                    } : {
+                        searchDate: date,
+                        ids: ids
+                    },
                 headers: { 'Authorization': '12' }
             })
             if (data.err) throw data.err
@@ -175,7 +178,7 @@ const chntek = new function () {
         }
 
         xAxisData.sort((a, b) => Date.parse(a) - Date.parse(b))
-  
+
         for (name in devices) {
             let device = devices[name]
             legendData.push(name)
@@ -204,6 +207,6 @@ const chntek = new function () {
 }
 
 //export default chntek
-chntek.transDeviceStatus('00017,00018', '2020-12-03')
-chntek.transWarningList('2020-12-03')
-chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03')
+chntek.transDeviceStatus('', '2020-12-03')
+// chntek.transWarningList('2020-12-03')
+// chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03')n
