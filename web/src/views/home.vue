@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <searchbar tagTitle="综合显示" btnTitle="查找" :model="searchData" @change="search()"></searchbar>
+    <p v-if="wait" class="wait">查询中，等待返回数据</p>
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue :option="item"></chart-vue>
@@ -25,12 +26,13 @@ export default {
       searchData: { search: '' },
       // 图表相关数据
       list: [],
+      wait: false
     };
   },
   created() {
-    let search = localStorage.getItem('SearchHome');
+    let search = JSON.parse(localStorage.getItem('SearchHome'));
     if (search) {
-      this.searchData.search = JSON.parse(search);
+      this.searchData.search = search;
       this.search();
     }
   },
@@ -42,8 +44,12 @@ export default {
       };
       params.date = '2020-12-03';  //  上线时删除
       localStorage.setItem('SearchHome', JSON.stringify(params.devices));
-      console.log(params.devices, params.date);
-      this.list = await this.$chntek.transDeviceStatus(params.devices, params.date);
+      this.wait = true;
+      this.$chntek.transDeviceStatus(params.devices, params.date).then(res => {
+        // 纯数据Object深度拷贝
+        this.list = JSON.parse(JSON.stringify(res));
+        this.wait = false;
+      });
     },
 
   },
@@ -63,5 +69,9 @@ export default {
     text-align: center;
     border-bottom: 1px solid #eee;
   }
+}
+.wait {
+  width: 100%;
+  text-align: center;
 }
 </style>

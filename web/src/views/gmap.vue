@@ -29,6 +29,7 @@
         :key="index"
         :width="220"
         :closeOnClick="true"
+        :autoPan="true"
         :offset="{width: 0 , height: 0}"
         :position="{lng: item.lng, lat: item.lat}"
         @close="infoWindowClose"
@@ -40,7 +41,7 @@
         </p>
         <p class="display-flex message">
           <span class="flex_1">当前水压:</span>
-          {{item.hydraulic_pressure}}Kpa
+          {{item.hydraulic_pressure}}Mpa
         </p>
         <p class="display-flex message">
           <span class="flex_1">当前温度:</span>
@@ -49,6 +50,14 @@
         <p class="display-flex message">
           <span class="flex_1">当前电量:</span>
           {{item.energy}}%
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">信号强度:</span>
+          {{item.signal_intensity}}db
+        </p>
+        <p class="display-flex message">
+          <span class="flex_1">监测日期:</span>
+          {{date}}
         </p>
         <p class="display-flex message">
           <span class="flex_1">监测时间:</span>
@@ -107,7 +116,7 @@ export default {
     async getData() {
       this.date = '2020-12-04';//上线时删除
       let resultObj = await this.$chntek.devices.statusHistory('', this.date);
-      // 过滤空数组
+      // 过滤空数组和没有经纬度的点
       let array = Object.keys(resultObj).filter(key => {
         return resultObj[key] != [] && resultObj[key][0].longitude && resultObj[key][0].longitude;
       });
@@ -118,6 +127,7 @@ export default {
           hydraulic_pressure: resultObj[item][0].hydraulic_pressure,
           temperature: resultObj[item][0].temperature,
           energy: resultObj[item][0].energy,
+          signal_intensity: resultObj[item][0].signal_intensity,
           time: resultObj[item][0].time,
           longitude: resultObj[item][0].longitude,
           latitude: resultObj[item][0].latitude,

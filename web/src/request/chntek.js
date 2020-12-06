@@ -47,7 +47,7 @@ function Chntek() {
                     });
                 }
             }
-            console.log(val);
+            // console.log(val);
             return val;
         },
         async warningList(date) {
@@ -89,11 +89,11 @@ function Chntek() {
         let devices = await this.devices.statusHistory(ids, date);
 
         let legendData = [];
-        let xAxisData = ['00:00', '01:00', '02:00', '03:00'
-            , '04:00', '05:00', '06:00', '07:00', '08:00'
-            , '09:00', '10:00', '11:00', '12:00', '14:00'
-            , '15:00', '16:00', '17:00', '18:00', '19:00'
-            , '20:00', '21:00', '22:00', '23:00'];
+        let xAxisData = ['00', '01', '02', '03'
+            , '04', '05', '06', '07', '08'
+            , '09', '10', '11', '12', '14'
+            , '15', '16', '17', '18', '19'
+            , '20', '21', '22', '23'];
         let hydraulicPressures = [];
         let energies = [];
         let temperatures = [];
@@ -155,12 +155,12 @@ function Chntek() {
             xAxis: { data: xAxisData },
             series: energies
         }];
-        console.log(JSON.stringify(val));
+        // console.log(JSON.stringify(val));
         return val;
     };
     this.transWarningList = async (date) => {
         let warnings = await this.devices.warningList(date);
-        console.log(warnings);
+        // console.log(warnings);
         return warnings;
     };
 
@@ -201,7 +201,7 @@ function Chntek() {
             xAxis: { data: xAxisData },
             series: warningStatistics
         }];
-        console.log(JSON.stringify(val));
+        // console.log(JSON.stringify(val));
         return val;
     };
 };

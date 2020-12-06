@@ -12,7 +12,7 @@
     </div>
 
     <searchbar tagTitle="数据中心" btnTitle="点这里查询" :model="searchData" @change="search()"></searchbar>
-
+    <p v-if="wait" class="wait">查询中，等待返回数据</p>
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue :option="item"></chart-vue>
@@ -23,7 +23,7 @@
  
 <script>
 import searchbar from "../components/searchbar";
-import chartVue from "../components/chart";
+import chartVue from "../components/chartfor";
 export default {
   name: 'log',
   components: {
@@ -36,30 +36,41 @@ export default {
       dateEnd: new Date().toISOString().slice(0, 10),
       searchData: { search: '' },
       list: [],
+      wait: false
     };
   },
   created() {
+    // 初始化日期为一个月前到当天
     let timestamp1 = Date.now();
     let timestamp2 = timestamp1 - 30 * 24 * 60 * 60 * 1000;
     this.dateStart = new Date(timestamp2).toISOString().slice(0, 10);
     this.dateEnd = new Date(timestamp1).toISOString().slice(0, 10);
-    let search = localStorage.getItem('SearchData');
-    if (search) {
-      this.searchData.search = JSON.parse(search);
-      this.search();
-    }
+    // 获取本地数据
+    this.getLocalParams();
   },
   methods: {
+    getLocalParams() {
+      let params = JSON.parse(localStorage.getItem('Params'));
+      // 如果保存有查询参数则直接调用
+      if (params) {
+        this.searchData.search = params.devices;
+        this.dateStart = params.dateStart;
+        this.dateEnd = params.dateEnd;
+        this.search();
+      }
+    },
     async search() {
       let params = {
         devices: this.searchData.search,
         dateStart: this.dateStart,
         dateEnd: this.dateEnd
       };
-      localStorage.setItem('SearchData', JSON.stringify(params.devices));
-      console.log(params.devices, params.dateStart, params.dateEnd);
-      this.list = await this.$chntek.transStatistics(params.devices, params.dateStart, params.dateEnd);
-      console.log(this.list);
+      localStorage.setItem('Params', JSON.stringify(params));
+      this.wait = true;
+      this.$chntek.transStatistics(params.devices, params.dateStart, params.dateEnd).then(res => {
+        this.list = JSON.parse(JSON.stringify(res));
+        this.wait = false;
+      });
     }
   },
 }
@@ -81,5 +92,9 @@ export default {
 }
 .list {
   margin-top: 20px;
+}
+.wait {
+  width: 100%;
+  text-align: center;
 }
 </style>

@@ -46,13 +46,8 @@ export default {
           axisLabel: {
             interval: 0,
             rotate: 0,
-            formatter: (value, index) => {
-              if (index % 2 != 0) {
-                return '\n' + value;
-              }
-              else {
-                return value;
-              }
+            formatter: (value) => {
+              return value;
             }
           },
         },
@@ -89,9 +84,21 @@ export default {
       this.echart = this.$echarts.init(this.$refs.chart);
       // 外部配置
       if (this.option) {
+        console.log(this.option.title.text);
         this.echart.clear();
+        if (this.option.title.text == '统计') {
+          let length = this.option.xAxis.data.length;
+          this.defaultO.xAxis.axisLabel.rotate = 60;
+          this.defaultO.xAxis.axisLabel.formatter = (value, index) => {
+            if (index != 0 && index % Math.floor(length / 5) == 0) {
+              return value;
+            }
+          };
+        }
         this.echart.setOption(this.defaultO);
         this.echart.setOption(this.option);
+
+        // this.echart.setOption(this.defaultO);
       }
       // 让图表自适应(APP不需要，浏览器需要)
       window.addEventListener("resize", () => {
@@ -106,6 +113,6 @@ export default {
 
 <style scoped>
 .chart {
-  height: 40vw;
+  height: 66vw;
 }
 </style>

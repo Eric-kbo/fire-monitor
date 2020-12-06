@@ -1,68 +1,90 @@
 <template>
   <div class="alert">
-    <h4>告警列表-{{yesterday == true ?'历史':'当天'}}</h4>
-    <ul>
-      <li v-for="item in warningList" :key="item.name" @click="goto(item)" class="alert-message">
-        <div class="display-flex">
-          <div class="icon-box">
-            <i class="iconfont iconjinggao alert-logo"></i>
-          </div>
-          <div class="text-box flex_1">
-            <p>设备: {{item.id}}</p>
-            <p>地点: {{item.location==0?'未获取到地点':item.location}}</p>
-            <p class="text-right time">{{item.date_time}}</p>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <p class="text-center bottom-text" v-if="warningList.length">没有更多了</p>
+    <h4>告警列表-{{history == true ?'历史':'当天'}}</h4>
+    <list-vue :warningList="warningList"></list-vue>
+    <div v-if="warningList.length" class="bottom-text">
+      <p class="text-center" v-if="!history">没有更多了</p>
+      <md-button class="addMonth" @click="decMonth()" v-else>点击查询更多</md-button>
+    </div>
     <md-button class="md-fab md-clean switchDate" :class="{'rotate-go':rotate}">
-      <i class="iconfont icon iconhistory" @click="switchDate"></i>
+      <i class="iconfont icon iconhistory" @click="switchMode"></i>
     </md-button>
   </div>
 </template>
 
 <script>
+import listVue from "../components/list";
 export default {
   name: 'alert',
+  components: {
+    listVue
+  },
   data() {
     return {
-      date: new Date().toISOString().slice(0, 10),
+      year: new Date().getFullYear(),
+      date: new Date(),
+      month: new Date().getMonth() + 1,
       warningList: [],
       rotate: false,
       timer: null,
-      yesterday: false
+      history: false
     };
   },
   created() {
-    this.getData();
+    this.getToday();
   },
   methods: {
-    async getData() {
-      let params = this.date;
-      params = '2020-12-04';
-      if (this.yesterday) {
-        params = '';
-      };
-      this.warningList = await this.$chntek.transWarningList(params);
-      console.log(this.warningList);
+    async getToday() {
+      // this.warningList = await this.$chntek.transWarningListOfToday();
+      let list = await this.$chntek.transWarningList('2020-12-04');
+      this.warningList = list.slice(0, 5);
     },
+    async getMonth() {
+      // this.warningList = await this.$chntek.transWarningListOfMonth(params);
+      let list = await this.$chntek.transWarningList('2020-12-04');
+      list = list.slice(0, 5);
+      this.warningList.concat(list);
+    },
+    async decMonth() {
+      this.month -= 1;
+      if (this.month == 0) {
+        this.year -= 1;
+        this.month = 12;
+      }
+      let params = this.year + '-' + (this.month < 10 ? '0' + this.month : this.month);
+      console.log(params);
+      let result = await this.getMonth(params);
+      this.warningList.push(result);
+    },
+    switchMode() {
+      this.history = !this.history;
+      this.animation();
+      if (this.history) {
+        let params = this.year + '-' + (this.month < 10 ? '0' + this.month : this.month);
+        console.log(params);
+        this.warningList = [];
+        this.getMonth(params);
+      } else {
+        this.getToday();
+
+      }
+
+    },
+    // 旋转动画
+    animation() {
+      this.rotate = true;
+      if (this.timer) clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.rotate = false;
+      }, 300);
+    },
+    // 路由跳转
     goto(item) {
       this.$router.push({
         name: 'detail',
         params: item
       });
     },
-    switchDate() {
-      this.yesterday = !this.yesterday;
-      this.getData();
-      // 旋转动画
-      this.rotate = true;
-      if (this.timer) clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.rotate = false;
-      }, 300);
-    }
   },
 }
 </script>
@@ -104,5 +126,11 @@ export default {
 .bottom-text {
   margin-top: 10px;
   margin-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  .addMonth {
+    width: 80%;
+    background-color: #eee;
+  }
 }
 </style>
