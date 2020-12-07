@@ -12,7 +12,7 @@
     </div>
 
     <searchbar tagTitle="数据中心" btnTitle="点这里查询" :model="searchData" @change="search()"></searchbar>
-    <p v-if="wait" class="wait">查询中，等待返回数据</p>
+    <p v-if="wait" class="wait">{{message}}</p>
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue :option="item"></chart-vue>
@@ -60,17 +60,24 @@ export default {
       }
     },
     async search() {
-      let params = {
-        devices: this.searchData.search,
-        dateStart: this.dateStart,
-        dateEnd: this.dateEnd
-      };
-      localStorage.setItem('Params', JSON.stringify(params));
-      this.wait = true;
-      this.$chntek.transStatistics(params.devices, params.dateStart, params.dateEnd).then(res => {
-        this.list = JSON.parse(JSON.stringify(res));
-        this.wait = false;
-      });
+      if (this.searchData.search) {
+        let params = {
+          devices: this.searchData.search,
+          dateStart: this.dateStart,
+          dateEnd: this.dateEnd
+        };
+        localStorage.setItem('Params', JSON.stringify(params));
+        this.wait = true;
+        this.mesasge = "查询中，等待返回数据";
+        this.$chntek.transStatistics(params.devices, params.dateStart, params.dateEnd).then(res => {
+          this.list = JSON.parse(JSON.stringify(res));
+          this.wait = false;
+        });
+      } else {
+        this.wait = true;
+        this.mesasge = "查询参数不能为空";
+      }
+
     }
   },
 }

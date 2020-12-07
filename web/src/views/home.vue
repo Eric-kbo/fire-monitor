@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <searchbar tagTitle="综合显示" btnTitle="查找" :model="searchData" @change="search()"></searchbar>
-    <p v-if="wait" class="wait">查询中，等待返回数据</p>
+    <p v-if="wait" class="wait">{{message}}</p>
     <ul class="list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <chart-vue :option="item"></chart-vue>
@@ -26,7 +26,8 @@ export default {
       searchData: { search: '' },
       // 图表相关数据
       list: [],
-      wait: false
+      wait: false,
+      message: ""
     };
   },
   created() {
@@ -38,18 +39,24 @@ export default {
   },
   methods: {
     async search() {
-      let params = {
-        devices: this.searchData.search,
-        date: this.date
-      };
-      params.date = '2020-12-03';  //  上线时删除
-      localStorage.setItem('SearchHome', JSON.stringify(params.devices));
-      this.wait = true;
-      this.$chntek.transDeviceStatus(params.devices, params.date).then(res => {
-        // 纯数据Object深度拷贝
-        this.list = JSON.parse(JSON.stringify(res));
-        this.wait = false;
-      });
+      if (this.searchData.search) {
+        let params = {
+          devices: this.searchData.search,
+          date: this.date
+        };
+        params.date = '2020-12-03';  //  上线时删除
+        localStorage.setItem('SearchHome', JSON.stringify(params.devices));
+        this.wait = true;
+        this.mesasge = "查询中，等待返回数据";
+        this.$chntek.transDeviceStatus(params.devices, params.date).then(res => {
+          // 纯数据Object深度拷贝
+          this.list = JSON.parse(JSON.stringify(res));
+          this.wait = false;
+        });
+      } else {
+        this.wait = true;
+        this.mesasge = "查询参数不能为空";
+      }
     },
 
   },
