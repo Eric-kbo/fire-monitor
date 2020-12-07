@@ -1,17 +1,22 @@
-###
+
+###查询所有设备
+GET http://iot.chntek.com:3410/api/Terminal/GetAllDevice
+Authorization: 12
+
+###查询设备状态，天
 GET http://iot.chntek.com:3410/api/Terminal/HistoryData
-    ?searchDate=2020-12-03
-    &ids=00017,00018
+    ?ids=00006,00018,00017
+    &searchDate=2020-12-06
 Authorization: 12
 
-###
+###查询告警状态，月
 GET http://iot.chntek.com:3410/api/Terminal/RealTimeData
-    ?searchDate=2020-12-03
+    ?searchDate=2020-12-01
 Authorization: 12
 
-###
+###查询告警统计，范围
 GET http://iot.chntek.com:3410/api/Terminal/WarningList
-    ?ids=00017,00018
+    ?ids=00017,
     &date_begin=2020-11-01
     &date_end=2020-12-03
 Authorization: 12

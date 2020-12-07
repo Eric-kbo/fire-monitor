@@ -27,10 +27,11 @@ function Chntek() {
             let date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
             console.log(`statusHistory: ${ids} ${date}`)
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
-                params: {
-                    searchDate: date,
-                    ids: ids
-                },
+                params: ids.trim() == ''
+                    ? { searchDate: date } : {
+                        searchDate: date,
+                        ids: ids
+                    },
                 headers: { 'Authorization': '12' }
             });
             console.log(`statusHistory: data.err ${data.err}`)
