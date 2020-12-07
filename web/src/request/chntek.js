@@ -5,11 +5,9 @@ const host = 'http://iot.chntek.com:3410';
 function Chntek() {
     this.devices = {
         async deviceIds() {
-            console.log('deviceIds: ');
             const { data } = await axios.get(`${host}/api/Terminal/GetAllDevice`, {
                 headers: { 'Authorization': '12' }
             });
-            console.log('warningList: data.err ' + data.err);
             if (data.Err) throw data.Err;
             if (data.err) throw data.err;
             console.log(data.val);
@@ -19,21 +17,20 @@ function Chntek() {
             if (ids.trim() == '') {
                 let devicesIds = await this.deviceIds();
                 for (let id of devicesIds) {
-                    ids += id + ',';
+                    ids + id + ',';
                 }
             }
 
             let dt = new Date;
-            let date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
-            console.log(`statusHistory: ${ids} ${date}`)
+            let date = dt.toLocaleDateString().replace(new RegExp('/', 'g'), '-');
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
-                params: {
-                    searchDate: date,
-                    ids: ids
-                },
+                params: ids.trim() == ''
+                    ? { searchDate: date } : {
+                        searchDate: date,
+                        ids: ids
+                    },
                 headers: { 'Authorization': '12' }
             });
-            console.log(`statusHistory: data.err ${data.err}`)
             if (data.err) throw data.err;
             let val = {};
             for (let id in data.val) {
@@ -66,14 +63,12 @@ function Chntek() {
             return val;
         },
         async warningList(date) {
-            console.log('warningList: ' + date);
             const { data } = await axios.get(`${host}/api/Terminal/RealTimeData`, {
                 params: {
                     searchDate: date
                 },
                 headers: { 'Authorization': '12' }
             });
-            console.log('warningList: data.err ' + data.err);
             if (data.Err) throw data.Err;
             if (data.err) throw data.err;
 
@@ -87,11 +82,10 @@ function Chntek() {
                     "time": obj.monitorsTime,			//时间
                 });
             }
-
+            console.log(val);
             return val;
         },
         async warningStatistics(devices, dateStart, dateEnd) {
-            console.log(`warningStatistics: ${dateStart} ${dateEnd} ${devices}`);
             const { data } = await axios.get(`${host}/api/Terminal/WarningList`, {
                 params: {
                     date_begin: dateStart,
@@ -100,14 +94,12 @@ function Chntek() {
                 },
                 headers: { 'Authorization': '12' }
             });
-            console.log('warningStatistics: data.err ' + data.err);
             if (data.err) throw data.err;
             return data.val;
         }
     };
 
     this.transDeviceStatus = async (ids) => {
-        console.log('transDeviceStatus: ');
         let devices = await this.devices.statusHistory(ids);
 
         let legendData = [];
@@ -140,9 +132,7 @@ function Chntek() {
                 data: []
             };
 
-            let et = new Date()
-
-            for (let t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24 && t < et.getHours(); t++) {
+            for (let t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24; t++) {
                 for (let detail of device) {
                     let time = new Date(detail.time);
 
@@ -179,15 +169,14 @@ function Chntek() {
             xAxis: { data: xAxisData },
             series: energies
         }];
-        console.log('transDeviceStatus: return');
+        console.log(val);
         return val;
     };
 
     this.transWarningListOfToday = async () => {
-        console.log('transWarningListOfToday: ');
         let dt = new Date();
         let m = dt.getMonth() + 1;
-        let d = dt.getDate();
+        let d = dt.getDay() + 1;
         m = m < 10 ? '0' + m : m;
         d = d < 10 ? '0' + d : d;
         let date = `${dt.getFullYear()}-${m}-${d}`;
@@ -202,11 +191,10 @@ function Chntek() {
             warningsDisposed.push(warning);
         }
 
-        console.log('transWarningListOfToday: return');
+        console.log(warningsDisposed);
         return warningsDisposed;
     };
     this.transWarningListOfMonths = async (date) => {
-        console.log('transWarningListOfMonths: ' + date);
         let warnings = await this.devices.warningList(date);
 
         let dt = new Date();
@@ -218,13 +206,11 @@ function Chntek() {
             }
             warningsDisposed.push(warning);
         }
-
-        console.log('transWarningListOfMonths: return');
+        console.log(warningsDisposed);
         return warningsDisposed;
     };
 
     this.transStatistics = async (ids, dateStart, dateEnd) => {
-        console.log(`transStatistics: ${ids} ${dateStart} ${dateEnd}`);
         let devices = await this.devices.warningStatistics(ids, dateStart, dateEnd);
 
         let legendData = [];
@@ -264,7 +250,6 @@ function Chntek() {
             series: warningStatistics
         }];
 
-        console.log('transStatistics: return val');
         return val;
     };
 };
@@ -278,30 +263,19 @@ export default chntek;
 
 try {
     document.addEventListener('deviceready', async () => {
-        console.log('deviceready')
         //启用后台运行模式
-        window.cordova.plugins.backgroundMode.enable();
+        window.cordova.plugins.backgroundode.enable();
 
         setInterval(async () => {
             let warningsLength = window.localStorage.getItem('warningsLength');
-            console.log('notification: warningsLength ' + warningsLength)
-            try {
-                let warnings = await chntek.transWarningListOfToday();
-                console.log('notification: warnings ' + warnings.length)
-                
-                if (warnings.length != warningsLength) {
-                    console.log('notification: schedule ')
-                    window.cordova.plugins.notification.local.schedule({
-                        text: '有新的告警信息...',
-                        foreground: true
-                    });
-                }
+            let warnings = await chntek.transWarningListOfToday();
+            if (warnings == warningsLength) {
+                window.cordova.plugins.notification.local.schedule({
+                    test: '有新的告警信息！'
+                });
+            }
 
-                window.localStorage.setItem('warningsLength', warnings.length)
-            }
-            catch (e) {
-                console.error(e)
-            }
+            window.localStorage.setItem('warningsLength', warnings.length);
         }, 60000);
     });
 }
