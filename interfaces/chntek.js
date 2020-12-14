@@ -4,7 +4,7 @@ const host = 'http://iot.chntek.com:3410';
 
 function Chntek() {
     this.devices = {
-        async deviceIds() {
+        async ids() {
             console.log('deviceIds: ');
             const { data } = await axios.get(`${host}/api/Terminal/GetAllDevice`, {
                 headers: { 'Authorization': '12' }
@@ -15,9 +15,9 @@ function Chntek() {
             console.log(data.val);
             return data.val;
         },
-        async statusHistory(ids) {
+        async status(ids,dateBegin,dateEnd) {
             if (ids.trim() == '') {
-                let devicesIds = await this.deviceIds();
+                let devicesIds = await this.ids();
                 for (let id of devicesIds) {
                     ids += id + ',';
                 }
@@ -25,7 +25,7 @@ function Chntek() {
 
             let dt = new Date;
             let date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
-            console.log(`statusHistory: ${ids} ${date}`)
+            console.log(`status: ${ids} ${date}`)
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
                 params: ids.trim() == ''
                     ? { searchDate: date } : {
@@ -90,20 +90,6 @@ function Chntek() {
             }
 
             return val;
-        },
-        async warningStatistics(devices, dateStart, dateEnd) {
-            console.log(`warningStatistics: ${dateStart} ${dateEnd} ${devices}`);
-            const { data } = await axios.get(`${host}/api/Terminal/WarningList`, {
-                params: {
-                    date_begin: dateStart,
-                    date_end: dateEnd,
-                    ids: devices
-                },
-                headers: { 'Authorization': '12' }
-            });
-            console.log('warningStatistics: data.err ' + data.err);
-            if (data.err) throw data.err;
-            return data.val;
         }
     };
 
@@ -206,6 +192,7 @@ function Chntek() {
         console.log('transWarningListOfToday: return');
         return warningsDisposed;
     };
+
     this.transWarningListOfMonths = async (date) => {
         console.log('transWarningListOfMonths: ' + date);
         let warnings = await this.devices.warningList(date);
@@ -223,89 +210,47 @@ function Chntek() {
         console.log('transWarningListOfMonths: return');
         return warningsDisposed;
     };
-
-    this.transStatistics = async (ids, dateStart, dateEnd) => {
-        console.log(`transStatistics: ${ids} ${dateStart} ${dateEnd}`);
-        let devices = await this.devices.warningStatistics(ids, dateStart, dateEnd);
-
-        let legendData = [];
-        let xAxisData = [];
-        let warningStatistics = [];
-        for (let name in devices) {
-            let device = devices[name];
-            for (let date in device) {
-                if (-1 == xAxisData.indexOf(date))
-                    xAxisData.push(date);
-            }
-        }
-
-        xAxisData.sort((a, b) => Date.parse(a) - Date.parse(b));
-
-        for (let name in devices) {
-            let device = devices[name];
-            legendData.push(name);
-            let countData = {
-                name: name,
-                type: 'line',
-                data: []
-            };
-
-            for (let t of xAxisData) {
-                let count = device[t];
-                countData.data.push(count ? count : 0);
-            }
-
-            warningStatistics.push(countData);
-        }
-
-        let val = [{
-            title: { text: '统计' },
-            legend: { data: legendData },
-            xAxis: { data: xAxisData },
-            series: warningStatistics
-        }];
-
-        console.log('transStatistics: return val');
-        return val;
-    };
 };
 
 const chntek = new Chntek();
-export default chntek;
+//export default chntek;
 //chntek.transDeviceStatus('')
 //chntek.transWarningListOfToday()
 //chntek.transWarningListOfMonths('2020-12-01')
 //chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03')
 
+async function syncingWarnings() {
+    let warningsLength = window.localStorage.getItem('warningsLength')
+    console.log('notification: warningsLength ' + warningsLength)
+    try {
+        let warnings = await chntek.transWarningListOfToday()
+        console.log('notification: warnings ' + warnings.length)
+
+        if (warnings.length != warningsLength) {
+            console.log('notification: schedule ')
+            window.cordova.plugins.notification.local.schedule({
+                text: '有新的告警信息...',
+                foreground: true
+            })
+        }
+
+        window.localStorage.setItem('warningsLength', warnings.length)
+    }
+    catch (e) {
+        console.error(e)
+    }
+}
+
 try {
     document.addEventListener('deviceready', async () => {
         console.log('deviceready')
         //启用后台运行模式
-        window.cordova.plugins.backgroundMode.enable();
+        window.cordova.plugins.backgroundMode.enable()
 
-        setInterval(async () => {
-            let warningsLength = window.localStorage.getItem('warningsLength');
-            console.log('notification: warningsLength ' + warningsLength)
-            try {
-                let warnings = await chntek.transWarningListOfToday();
-                console.log('notification: warnings ' + warnings.length)
-                
-                if (warnings.length != warningsLength) {
-                    console.log('notification: schedule ')
-                    window.cordova.plugins.notification.local.schedule({
-                        text: '有新的告警信息...',
-                        foreground: true
-                    });
-                }
-
-                window.localStorage.setItem('warningsLength', warnings.length)
-            }
-            catch (e) {
-                console.error(e)
-            }
-        }, 60000);
-    });
+        await syncingWarnings()
+        setInterval(async () => syncingWarnings(), 60000)
+    })
 }
 catch (e) {
-    console.error(e);
+    console.error(e)
 }
