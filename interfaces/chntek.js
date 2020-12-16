@@ -9,9 +9,9 @@ function Chntek() {
                 const { data } = await axios.get(`${host}/api/Terminal/Regions`, {
                     headers: { 'Authorization': '12' }
                 });
-                if (data.err) break
+                if (data.val) return data.val
             }
-            return data.val
+            return null
         },
         async ids() {
             console.log('deviceIds: ');
@@ -19,31 +19,24 @@ function Chntek() {
                 headers: { 'Authorization': '12' }
             });
             console.log('warningList: data.err ' + data.err);
-            if (data.Err) throw data.Err;
             if (data.err) throw data.err;
             console.log(data.val);
             return data.val;
         },
         async status(ids, dateBegin, dateEnd) {
-            if (ids.trim() == '') {
-                let devicesIds = await this.ids();
-                for (let id of devicesIds) {
-                    ids += id + ',';
-                }
-            }
+            let strIds = ''
+            for (let id of ids) strIds += id + ','
 
-            let dt = new Date;
-            let date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
-            console.log(`status: ${ids} ${date}`)
+            console.log(`status: ${strIds} ${dateBegin} ${dateEnd}`)
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
                 params: {
                     date_begin: dateBegin,
                     date_end: dateEnd,
-                    ids: ids
+                    ids: strIds
                 },
                 headers: { 'Authorization': '12' }
             });
-            console.log(`statusHistory: data.err ${data.err}`)
+            console.log(`status: data.err ${data.err}`)
             if (data.err) throw data.err;
             let val = {};
             for (let id in data.val) {
@@ -96,6 +89,8 @@ function Chntek() {
                     "location": obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
                     "warning_type": obj.warnName,	//警告类型
                     "time": obj.monitorsTime,			//时间
+                    "longitude": obj.longitude,
+                    "latitude": obj.latitude
                 });
             }
 
@@ -104,15 +99,15 @@ function Chntek() {
     };
 
     this.transCityList = async () => {
-        let val = await this.regions()
+        let val = await this.devices.regions()
 
         let citys = []
 
-        for (city in val) {
+        for (let city in val) {
             let cityName = city
             let children = []
-            let regions = data.val[city]
-            for (areaName in regions) {
+            let regions = val[city]
+            for (let areaName in regions) {
                 let deviceList = regions[areaName]
                 children.push({ areaName, deviceList })
             }
@@ -125,11 +120,7 @@ function Chntek() {
     this.transDeviceStatus = async (ids) => {
         console.log('transDeviceStatus: ');
         let dt = new Date();
-        let m = dt.getMonth() + 1;
-        let d = dt.getDate();
-        m = m < 10 ? '0' + m : m;
-        d = d < 10 ? '0' + d : d;
-        let date = `${dt.getFullYear()}-${m}-${d}`;
+        let date = dt.toISOString().slice(0, 10)
 
         let devices = await this.devices.status(ids, date, date);
 
@@ -140,15 +131,21 @@ function Chntek() {
             , '15', '16', '17', '18', '19'
             , '20', '21', '22', '23'];
         let hydraulicPressures = [];
+        let list = []
 
-        for (let name in devices) {
-            let device = devices[name];
-            legendData.push(name);
+        for (let id in devices) {
+            let device = devices[id];
+            legendData.push(id);
             let hydraulicPressureData = {
-                name: name,
+                name: id,
                 type: 'line',
                 data: []
             };
+
+            for (let detail of device) {
+                detail.id = id
+                list.push(detail)
+            }
 
             let et = new Date()
 
@@ -168,33 +165,36 @@ function Chntek() {
             hydraulicPressures.push(hydraulicPressureData);
         }
 
-        let val = [{
+        let chart = [{
             title: { text: '压力' },
             legend: { data: legendData },
             xAxis: { data: xAxisData },
             series: hydraulicPressures
         }];
-        console.log('transDeviceStatus: val ' + JSON.stringify(val));
+
+        let val = { chart, list }
+        console.log('transDeviceStatus: val ' + val);
         return val;
     };
 
     this.transUnitList = async () => {
         let ids = await this.devices.ids()
-
-        let dt = new Date();
-        let m = dt.getMonth() + 1;
-        let d = dt.getDate();
-        m = m < 10 ? '0' + m : m;
-        d = d < 10 ? '0' + d : d;
-        let date = `${dt.getFullYear()}-${m}-${d}`;
-
-        let devices = await this.devices.status(ids, dateBegin, dateEnd);
         let val = []
+        for (let timestamp = Date.now(), day = 0; ids.length && day < 10; day++, timestamp -= 24 * 3600 * 1000) {
+            let dt = new Date(timestamp);
+            let date = dt.toISOString().slice(0, 10)
+            let devices = await this.devices.status(ids, date, date);
 
-        for (let id in devices) {
-            let device = devices[id];
-            for (let detail of device) {
+            for (let id in devices) {
+                let device = devices[id];
+                for (let detail of device) {
+                    detail.id = id
+                    val.push(detail)
+                    break
+                }
 
+                let i = ids.indexOf(id)
+                ids.splice(i, 1)
             }
         }
 
@@ -205,12 +205,8 @@ function Chntek() {
     this.transWarningListOfToday = async () => {
         console.log('transWarningListOfToday: ');
         let dt = new Date();
-        let m = dt.getMonth() + 1;
-        let d = dt.getDate();
-        m = m < 10 ? '0' + m : m;
-        d = d < 10 ? '0' + d : d;
-        let date = `${dt.getFullYear()}-${m}-${d}`;
-
+        let date = dt.toISOString().slice(0, 10);
+        console.log(date)
         let warnings = await this.devices.warningList(date);
         console.log('transWarningListOfToday: return');
         return warnings;
@@ -236,38 +232,53 @@ function Chntek() {
             }
         }
 
-        console.log('transDeviceStatusHistory: val ' + JSON.stringify(val));
+        console.log('transDeviceStatusHistory: val ' + val);
         return val;
     }
 
-    this.notify = async () => { }
+    this.notify = null
 };
 
 const chntek = new Chntek();
-//export default chntek;
 //chntek.transCityList()
-//chntek.transDeviceStatus('00006,00008')
-//chntek.transDeviceStatusHistory('00006,00008', '2020-12-06', '2020-12-06')
-chntek.transUnitList()
+//chntek.transDeviceStatus(['00006','00008'])
+//chntek.transDeviceStatusHistory(['00006','00008'], '2020-12-06', '2020-12-06')
+//chntek.transUnitList()
 //chntek.transWarningListOfToday()
 //chntek.transWarningListOfMonths('2020-12-01')
+//syncingWarnings()
 
 async function syncingWarnings() {
-    let warningsLength = window.localStorage.getItem('warningsLength')
+    let warningsLength = window.localStorage.getItem('warnings')
+
     console.log('notification: warningsLength ' + warningsLength)
+
     try {
+        let ids = await chntek.devices.ids()
+        let sum = ids.length, normal = 0, abnormal = 0
+
         let warnings = await chntek.transWarningListOfToday()
-        console.log('notification: warnings ' + warnings.length)
+        for (let warning of warnings) {
+            let i = ids.indexOf(warning.id)
+            if (i != -1) continue
+            ids.splice(i, 1)
+            abnormal++
+        }
+        normal = sum - abnormal
+        console.log(`notification:${sum} ${normal} ${abnormal} ${warnings.length}`)
 
         if (warnings.length != warningsLength) {
+            if (chntek.notify) {
+                chntek.notify({ warnings, sum, normal, abnormal })
+                window.localStorage.setItem('warnings', warningsLength)
+            }
+
             console.log('notification: schedule ')
             window.cordova.plugins.notification.local.schedule({
                 text: '有新的告警信息...',
                 foreground: true
             })
         }
-
-        window.localStorage.setItem('warningsLength', warnings.length)
     }
     catch (e) {
         console.error(e)
@@ -277,6 +288,8 @@ async function syncingWarnings() {
 try {
     document.addEventListener('deviceready', async () => {
         console.log('deviceready')
+        window.localStorage.setItem('warnings', 0)
+
         //启用后台运行模式
         window.cordova.plugins.backgroundMode.enable()
 
@@ -287,3 +300,4 @@ try {
 catch (e) {
     //    console.error(e)
 }
+//export default chntek;
