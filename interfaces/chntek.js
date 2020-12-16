@@ -4,6 +4,15 @@ const host = 'http://iot.chntek.com:3410';
 
 function Chntek() {
     this.devices = {
+        async regions() {
+            while (true) {
+                const { data } = await axios.get(`${host}/api/Terminal/Regions`, {
+                    headers: { 'Authorization': '12' }
+                });
+                if (data.err) break
+            }
+            return data.val
+        },
         async ids() {
             console.log('deviceIds: ');
             const { data } = await axios.get(`${host}/api/Terminal/GetAllDevice`, {
@@ -15,7 +24,7 @@ function Chntek() {
             console.log(data.val);
             return data.val;
         },
-        async status(ids,dateBegin,dateEnd) {
+        async status(ids, dateBegin, dateEnd) {
             if (ids.trim() == '') {
                 let devicesIds = await this.ids();
                 for (let id of devicesIds) {
@@ -27,11 +36,11 @@ function Chntek() {
             let date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
             console.log(`status: ${ids} ${date}`)
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
-                params: ids.trim() == ''
-                    ? { searchDate: date } : {
-                        searchDate: date,
-                        ids: ids
-                    },
+                params: {
+                    date_begin: dateBegin,
+                    date_end: dateEnd,
+                    ids: ids
+                },
                 headers: { 'Authorization': '12' }
             });
             console.log(`statusHistory: data.err ${data.err}`)
@@ -58,6 +67,7 @@ function Chntek() {
                         "status_of_water_quality": 0,   //水质状态，0：正常，1：报警
                         "status_of_subzero_temperature": 0, //负温状态，0：正常，1：报警
                         "status_of_low_signal_intensity": 0,//低信号状态，0：正常，1：报警
+                        "type": obj.terminalType,
                         "longitude": obj.longitude,		        //设备经度
                         "latitude": obj.latitude,		        //设备纬度
                         "time": obj.monitorsTime		//检测时间
@@ -93,9 +103,35 @@ function Chntek() {
         }
     };
 
+    this.transCityList = async () => {
+        let val = await this.regions()
+
+        let citys = []
+
+        for (city in val) {
+            let cityName = city
+            let children = []
+            let regions = data.val[city]
+            for (areaName in regions) {
+                let deviceList = regions[areaName]
+                children.push({ areaName, deviceList })
+            }
+            citys.push({ cityName, children })
+        }
+        console.log('transCityList: citys ' + citys)
+        return citys
+    }
+
     this.transDeviceStatus = async (ids) => {
         console.log('transDeviceStatus: ');
-        let devices = await this.devices.statusHistory(ids);
+        let dt = new Date();
+        let m = dt.getMonth() + 1;
+        let d = dt.getDate();
+        m = m < 10 ? '0' + m : m;
+        d = d < 10 ? '0' + d : d;
+        let date = `${dt.getFullYear()}-${m}-${d}`;
+
+        let devices = await this.devices.status(ids, date, date);
 
         let legendData = [];
         let xAxisData = ['00', '01', '02', '03'
@@ -104,24 +140,11 @@ function Chntek() {
             , '15', '16', '17', '18', '19'
             , '20', '21', '22', '23'];
         let hydraulicPressures = [];
-        let temperatures = [];
-        let energies = [];
+
         for (let name in devices) {
             let device = devices[name];
             legendData.push(name);
             let hydraulicPressureData = {
-                name: name,
-                type: 'line',
-                data: []
-            };
-
-            let temperatureData = {
-                name: name,
-                type: 'line',
-                data: []
-            };
-
-            let energyData = {
                 name: name,
                 type: 'line',
                 data: []
@@ -135,19 +158,14 @@ function Chntek() {
 
                     if (t == time.getHours()) {
                         hydraulicPressure = detail['hydraulic_pressure'];
-                        energy = detail['energy'];
                         break;
                     }
                 }
 
                 hydraulicPressureData.data.push(hydraulicPressure);
-                temperatureData.data.push(temperature);
-                energyData.data.push(energy);
             }
 
             hydraulicPressures.push(hydraulicPressureData);
-            temperatures.push(temperatureData);
-            energies.push(energyData);
         }
 
         let val = [{
@@ -155,20 +173,34 @@ function Chntek() {
             legend: { data: legendData },
             xAxis: { data: xAxisData },
             series: hydraulicPressures
-        }, {
-            title: { text: '温度' },
-            legend: { data: legendData },
-            xAxis: { data: xAxisData },
-            series: temperatures
-        }, {
-            title: { text: '电量' },
-            legend: { data: legendData },
-            xAxis: { data: xAxisData },
-            series: energies
         }];
-        console.log('transDeviceStatus: return');
+        console.log('transDeviceStatus: val ' + JSON.stringify(val));
         return val;
     };
+
+    this.transUnitList = async () => {
+        let ids = await this.devices.ids()
+
+        let dt = new Date();
+        let m = dt.getMonth() + 1;
+        let d = dt.getDate();
+        m = m < 10 ? '0' + m : m;
+        d = d < 10 ? '0' + d : d;
+        let date = `${dt.getFullYear()}-${m}-${d}`;
+
+        let devices = await this.devices.status(ids, dateBegin, dateEnd);
+        let val = []
+
+        for (let id in devices) {
+            let device = devices[id];
+            for (let detail of device) {
+
+            }
+        }
+
+        console.log('transDeviceStatusHistory: val ' + JSON.stringify(val));
+        return val;
+    }
 
     this.transWarningListOfToday = async () => {
         console.log('transWarningListOfToday: ');
@@ -180,44 +212,45 @@ function Chntek() {
         let date = `${dt.getFullYear()}-${m}-${d}`;
 
         let warnings = await this.devices.warningList(date);
-
-        let warningsDisposed = [];
-        for (let warning of warnings) {
-            let dt2 = new Date(warning.time);
-            if (dt.toLocaleDateString() != dt2.toLocaleDateString())
-                continue;
-            warningsDisposed.push(warning);
-        }
-
         console.log('transWarningListOfToday: return');
-        return warningsDisposed;
+        return warnings;
     };
 
     this.transWarningListOfMonths = async (date) => {
         console.log('transWarningListOfMonths: ' + date);
         let warnings = await this.devices.warningList(date);
+        console.log('transWarningListOfMonths: return');
+        return warnings;
+    };
 
-        let dt = new Date();
-        let warningsDisposed = [];
-        for (let warning of warnings) {
-            let dt2 = new Date(warning.time);
-            if (dt.toLocaleDateString() === dt2.toLocaleDateString()) {
-                continue;
+    this.transDeviceStatusHistory = async (ids, dateBegin, dateEnd) => {
+        console.log('transDeviceStatusHistory: ');
+        let devices = await this.devices.status(ids, dateBegin, dateEnd);
+        let val = []
+
+        for (let id in devices) {
+            let device = devices[id];
+            for (let detail of device) {
+                detail.id = id
+                val.push(detail)
             }
-            warningsDisposed.push(warning);
         }
 
-        console.log('transWarningListOfMonths: return');
-        return warningsDisposed;
-    };
+        console.log('transDeviceStatusHistory: val ' + JSON.stringify(val));
+        return val;
+    }
+
+    this.notify = async () => { }
 };
 
 const chntek = new Chntek();
 //export default chntek;
-//chntek.transDeviceStatus('')
+//chntek.transCityList()
+//chntek.transDeviceStatus('00006,00008')
+//chntek.transDeviceStatusHistory('00006,00008', '2020-12-06', '2020-12-06')
+chntek.transUnitList()
 //chntek.transWarningListOfToday()
 //chntek.transWarningListOfMonths('2020-12-01')
-//chntek.transStatistics('00017,00018', '2020-11-01', '2020-12-03')
 
 async function syncingWarnings() {
     let warningsLength = window.localStorage.getItem('warningsLength')
@@ -252,5 +285,5 @@ try {
     })
 }
 catch (e) {
-    console.error(e)
+    //    console.error(e)
 }

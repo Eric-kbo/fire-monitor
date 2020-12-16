@@ -105,6 +105,65 @@ status(
 }
 ```
 
+```json
+#查询状态
+status(
+    ids: '设备A,设备B',	  #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是所有设备
+    date_begin: '2020-12-01', 	#指定日期范围
+    date_end:'2020-12-10'		#指定日期范围
+)
+#错误
+抛出异常
+#输出
+[
+    {	#设备编号
+     "id":"设备A",
+     "hydraulic_pressure":90, 		 #水压 MPa
+     "temperature":80,				 #温度  °C
+     "energy":70,    	 			 #电量  %
+     "signal_intensity":29,  		 #信号强度 db
+     "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
+     "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
+     "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
+     "status_of_low_temperature":0,	#低温状态，0：正常，1：报警
+     "status_of_high_temperature":0,	#高温状态，0：正常，1：报警
+     "status_of_slope":0,	#倾斜状态，0：正常，1：报警
+     "status_of_vibration":0,	#振动状态，0：正常，1：报警
+     "status_of_energy":0,		#电量状态，0：正常，1：报警
+     "status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
+     "status_of_water_quality":0,   #水质状态，0：正常，1：报警
+     "status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
+     "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
+     "longitude":1.2281,		#设备经度
+     "latitude":13.128,		#设备纬度
+     "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+     "time": "2010-12-10 14:20:00"		#检测时间
+    },{
+        "id":"设备B",
+        "hydraulic_pressure":90, 		 #水压
+        "temperature":80,				 #温度
+        "energy":70,    	 			 #电量
+        "signal_intensity":29,  		 #信号强度
+        "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
+        "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
+        "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
+        "status_of_low_temperature":0,	#低温状态，0：正常，1：报警
+        "status_of_high_temperature":0,	#高温状态，0：正常，1：报警
+        "status_of_slope":0,	#倾斜状态，0：正常，1：报警
+        "status_of_vibration":0,	#振动状态，0：正常，1：报警
+        "status_of_energy":0,		#电量状态，0：正常，1：报警
+        "status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
+        "status_of_water_quality":0, #水质状态，0：正常，1：报警
+        "status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
+        "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
+        "longitude":1.2281,		#设备经度
+        "latitude":13.128,		#设备纬度
+        "type": "firehydrant",
+        "time": "2010-14-10 10:20:00"		#检测时间
+    }
+]
+```
+
 #### 告警状态
 
 ```json
