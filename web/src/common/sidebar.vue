@@ -12,13 +12,17 @@
         <md-icon class="tabbaricon iconfont iconditu1"></md-icon>
         <span id="gmap" @click="goto('gmap')">GIS模块</span>
       </md-list-item>
-      <md-list-item class="route" :class="$route.name=='warn'? 'active':''">
-        <md-icon class="tabbaricon iconfont iconjinggao1"></md-icon>
-        <span id="alert" @click="goto('warn')">告警列表</span>
+      <md-list-item class="route" :class="$route.name=='realtime'? 'active':''">
+        <md-icon class="tabbaricon iconfont iconshishijiankong"></md-icon>
+        <span id="alert" @click="goto('realtime')">实时监控</span>
       </md-list-item>
-      <md-list-item class="route" :class="$route.name=='data'? 'active':''">
+       <md-list-item class="route" :class="$route.name=='history'? 'active':''">
+        <md-icon class="tabbaricon iconfont iconjinggao1"></md-icon>
+        <span id="alert" @click="goto('history')">历史告警</span>
+      </md-list-item>
+      <md-list-item class="route" :class="$route.name=='stat'? 'active':''">
         <md-icon class="tabbaricon iconfont iconshujuzhongxin"></md-icon>
-        <span id="data" @click="goto('data')">数据中心</span>
+        <span id="stat" @click="goto('stat')">数据中心</span>
       </md-list-item>
     </md-list>
   </div>

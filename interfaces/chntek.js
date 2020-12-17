@@ -236,7 +236,7 @@ function Chntek() {
         return val;
     }
 
-    this.notify = null
+    this.notify = (obj) => { }
 };
 
 const chntek = new Chntek();
@@ -266,14 +266,11 @@ async function syncingWarnings() {
         }
         normal = sum - abnormal
         console.log(`notification:${sum} ${normal} ${abnormal} ${warnings.length}`)
+        chntek.notify({ warnings, sum, normal, abnormal })
 
         if (warnings.length != warningsLength) {
-            if (chntek.notify) {
-                chntek.notify({ warnings, sum, normal, abnormal })
-                window.localStorage.setItem('warnings', warningsLength)
-            }
-
             console.log('notification: schedule ')
+            window.localStorage.setItem('warnings', warningsLength)
             window.cordova.plugins.notification.local.schedule({
                 text: '有新的告警信息...',
                 foreground: true
@@ -293,11 +290,10 @@ try {
         //启用后台运行模式
         window.cordova.plugins.backgroundMode.enable()
 
-        await syncingWarnings()
-        setInterval(async () => syncingWarnings(), 60000)
+        setInterval(async () => syncingWarnings(), 10000)
     })
 }
 catch (e) {
     //    console.error(e)
 }
-//export default chntek;
+export default chntek;

@@ -5,7 +5,7 @@
       <span class="md-title">启泰传感</span>
     </div>
     <div v-else class="md-toolbar-section-start">
-      <md-button @click="goto('warn')" class="back-button">
+      <md-button @click="goback()" class="back-button">
         <md-icon class="iconfont iconfanhui"></md-icon>
       </md-button>
       <span class="location">{{$route.params.location ? $route.params.location:'未获取到地点'}}</span>
@@ -25,9 +25,8 @@ export default {
     menuChange() {
       this.model.menuVisible = !this.model.menuVisible;
     },
-    goto(name) {
-      if (this.$route.name == name) return;
-      this.$router.replace({ name });
+    goback() {
+      this.$router.go(-1)
     }
   },
 }
@@ -49,5 +48,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.md-title{
+  vertical-align: baseline;
 }
 </style>

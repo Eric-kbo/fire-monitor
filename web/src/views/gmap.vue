@@ -3,25 +3,20 @@
     <!-- 注意这里必须设置center和zoom，不然组件是不会渲染地图的 -->
     <baidu-map class="map" :center="center" :zoom="zoom" @ready="onReady">
       <!-- 自定义组件 -->
-      <!-- <bm-control anchor="BMAP_ANCHOR_BOTTOM_LEFT">
-        <md-field class="select-address" :validity="''">
-          <label for="address">选择一个地点</label>
-          <md-select v-model="current" name="address" id="address" key="adress">
-            <md-option :value="index" v-for="(item,index) in list" :key="index">{{item.id}}</md-option>
-          </md-select>
-        </md-field>
-      </bm-control>-->
       <!-- 缩放组件 -->
       <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT"></bm-navigation>
       <!-- 标记组件 -->
       <bm-marker
         v-for="(item,index) in list"
-        :key="item.id"
+        :key="index+'-'"
         :position="{lng: item.lng, lat: item.lat}"
         :dragging="false"
         :offset="{width: 0 , height: 0}"
         @click="infoWindowOpen(index)"
+        class="iconfont warn_type"
+        :icon="iconStyle(item.type)"
       ></bm-marker>
+
       <!-- 信息窗体 -->
       <bm-info-window
         v-for="(item,index) in list"
@@ -30,46 +25,42 @@
         :width="220"
         :closeOnClick="true"
         :autoPan="true"
-        :offset="{width: -6 , height: -15}"
+        :offset="{width: 0 , height: -10}"
         :position="{lng: item.lng, lat: item.lat}"
         @close="infoWindowClose"
         class="message-box"
       >
         <p class="display-flex message">
-          <span class="flex_1">设备编号:</span>
-          {{item.id}}
+          单位地点:
+          <span class="flex_1 overEllipsis">{{item.unit}}</span>
         </p>
         <p class="display-flex message">
-          <span class="flex_1">当前水压:</span>
-          {{item.hydraulic_pressure}}Mpa
+          设备编号:
+          <span class="flex_1">{{item.id}}</span>
         </p>
         <p class="display-flex message">
-          <span class="flex_1">当前温度:</span>
-          {{item.temperature}}°C
+          当前水压:
+          <span class="flex_1">{{item.hydraulic_pressure}}Mpa</span>
         </p>
         <p class="display-flex message">
-          <span class="flex_1">当前电量:</span>
-          {{item.energy}}%
+          当前温度:
+          <span class="flex_1">{{item.temperature}}°C</span>
         </p>
         <p class="display-flex message">
-          <span class="flex_1">信号强度:</span>
-          {{item.signal_intensity}}db
+          当前电量:
+          <span class="flex_1">{{item.energy}}%</span>
         </p>
         <p class="display-flex message">
-          <span class="flex_1">监测日期:</span>
-          {{date}}
+          信号强度:
+          <span class="flex_1">{{item.signal_intensity}}db</span>
         </p>
         <p class="display-flex message">
-          <span class="flex_1">监测时间:</span>
-          {{item.time}}
+          监测时间:
+          <span class="flex_1">{{item.time}}</span>
         </p>
         <p class="display-flex message">
-          <span class="flex_1">坐标经度:</span>
-          {{item.longitude}}
-        </p>
-        <p class="display-flex message">
-          <span class="flex_1">坐标纬度</span>
-          {{item.latitude}}
+          经纬坐标:
+          <span class="flex_1">{{item.longitude.slice(0,7)}} {{item.latitude.slice(0,6)}}</span>
         </p>
       </bm-info-window>
     </baidu-map>
@@ -105,37 +96,34 @@ export default {
     }
   },
   mounted() {
-    // setTimeout(() => {
-    //   this.infoWindowOpen(0);
-    // }, 0);
   },
   methods: {
     onReady({ BMap, map }) {
       this.getData();
     },
     async getData() {
-      this.date = '2020-12-04';//上线时删除
-      let resultObj = await this.$chntek.devices.statusHistory('', this.date);
+      let resultObj = await this.$chntek.transUnitList('', this.date);
       // 过滤空数组和没有经纬度的点
-      let array = Object.keys(resultObj).filter(key => {
-        return resultObj[key] != [] && resultObj[key][0].longitude && resultObj[key][0].longitude;
-      });
+      let array = resultObj
       // 从数组的第一个元素中映射需要展示的数据
       this.list = array.map(item => {
         return {
-          id: item,
-          hydraulic_pressure: resultObj[item][0].hydraulic_pressure,
-          temperature: resultObj[item][0].temperature,
-          energy: resultObj[item][0].energy,
-          signal_intensity: resultObj[item][0].signal_intensity,
-          time: resultObj[item][0].time,
-          longitude: resultObj[item][0].longitude,
-          latitude: resultObj[item][0].latitude,
-          lng: resultObj[item][0].longitude.slice(1),
-          lat: resultObj[item][0].latitude.slice(1),
+          unit: item.unit,
+          id: item.id,
+          hydraulic_pressure: item.hydraulic_pressure,
+          temperature: item.temperature,
+          energy: item.energy,
+          signal_intensity: item.signal_intensity,
+          time: item.time,
+          longitude: item.longitude,
+          latitude: item.latitude,
+          lng: item.longitude.slice(1),
+          lat: item.latitude.slice(1),
+          type: item.type
         };
       });
       this.center = this.list[0];
+      console.log(this.center);
     },
     infoWindowOpen(index) {
       this.currentMark = index;
@@ -143,8 +131,21 @@ export default {
     },
     infoWindowClose() {
       this.show = false;
-    }
-  },
+    },
+    iconStyle(type) {
+      switch (type) {
+        case 'pressure':
+          return { url: require('@/assets/images/pressure.png'), size: { width: 32, height: 32 } };
+          break;
+        case 'firehydrant':
+          return { url: require('@/assets/images/firehydrant.png'), size: { width: 32, height: 32 } };
+          break;
+        case 'cylinders':
+          return { url: require('@/assets/images/cylinders.png'), size: { width: 32, height: 32 } };
+          break;
+      };
+    },
+  }
 }
 </script>
 
@@ -179,6 +180,12 @@ export default {
 .address {
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.8);
+}
+
+.message {
+  span {
+    text-align: right;
+  }
 }
 </style>
 

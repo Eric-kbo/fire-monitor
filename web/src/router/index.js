@@ -19,12 +19,16 @@ const routes = [
     component: () => import('../views/gmap.vue')
   },
   {
-    name: 'warn',
-    component: () => import('../views/warn.vue')
+    name: 'realtime',
+    component: () => import('../views/realtime.vue')
   },
   {
-    name: 'data',
-    component: () => import('../views/data.vue')
+    name: 'history',
+    component: () => import('../views/history.vue')
+  },
+  {
+    name: 'stat',
+    component: () => import('../views/stat.vue')
   },
   {
     name: 'detail',

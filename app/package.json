@@ -1,6 +1,6 @@
 {
   "name": "dungbeetles.chntek",
-  "displayName": "chntek-app",
+  "displayName": "HelloCordova",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
@@ -23,8 +23,8 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-local-notification": {},
-      "cordova-plugin-background-mode": {}
+      "cordova-plugin-background-mode": {},
+      "cordova-plugin-local-notification": {}
     },
     "platforms": [
       "android"

@@ -1,9 +1,9 @@
 <template>
-  <ul>
-    <li v-for="item in warningList" :key="item.name" @click="goto(item)" class="alert-message">
+  <ul class="list">
+    <li v-for="(item,index) in warningList" :key="index" @click="goto(item)" class="alert-message">
       <div class="display-flex">
         <div class="icon-box">
-          <i class="iconfont iconjinggao alert-logo"></i>
+          <i class="iconfont iconwarn"></i>
         </div>
         <div class="text-box flex_1">
           <p>设备: {{item.id}}</p>
@@ -14,8 +14,8 @@
     </li>
   </ul>
 </template>
-
 <script>
+
 export default {
   name: 'list',
   props: {
@@ -28,12 +28,19 @@ export default {
     goto(item) {
       this.$router.push({
         name: 'detail',
-        params: item
+        params:item,
       });
     },
   },
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.list{
+  padding-bottom: 10px;
+}
+.iconwarn{
+  font-size: 24px;
+  color: red;
+}
 </style>

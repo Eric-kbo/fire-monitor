@@ -15,14 +15,20 @@ Vue.use(VueMaterial);
 import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
 
-// 引入接口
+// 引入转换接口
 import chntek from "./request/chntek";
 Vue.prototype.$chntek = chntek;
 
+// 引入模拟接口(读取本地模拟数据)
+import http from "./request/http";
+Vue.prototype.$http = http;
+
 // 引入路由
 import router from './router';
+
 // 引入全局状态管理(后期增加功能时考虑)
-// import store from "./store";
+import store from "./store";
+
 import BaiduMap from 'vue-baidu-map';
 Vue.use(BaiduMap, {
   ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
@@ -32,5 +38,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app');

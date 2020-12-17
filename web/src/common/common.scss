@@ -49,6 +49,11 @@ h1 {
   text-align: right;
 }
 
+.overEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 // warn detail 页面的展示信息
 .alert-message {
   text-align: left;
@@ -68,8 +73,8 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    .alert-logo {
-      color: rgb(235, 38, 38);
+    .iconwarn {
+      color: red;
       font-size: 30px;
       margin: 0 10px 0 0;
     }
@@ -82,5 +87,15 @@ h1 {
 body {
   /deep/.md-menu-content-container {
     background-color: #fff;
+
+    .md-selected {
+      background-color: #409eff;
+    }
+  }
+}
+
+.md-bottom-bar.md-type-fixed{
+  .md-bottom-bar-item{
+    min-width: 50px !important;
   }
 }
