@@ -1,12 +1,27 @@
 <template>
   <div class="home">
-    <searchbar tagTitle="综合显示" btnTitle="查找" :model="searchData" @change="search()"></searchbar>
-    <p v-if="wait" class="wait">{{message}}</p>
-    <ul class="list">
-      <li class="item" v-for="(item,index) in list" :key="index">
+    <searchbar :options="{btnText:'查找'}" :model="params" @change="search($event)"></searchbar>
+    <ul class="charts">
+      <li class="item" v-for="(item,index) in chart" :key="index">
         <chart-vue :option="item"></chart-vue>
       </li>
     </ul>
+    <table class="table">
+      <tbody>
+        <tr class="head">
+          <th>设备编号</th>
+          <th>温度(℃)</th>
+          <th>电量(%)</th>
+          <th>检测时间</th>
+        </tr>
+        <tr v-for="(item,index) in list" :key="index">
+          <td>{{item.id}}</td>
+          <td>{{item.temperature}}</td>
+          <td>{{item.energy}}</td>
+          <td>{{item.time}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -22,43 +37,44 @@ export default {
   data() {
     return {
       date: new Date().toISOString().slice(0, 10),
-      // 搜索关键字
-      searchData: { search: '' },
       // 图表相关数据
+      chart: [],
       list: [],
       wait: false,
-      message: ""
+      message: '',
+      params: null
     };
   },
   created() {
-    let search = JSON.parse(localStorage.getItem('SearchHome'));
-    if (search) {
-      this.searchData.search = search;
-      this.search();
-    }
+    this.getLocalParams();
+
   },
   methods: {
-    async search() {
-      if (this.searchData.search) {
-        let params = {
-          devices: this.searchData.search,
-          date: this.date
-        };
-        params.date = '2020-12-03';  //  上线时删除
-        localStorage.setItem('SearchHome', JSON.stringify(params.devices));
-        this.wait = true;
-        this.mesasge = "查询中，等待返回数据";
-        this.$chntek.transDeviceStatus(params.devices, params.date).then(res => {
-          // 纯数据Object深度拷贝
-          this.list = JSON.parse(JSON.stringify(res));
-          this.wait = false;
-        });
-      } else {
-        this.wait = true;
-        this.mesasge = "查询参数不能为空";
+    getLocalParams() {
+      let params = JSON.parse(localStorage.getItem('paramsHome'));
+      if (params) {
+        this.params = params;
+        this.search(params);
       }
     },
-
+    async search(params) {
+      if (params.devices.length) {
+        params.date = this.date;
+        localStorage.setItem('paramsHome', JSON.stringify(params));
+        this.$chntek.transDeviceStatus(params.devices, params.date, params.date).then(res => {
+          this.chart = res.chart;
+          this.chart[0].yAxis = [
+            {
+              name: "Mpa",
+              type: "value"
+            }
+          ];
+          this.list = res.list;
+          console.log(this.chart);
+          this.wait = false;
+        });
+      }
+    },
   },
 }
 </script>
@@ -69,16 +85,32 @@ export default {
   flex-direction: column;
   padding-top: 10px;
 }
-.list {
+
+.charts {
   margin-top: 20px;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   .item {
     text-align: center;
     border-bottom: 1px solid #eee;
   }
 }
+
 .wait {
   width: 100%;
   text-align: center;
+}
+
+.table {
+  margin: 0 10px 70px 10px;
+  border-collapse: collapse;
+  font-size: 12px;
+  .head {
+    background-color: #ccc;
+  }
+  th,
+  td {
+    border: 1px solid #666;
+    text-align: center;
+  }
 }
 </style>

@@ -8,11 +8,15 @@
       <i class="tabbaricon iconfont iconditu1"></i>
       <p>GIS模块</p>
     </md-bottom-bar-item>
-    <md-bottom-bar-item @click="goto('warn')" :class="$route.name=='warn'? 'active':'default'">
-      <i class="tabbaricon iconfont iconjinggao1"></i>
-      <p>告警列表</p>
+    <md-bottom-bar-item @click="goto('realtime')" :class="$route.name=='realtime'? 'active':'default'">
+      <i class="tabbaricon iconfont iconshishijiankong"></i>
+      <p>实时监控</p>
     </md-bottom-bar-item>
-    <md-bottom-bar-item @click="goto('data')" :class="$route.name=='data'? 'active':'default'">
+     <md-bottom-bar-item @click="goto('history')" :class="$route.name=='history'? 'active':'default'">
+      <i class="tabbaricon iconfont iconjinggao1"></i>
+      <p>历史告警</p>
+    </md-bottom-bar-item>
+    <md-bottom-bar-item @click="goto('stat')" :class="$route.name=='stat'? 'active':'default'">
       <i class="tabbaricon iconfont iconshujuzhongxin"></i>
       <p>数据中心</p>
     </md-bottom-bar-item>

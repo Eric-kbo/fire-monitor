@@ -1,5 +1,7 @@
 <template>
-  <div class="log">
+  <div class="stat">
+
+
     <div class="datePicker">
       <div class="display-flex date">
         <label for="dateStart">先选择一个起始日期：</label>
@@ -11,13 +13,28 @@
       </div>
     </div>
 
-    <searchbar tagTitle="数据中心" btnTitle="点这里查询" :model="searchData" @change="search()"></searchbar>
-    <p v-if="wait" class="wait">{{message}}</p>
-    <ul class="list">
-      <li class="item" v-for="(item,index) in list" :key="index">
-        <chart-vue :option="item"></chart-vue>
-      </li>
-    </ul>
+    <searchbar :options="{btnText:'点这里查询'}" :model="params" @change="search($event)"></searchbar>
+    <div>
+
+    </div>
+    <table class="table">
+      <tbody>
+        <tr class="head">
+          <th>设备编号</th>
+          <th>温度(℃)</th>
+          <th>水压(Mpa)</th>
+          <th>电量(%)</th>
+          <th>检测时间</th>
+        </tr>
+        <tr v-for="(item,index) in list" :key="index">
+          <td>{{item.id}}</td>
+          <td>{{item.temperature}}</td>
+          <td>{{item.hydraulic_pressure}}</td>
+          <td>{{item.energy}}</td>
+          <td>{{item.time}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
  
@@ -34,15 +51,14 @@ export default {
     return {
       dateStart: new Date().toISOString().slice(0, 10),
       dateEnd: new Date().toISOString().slice(0, 10),
-      searchData: { search: '' },
       list: [],
-      wait: false
+      params:null
     };
   },
   created() {
     // 初始化日期为一个月前到当天
     let timestamp1 = Date.now();
-    let timestamp2 = timestamp1 - 30 * 24 * 60 * 60 * 1000;
+    let timestamp2 = timestamp1 - 30 * 24 * 3600 * 1000;
     this.dateStart = new Date(timestamp2).toISOString().slice(0, 10);
     this.dateEnd = new Date(timestamp1).toISOString().slice(0, 10);
     // 获取本地数据
@@ -50,43 +66,32 @@ export default {
   },
   methods: {
     getLocalParams() {
-      let params = JSON.parse(localStorage.getItem('Params'));
+      let params = JSON.parse(localStorage.getItem('paramsStat'));
       // 如果保存有查询参数则直接调用
       if (params) {
-        this.searchData.search = params.devices;
-        this.dateStart = params.dateStart;
-        this.dateEnd = params.dateEnd;
-        this.search();
+        this.search(params);
+        this.params = params
       }
     },
-    async search() {
-      if (this.searchData.search) {
-        let params = {
-          devices: this.searchData.search,
-          dateStart: this.dateStart,
-          dateEnd: this.dateEnd
-        };
-        localStorage.setItem('Params', JSON.stringify(params));
-        this.wait = true;
-        this.mesasge = "查询中，等待返回数据";
-        this.$chntek.transStatistics(params.devices, params.dateStart, params.dateEnd).then(res => {
-          this.list = JSON.parse(JSON.stringify(res));
-          this.wait = false;
+    async search(params) {
+      if (params.devices.length) {
+        params.dateStart = this.dateStart;
+        params.dateEnd = this.dateEnd;
+        localStorage.setItem('paramsStat', JSON.stringify(params));
+        this.$chntek.transDeviceStatusHistory(params.devices, params.dateStart, params.dateEnd).then(res => {
+          this.list = res;
         });
-      } else {
-        this.wait = true;
-        this.mesasge = "查询参数不能为空";
       }
-
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.log {
+.stat {
+  display: flex;
+  flex-direction: column;
   padding-top: 10px;
-  padding-bottom: 60px;
   .datePicker {
     margin: 0 10px;
     z-index: 1;
@@ -97,11 +102,18 @@ export default {
     }
   }
 }
-.list {
-  margin-top: 20px;
-}
-.wait {
-  width: 100%;
-  text-align: center;
+
+.table {
+  margin: 0 10px 70px 10px;
+  border-collapse: collapse;
+  font-size: 12px;
+  .head {
+    background-color: #ccc;
+  }
+  th,
+  td {
+    border: 1px solid #666;
+    text-align: center;
+  }
 }
 </style>

@@ -1,0 +1,47 @@
+{
+  "err": null,
+  "data": [
+    {
+      "unit": "湖南大学一食堂三楼",
+      "energy": 99,
+      "hydraulic_pressure": "0.207",
+      "id": "00006",
+      "lat": "28.2842444",
+      "latitude": "N28.2842444",
+      "lng": "113.74880433",
+      "longitude": "E113.74880433",
+      "signal_intensity": 32,
+      "temperature": "17.8",
+      "time": "2020-12-14 15:09:16",
+      "type": "firehydrant"
+    },
+    {
+      "unit": "中南大学理科生命大楼304",
+      "energy": 99,
+      "hydraulic_pressure": "0.297",
+      "id": "00011",
+      "lat": "28.32663339",
+      "latitude": "N28.32663339",
+      "lng": "112.84965277",
+      "longitude": "E112.84965277",
+      "signal_intensity": 24,
+      "temperature": "9.8",
+      "time": "2020-12-14 12:32:38",
+      "type": "pressure"
+    },
+    {
+      "unit": "湖南师范大学图书馆一楼101",
+      "energy": 99,
+      "hydraulic_pressure": "0.713",
+      "id": "00012",
+      "lat": "28.21307326",
+      "latitude": "N28.21307326",
+      "lng": "113.29981863",
+      "longitude": "E113.29981863",
+      "signal_intensity": 32,
+      "temperature": "16.4",
+      "time": "2020-12-14 15:06:14",
+      "type": "cylinders"
+    }
+  ]
+}

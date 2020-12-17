@@ -9,9 +9,9 @@ Authorization: 12
 
 ###查询设备状态
 GET http://iot.chntek.com:3410/api/Terminal/HistoryData
-    ?ids=00006,00018,00017
+    ?ids=00012
     &date_begin=2020-12-06
-    &date_end=2020-12-08
+    &date_end=2020-12-17
 Authorization: 12
 
 ###查询告警状态
