@@ -2,21 +2,26 @@ const axios = require('axios');
 
 const host = 'http://iot.chntek.com:3410';
 
+let timer = null;
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYxMTUwMDM3NCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.8nnKmig8Ar5uAC5WDZLxJZEl9mEpPsqbN4YrBt-H_UQ';
+let warningsLength = 0;
+let devices = {};
+
 function Chntek() {
-    this.devices = {
+    this.api = {
         async regions() {
             while (true) {
                 const { data } = await axios.get(`${host}/api/Terminal/Regions`, {
-                    headers: { 'Authorization': '12' }
+                    headers: { 'Authorization': token }
                 });
-                if (data.val) return data.val
+                if (data.val) return data.val;
             }
-            return null
+            return null;
         },
         async ids() {
             console.log('deviceIds: ');
             const { data } = await axios.get(`${host}/api/Terminal/GetAllDevice`, {
-                headers: { 'Authorization': '12' }
+                headers: { 'Authorization': token }
             });
             console.log('warningList: data.err ' + data.err);
             if (data.err) throw data.err;
@@ -24,19 +29,19 @@ function Chntek() {
             return data.val;
         },
         async status(ids, dateBegin, dateEnd) {
-            let strIds = ''
-            for (let id of ids) strIds += id + ','
+            let strIds = '';
+            for (let id of ids) strIds += id + ',';
 
-            console.log(`status: ${strIds} ${dateBegin} ${dateEnd}`)
+            console.log(`status: ${strIds} ${dateBegin} ${dateEnd}`);
             const { data } = await axios.get(`${host}/api/Terminal/HistoryData`, {
                 params: {
                     date_begin: dateBegin,
                     date_end: dateEnd,
                     ids: strIds
                 },
-                headers: { 'Authorization': '12' }
+                headers: { 'Authorization': token }
             });
-            console.log(`status: data.err ${data.err}`)
+            console.log(`status: data.err ${data.err}`);
             if (data.err) throw data.err;
             let val = {};
             for (let id in data.val) {
@@ -63,6 +68,7 @@ function Chntek() {
                         "type": obj.terminalType,
                         "longitude": obj.longitude,		        //设备经度
                         "latitude": obj.latitude,		        //设备纬度
+                        "location": obj.customerunit,    //位置
                         "time": obj.monitorsTime		//检测时间
                     });
                 }
@@ -75,54 +81,69 @@ function Chntek() {
                 params: {
                     searchDate: date
                 },
-                headers: { 'Authorization': '12' }
+                headers: { 'Authorization': token }
             });
             console.log('warningList: data.err ' + data.err);
             if (data.Err) throw data.Err;
             if (data.err) throw data.err;
 
-            let val = [];
+            let val = {};
 
             for (let obj of data.val) {
-                val.push({
-                    "id": obj.terminalNum,		//设备编号
-                    "location": obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
-                    "warning_type": obj.warnName,	//警告类型
-                    "time": obj.monitorsTime,			//时间
-                    "longitude": obj.longitude,
-                    "latitude": obj.latitude
-                });
+                let id = obj.terminalNum;
+                let info = {
+                    id: id,		//设备编号
+                    location: obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
+                    warning_type: obj.warnName,	//警告类型
+                    time: obj.monitorsTime,			//时间
+                    longitude: obj.longitude,
+                    latitude: obj.latitude
+                };
+
+                if (!val[id]) val[id] = { id: obj.terminalNum, location: info.location, time: info.time, children: [] };
+                val[id].children.push(info);
             }
 
-            return val;
+            let val2 = [];
+            for (let id in val) {
+                val2.push(val[id]);
+            }
+
+            return val2;
         }
     };
 
     this.transCityList = async () => {
-        let val = await this.devices.regions()
-
-        let citys = []
-
+        let val = await this.api.regions();
+        let citys = [];
         for (let city in val) {
-            let cityName = city
-            let children = []
-            let regions = val[city]
+            let cityName = city;
+            let children = [];
+            let regions = val[city];
             for (let areaName in regions) {
-                let deviceList = regions[areaName]
-                children.push({ areaName, deviceList })
+                let deviceList = [];
+                for (let id of regions[areaName]) {
+                    if (devices[id]) deviceList.push(devices[id].location + id);
+                }
+                children.push({ areaName, deviceList });
             }
-            citys.push({ cityName, children })
+            citys.push({ cityName, children });
         }
-        console.log('transCityList: citys ' + citys)
-        return citys
-    }
+        console.log('transCityList: citys ', JSON.stringify(citys));
+        return citys;
+    };
 
     this.transDeviceStatus = async (ids) => {
         console.log('transDeviceStatus: ');
         let dt = new Date();
-        let date = dt.toISOString().slice(0, 10)
+        let date = dt.toISOString().slice(0, 10);
 
-        let devices = await this.devices.status(ids, date, date);
+        let idsNew = [];
+        for (let id of ids) {
+            idsNew.push(devices[id].id);
+        }
+
+        let status = await this.api.status(idsNew, date, date);
 
         let legendData = [];
         let xAxisData = ['00', '01', '02', '03'
@@ -131,10 +152,10 @@ function Chntek() {
             , '15', '16', '17', '18', '19'
             , '20', '21', '22', '23'];
         let hydraulicPressures = [];
-        let list = []
+        let list = [];
 
-        for (let id in devices) {
-            let device = devices[id];
+        for (let id in status) {
+            let device = status[id];
             legendData.push(id);
             let hydraulicPressureData = {
                 name: id,
@@ -143,11 +164,11 @@ function Chntek() {
             };
 
             for (let detail of device) {
-                detail.id = id
-                list.push(detail)
+                detail.id = id;
+                list.push(detail);
             }
 
-            let et = new Date()
+            let et = new Date();
 
             for (let t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24 && t < et.getHours(); t++) {
                 for (let detail of device) {
@@ -172,128 +193,154 @@ function Chntek() {
             series: hydraulicPressures
         }];
 
-        let val = { chart, list }
-        console.log('transDeviceStatus: val ' + val);
+        let val = { chart, list };
+        console.log('transDeviceStatus: val ', val);
         return val;
     };
 
     this.transUnitList = async () => {
-        let ids = await this.devices.ids()
-        let val = []
-        for (let timestamp = Date.now(), day = 0; ids.length && day < 10; day++, timestamp -= 24 * 3600 * 1000) {
-            let dt = new Date(timestamp);
-            let date = dt.toISOString().slice(0, 10)
-            let devices = await this.devices.status(ids, date, date);
-
-            for (let id in devices) {
-                let device = devices[id];
-                for (let detail of device) {
-                    detail.id = id
-                    val.push(detail)
-                    break
-                }
-
-                let i = ids.indexOf(id)
-                ids.splice(i, 1)
-            }
+        let keys = {};
+        let val = [];
+        for (let id in devices) {
+            val.push(devices[id]);
         }
-
-        console.log('transDeviceStatusHistory: val ' + JSON.stringify(val));
+        console.log(val);
         return val;
-    }
+    };
 
     this.transWarningListOfToday = async () => {
         console.log('transWarningListOfToday: ');
         let dt = new Date();
         let date = dt.toISOString().slice(0, 10);
-        console.log(date)
-        let warnings = await this.devices.warningList(date);
-        console.log('transWarningListOfToday: return');
+        let warnings = await this.api.warningList(date);
+        console.log('transWarningListOfToday: ', warnings);
         return warnings;
     };
 
     this.transWarningListOfMonths = async (date) => {
-        console.log('transWarningListOfMonths: ' + date);
-        let warnings = await this.devices.warningList(date);
+        let warnings = await this.api.warningList(date);
         console.log('transWarningListOfMonths: return');
         return warnings;
     };
 
     this.transDeviceStatusHistory = async (ids, dateBegin, dateEnd) => {
         console.log('transDeviceStatusHistory: ');
-        let devices = await this.devices.status(ids, dateBegin, dateEnd);
-        let val = []
 
-        for (let id in devices) {
-            let device = devices[id];
+        let idsNew = [];
+        for (let id of ids) {
+            idsNew.push(devices[id].id);
+        }
+
+        let status = await this.api.status(idsNew, dateBegin, dateEnd);
+
+        let val = [];
+
+        for (let id in status) {
+            let device = status[id];
             for (let detail of device) {
-                detail.id = id
-                val.push(detail)
+                detail.id = id;
+                val.push(detail);
             }
         }
 
-        console.log('transDeviceStatusHistory: val ' + val);
+        console.log('transDeviceStatusHistory: val ');
         return val;
-    }
+    };
 
-    this.notify = (obj) => { }
+    this.notify = (obj) => { };
+
+    this.syncingWarnings = async () => {
+        console.log('notification: warningsLength ' + warningsLength);
+
+        try {
+            let ids = await chntek.api.ids();
+            let sum = ids.length, normal = 0, abnormal = 0;
+
+            let warnings = await chntek.transWarningListOfToday();
+            for (let warning of warnings) {
+                let i = ids.indexOf(warning.id);
+                if (i != -1) continue;
+                ids.splice(i, 1);
+                abnormal++;
+            }
+            normal = sum - abnormal;
+            console.log(`notification:${sum} ${normal} ${abnormal} ${warnings.length}`);
+            chntek.notify({ warnings, sum, normal, abnormal });
+
+            if (warnings.length != warningsLength) {
+                console.log('notification: schedule ');
+                warningsLength = warnings.length;
+                window.cordova.plugins.notification.local.schedule({
+                    text: '有新的告警信息...',
+                    foreground: true
+                })
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+
+    this.login = async (account, password) => {
+        const { data } = await axios.get(`${host}/api/user/login`, {
+            params: { account, password }
+        });
+
+        if (data.err) throw data.err;
+        console.log('token:', data.val.token);
+        token = data.val.token;
+
+        let ids = await chntek.api.ids();
+
+        for (let timestamp = Date.now(), day = 0; ids.length && day < 10; day++, timestamp -= 7 * 24 * 3600 * 1000) {
+            let dt = new Date(timestamp);
+            let date = dt.toISOString().slice(0, 10);
+            let status = await chntek.api.status(ids, date, date);
+
+            for (let id in status) {
+                let device = status[id];
+                for (let detail of device) {
+                    detail.id = id;
+                    devices[id] = detail;
+                    devices[detail.location + id] = detail;
+                    break;
+                }
+
+                let i = ids.indexOf(id);
+                ids.splice(i, 1);
+            }
+        }
+
+        try {
+            document.addEventListener('deviceready', async () => {
+                timer = setInterval(async () => this.syncingWarnings(), 20000);
+                window.cordova.plugins.backgroundMode.enable()
+            });
+        }
+        catch (e) {
+            console.error(e)
+        }
+    };
+
+    this.logout = async () => {
+        clearInterval(timer);
+        window.cordova.plugins.backgroundMode.disable();
+    };
 };
 
 const chntek = new Chntek();
-//chntek.transCityList()
-//chntek.transDeviceStatus(['00006','00008'])
-//chntek.transDeviceStatusHistory(['00006','00008'], '2020-12-06', '2020-12-06')
-//chntek.transUnitList()
-//chntek.transWarningListOfToday()
-//chntek.transWarningListOfMonths('2020-12-01')
-//syncingWarnings()
 
-async function syncingWarnings() {
-    let warningsLength = window.localStorage.getItem('warnings')
 
-    console.log('notification: warningsLength ' + warningsLength)
-
-    try {
-        let ids = await chntek.devices.ids()
-        let sum = ids.length, normal = 0, abnormal = 0
-
-        let warnings = await chntek.transWarningListOfToday()
-        for (let warning of warnings) {
-            let i = ids.indexOf(warning.id)
-            if (i != -1) continue
-            ids.splice(i, 1)
-            abnormal++
-        }
-        normal = sum - abnormal
-        console.log(`notification:${sum} ${normal} ${abnormal} ${warnings.length}`)
-        chntek.notify({ warnings, sum, normal, abnormal })
-
-        if (warnings.length != warningsLength) {
-            console.log('notification: schedule ')
-            window.localStorage.setItem('warnings', warningsLength)
-            window.cordova.plugins.notification.local.schedule({
-                text: '有新的告警信息...',
-                foreground: true
-            })
-        }
-    }
-    catch (e) {
-        console.error(e)
-    }
+async function test() {
+    await chntek.login('test', '123');
+    //await chntek.transCityList()
+    //await chntek.transDeviceStatus(['湖南金鼎消防公司00004','00008'])
+    //await chntek.transDeviceStatusHistory(['00006','00008'], '2020-12-06', '2020-12-06')
+    //await chntek.transUnitList()
+    //await chntek.transWarningListOfToday()
+    //await chntek.transWarningListOfMonths('2020-12-01')
+    //await chntek.syncingWarnings();
 }
 
-try {
-    document.addEventListener('deviceready', async () => {
-        console.log('deviceready')
-        window.localStorage.setItem('warnings', 0)
-
-        //启用后台运行模式
-        window.cordova.plugins.backgroundMode.enable()
-
-        setInterval(async () => syncingWarnings(), 10000)
-    })
-}
-catch (e) {
-    //    console.error(e)
-}
+// test();
 export default chntek;
