@@ -1,7 +1,5 @@
 <template>
   <div class="stat">
-
-
     <div class="datePicker">
       <div class="display-flex date">
         <label for="dateStart">先选择一个起始日期：</label>
@@ -12,11 +10,8 @@
         <input class="data-input flex_1" id="dateEnd" type="date" v-model="dateEnd" />
       </div>
     </div>
-
     <searchbar :options="{btnText:'点这里查询'}" :model="params" @change="search($event)"></searchbar>
-    <div>
-
-    </div>
+    <div></div>
     <table class="table">
       <tbody>
         <tr class="head">
@@ -52,7 +47,7 @@ export default {
       dateStart: new Date().toISOString().slice(0, 10),
       dateEnd: new Date().toISOString().slice(0, 10),
       list: [],
-      params:null
+      params: null
     };
   },
   created() {
@@ -69,8 +64,8 @@ export default {
       let params = JSON.parse(localStorage.getItem('paramsStat'));
       // 如果保存有查询参数则直接调用
       if (params) {
+        this.params = params;
         this.search(params);
-        this.params = params
       }
     },
     async search(params) {
@@ -79,6 +74,7 @@ export default {
         params.dateEnd = this.dateEnd;
         localStorage.setItem('paramsStat', JSON.stringify(params));
         this.$chntek.transDeviceStatusHistory(params.devices, params.dateStart, params.dateEnd).then(res => {
+          console.log(res);
           this.list = res;
         });
       }

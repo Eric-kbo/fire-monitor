@@ -8,38 +8,52 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '*',
-    redirect: { name: 'home' }
+    redirect: { name: 'login' }
   },
   {
-    name: 'home',
-    component: () => import('../views/home.vue')
+    name: 'login',
+    path: '/login',
+    component: () => import('../views/login.vue')
   },
   {
-    name: 'gmap',
-    component: () => import('../views/gmap.vue')
+    name: 'index',
+    path: '/index',
+    component: () => import('../views/index.vue'),
+    children: [
+      {
+        name: 'home',
+        path: '/home',
+        component: () => import('../views/home.vue')
+      },
+      {
+        name: 'gmap',
+        path: '/gmap',
+        component: () => import('../views/gmap.vue')
+      },
+      {
+        name: 'realtime',
+        path: '/realtime',
+        component: () => import('../views/realtime.vue')
+      },
+      {
+        name: 'history',
+        path: '/history',
+        component: () => import('../views/history.vue')
+      },
+      {
+        name: 'stat',
+        path: '/stat',
+        component: () => import('../views/stat.vue')
+      },
+      {
+        name: 'detail',
+        path: '/detail',
+        component: () => import('../views/detail.vue')
+      }
+    ]
   },
-  {
-    name: 'realtime',
-    component: () => import('../views/realtime.vue')
-  },
-  {
-    name: 'history',
-    component: () => import('../views/history.vue')
-  },
-  {
-    name: 'stat',
-    component: () => import('../views/stat.vue')
-  },
-  {
-    name: 'detail',
-    component: () => import('../views/detail.vue')
-  },
-];
 
-// 路由路径拼接
-routes.forEach(route => {
-  route.path = route.path || "/" + route.name || "";
-});
+];
 
 
 // 路径自动获取函数

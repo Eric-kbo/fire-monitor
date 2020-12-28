@@ -96,6 +96,7 @@ export default {
     }
   },
   mounted() {
+    this.getData();
   },
   methods: {
     onReady({ BMap, map }) {
@@ -103,12 +104,14 @@ export default {
     },
     async getData() {
       let resultObj = await this.$chntek.transUnitList('', this.date);
+      console.log(resultObj);
       // 过滤空数组和没有经纬度的点
-      let array = resultObj
+      let array = resultObj;
       // 从数组的第一个元素中映射需要展示的数据
       this.list = array.map(item => {
+        console.log(item);
         return {
-          unit: item.unit,
+          unit: item.location,
           id: item.id,
           hydraulic_pressure: item.hydraulic_pressure,
           temperature: item.temperature,
@@ -117,8 +120,8 @@ export default {
           time: item.time,
           longitude: item.longitude,
           latitude: item.latitude,
-          lng: item.longitude.slice(1),
-          lat: item.latitude.slice(1),
+          lng: item.longitude && item.longitude.slice(1),
+          lat: item.latitude && item.latitude.slice(1),
           type: item.type
         };
       });

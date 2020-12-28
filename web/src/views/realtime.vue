@@ -24,32 +24,35 @@
         <p>{{abnormal}}</p>
       </div>
     </div>
-    <list-vue :warningList="warningList"></list-vue>
+    <li v-for="(item,index) in warningList" :key="index" @click="goto(item)" class="alert-message">
+      <div class="display-flex">
+        <div class="icon-box">
+          <i class="iconfont iconwarn"></i>
+        </div>
+        <div class="text-box flex_1">
+          <p>设备: {{item.id}}</p>
+          <p>地点: {{item.location==0?'未获取到地点':item.location}}</p>
+          <p>数量:{{item.children.length}}</p>
+          <p class="text-right time">{{item.time}}</p>
+        </div>
+      </div>
+    </li>
     <p class="tips" v-if="warningList.length">没有更多了</p>
   </div>
 </template>
 
 <script>
-import listVue from "../components/list";
 export default {
   name: 'alert',
-  components: {
-    listVue
-  },
   data() {
     return {
-      sum: '',
-      normal: '',
-      abnormal: '',
+      sum: '0',
+      normal: '0',
+      abnormal: '0',
       warningList: [],
       totalUrl: require('@/assets/images/total.png'),
       normalUrl: require('@/assets/images/normal.png'),
       abnormalUrl: require('@/assets/images/abnormal.png'),
-    };
-  },
-  mounted() {
-    this.$chntek.notify = (obj) => {
-      this.$store.commit('setNotify', JSON.parse(JSON.stringify(obj)));
     };
   },
   computed: {
@@ -60,11 +63,24 @@ export default {
   watch: {
     notify(newV) {
       console.log('-----', newV);
+      console.log(newV);
       this.warningList = newV.warnings;
       this.sum = newV.sum;
       this.normal = newV.normal;
       this.abnormal = newV.abnormal;
-    }
+    },
+  },
+  created() {
+    this.$chntek.syncingWarnings();
+  },
+  methods: {
+    // 路由跳转
+    goto(item) {
+      this.$router.push({
+        name: 'detail',
+        params: item,
+      });
+    },
   },
 }
 </script>
@@ -91,7 +107,7 @@ export default {
   }
 }
 
-.tips{
+.tips {
   text-align: center;
   margin-top: 30px;
   margin-bottom: 80px;

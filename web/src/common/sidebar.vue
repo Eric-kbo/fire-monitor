@@ -16,7 +16,7 @@
         <md-icon class="tabbaricon iconfont iconshishijiankong"></md-icon>
         <span id="alert" @click="goto('realtime')">实时监控</span>
       </md-list-item>
-       <md-list-item class="route" :class="$route.name=='history'? 'active':''">
+      <md-list-item class="route" :class="$route.name=='history'? 'active':''">
         <md-icon class="tabbaricon iconfont iconjinggao1"></md-icon>
         <span id="alert" @click="goto('history')">历史告警</span>
       </md-list-item>
@@ -25,6 +25,7 @@
         <span id="stat" @click="goto('stat')">数据中心</span>
       </md-list-item>
     </md-list>
+    <md-button class="button-logout md-primary" @click="logout">退出登录</md-button>
   </div>
 </template>
 
@@ -34,6 +35,15 @@ export default {
   methods: {
     goto(name) {
       this.$emit('change');
+      if (this.$route.name == name) return;
+      this.$router.replace({ name });
+    },
+    logout() {
+      this.$chntek.logout();
+      localStorage.removeItem('loginData');
+      this.goto('login');
+    },
+    goto(name) {
       if (this.$route.name == name) return;
       this.$router.replace({ name });
     }
@@ -52,7 +62,8 @@ export default {
   .md-list-item-text {
     text-align: center;
   }
-  span {
+
+  .md-ripple {
     text-align: left;
   }
   .route {
@@ -63,6 +74,22 @@ export default {
     &.active {
       background-color: rgb(200, 255, 255);
     }
+  }
+  /deep/.md-list-item-content {
+    justify-content: flex-start;
+  }
+  .button-logout {
+    position: absolute;
+    bottom: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .md-button {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    height: 56px;
+    width: 100%;
   }
 }
 </style>

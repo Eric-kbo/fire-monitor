@@ -1,0 +1,28 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    },
+    "cordova-plugin-background-mode": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    },
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    }
+  }
+}

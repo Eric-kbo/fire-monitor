@@ -7,10 +7,14 @@
       </md-field>
       <md-field md-inline>
         <label>密码</label>
-        <md-input type="password" v-model="form.password" @enter="login"></md-input>
+        <md-input
+          type="password"
+          v-model="form.password"
+          @enter="login"
+        ></md-input>
       </md-field>
       <div class="submit-box">
-        <md-button class="submit-button" @click="login">Submit</md-button>
+        <md-button class="submit-button" @click="login">登陆</md-button>
       </div>
     </form>
   </div>
@@ -21,9 +25,9 @@ export default {
   data() {
     return {
       form: {
-        account: '',
-        password: ''
-      }
+        account: "",
+        password: "",
+      },
     };
   },
   created() {
@@ -31,7 +35,7 @@ export default {
   },
   methods: {
     getLocalData() {
-      let result = JSON.parse(localStorage.getItem('loginData'));
+      let result = JSON.parse(localStorage.getItem("loginData"));
       if (result) {
         this.form = result;
         this.login();
@@ -42,17 +46,21 @@ export default {
         account: this.form.account,
         password: this.form.password,
       };
-      this.$chntek.login(params.account, params.password).then(res => {
-        localStorage.setItem('loginData', JSON.stringify(params));
-        this.goto('home');
-      });
+
+      this.$chntek
+        .login(params.account, params.password)
+        .then((res) => {
+          localStorage.setItem("loginData", JSON.stringify(params));
+          this.goto("home");
+        })
+        .catch(e => alert(e));
     },
     goto(name) {
       if (this.$route.name == name) return;
       this.$router.replace({ name });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

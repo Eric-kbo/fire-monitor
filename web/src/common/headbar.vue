@@ -26,7 +26,7 @@ export default {
       this.model.menuVisible = !this.model.menuVisible;
     },
     goback() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     }
   },
 }
@@ -41,7 +41,7 @@ export default {
   min-width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #eee;
+  background-color: #efefef;
 }
 .location {
   max-width: calc(100vw - 120px);
@@ -49,7 +49,7 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.md-title{
+.md-title {
   vertical-align: baseline;
 }
 </style>

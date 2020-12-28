@@ -11,12 +11,14 @@
         <tr class="head">
           <th>设备编号</th>
           <th>温度(℃)</th>
+          <th>水压(Mpa)</th>
           <th>电量(%)</th>
           <th>检测时间</th>
         </tr>
         <tr v-for="(item,index) in list" :key="index">
           <td>{{item.id}}</td>
           <td>{{item.temperature}}</td>
+          <td>{{item.hydraulic_pressure}}</td>
           <td>{{item.energy}}</td>
           <td>{{item.time}}</td>
         </tr>

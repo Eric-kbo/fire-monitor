@@ -64,17 +64,18 @@ export default {
     model(newV) {
       // 不为空时赋值
       if (newV) {
+        console.log(newV);
         this.params = newV;
+        this.params.devices = newV.devices;
       }
     }
   },
   created() {
-    
+
     this.getCityList();
   },
   methods: {
     getCityList() {
-      // this.$http.getCityList().then(res => {
       this.$chntek.transCityList().then(res => {
         this.city_list = res;
         console.log(this.city_list);
@@ -84,9 +85,9 @@ export default {
         this.areaCache = this.cityCache.children[0];
         this.cityNameCache = this.params.cityName = this.cityCache.cityName;
         this.areaNameCache = this.params.areaName = this.city_list[0].children[0].areaName;
-        if(this.model) this.params = this.model
+        if (this.model) this.params = this.model;
       });
-      
+
     },
     selectedCity(val) {
       if (val != this.cityNameCache) {

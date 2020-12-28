@@ -94,8 +94,13 @@ body {
   }
 }
 
-.md-bottom-bar.md-type-fixed{
-  .md-bottom-bar-item{
+.md-bottom-bar.md-type-fixed {
+  .md-bottom-bar-item {
     min-width: 50px !important;
   }
+}
+
+.md-list-item-content > .md-checkbox:first-child,
+.md-list-item-content > .md-radio:first-child {
+  display: none;
 }

@@ -1,20 +1,28 @@
 <template>
   <div class="alert">
     <h4>历史告警列表</h4>
-    <list-vue :warningList="warningList"></list-vue>
-    <div v-if="warningList.length" class="bottom-text">
-      <md-button class="addMonth" @click="decOneDay()">点击查询更多</md-button>
+    <li v-for="(item,index) in warningList" :key="index" @click="goto(item)" class="alert-message">
+      <div class="display-flex">
+        <div class="icon-box">
+          <i class="iconfont iconwarn"></i>
+        </div>
+        <div class="text-box flex_1">
+          <p>设备: {{item.id}}</p>
+          <p>地点: {{item.location==0?'未获取到地点':item.location}}</p>
+          <p>数量:{{item.children.length}}</p>
+          <p class="text-right time">{{item.time}}</p>
+        </div>
+      </div>
+    </li>
+    <div v-if="warningList.length" class="bottom-box">
+      <md-button class="decOneDay" @click="decOneDay()">点击查询更多</md-button>
     </div>
   </div>
 </template>
 
 <script>
-import listVue from "../components/list";
 export default {
   name: 'alert',
-  components: {
-    listVue
-  },
   data() {
     return {
       timestamp: new Date(),
@@ -28,15 +36,22 @@ export default {
     async decOneDay() {
       this.timestamp -= 24 * 3600 * 1000;
       let params = {
-          date:new Date(this.timestamp).toISOString().slice(0, 10)
-      } 
+        date: new Date(this.timestamp).toISOString().slice(0, 10)
+      };
       console.log(params);
       this.getHistory(params);
     },
     async getHistory(params) {
       let result = await this.$chntek.transWarningListOfMonths(params.date);
-      console.log(result);
       this.warningList.push(...result);
+      console.log(this.warningList);
+    },
+    // 路由跳转
+    goto(item) {
+      this.$router.push({
+        name: 'detail',
+        params: item,
+      });
     },
   },
 }
@@ -50,38 +65,12 @@ export default {
   }
 }
 
-.switchDate {
-  z-index: 1;
-  position: fixed;
-  display: block;
-  right: 20px;
-  bottom: 100px;
-  justify-self: flex-end;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: none;
-  .icon {
-    display: block;
-    font-size: 26px;
-  }
-}
-.rotate-go {
-  animation: reverse 0.3s ease-in;
-}
-@keyframes reverse {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
-}
-.bottom-text {
+.bottom-box {
   margin-top: 10px;
   margin-bottom: 70px;
   display: flex;
   justify-content: center;
-  .addMonth {
+  .decOneDay {
     width: 80%;
     background-color: #eee;
   }
