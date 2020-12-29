@@ -103,13 +103,13 @@ export default {
       this.getData();
     },
     async getData() {
-      let resultObj = await this.$chntek.transUnitList('', this.date);
-      console.log(resultObj);
+      let resultObj = await this.$chntek.transUnitList();
+
       // 过滤空数组和没有经纬度的点
       let array = resultObj;
       // 从数组的第一个元素中映射需要展示的数据
       this.list = array.map(item => {
-        console.log(item);
+        console.log(item.id,item.longitude,item.latitude);
         return {
           unit: item.location,
           id: item.id,
@@ -126,7 +126,6 @@ export default {
         };
       });
       this.center = this.list[0];
-      console.log(this.center);
     },
     infoWindowOpen(index) {
       this.currentMark = index;

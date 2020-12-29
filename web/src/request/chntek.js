@@ -96,7 +96,7 @@ function Chntek() {
         let val = {};
 
         for (let obj of data.val) {
-            let id = obj.terminalNum;
+            let id = obj.productTerID;
             let info = {
                 id: id,		//设备编号
                 location: obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
@@ -106,7 +106,7 @@ function Chntek() {
                 latitude: obj.latitude
             };
 
-            if (!val[id]) val[id] = { id: obj.terminalNum, location: info.location, time: info.time, children: [] };
+            if (!val[id]) val[id] = { id: obj.productTerID, location: info.location, time: info.time, children: [] };
             val[id].children.push(info);
         }
 
@@ -212,7 +212,6 @@ function Chntek() {
             if(this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
             val.push(this.devices[id]);
         }
-        console.log(val);
         return val;
     };
 
