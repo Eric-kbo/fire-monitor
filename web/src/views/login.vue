@@ -3,31 +3,34 @@
     <form class="login-form">
       <md-field md-inline>
         <label>账号</label>
-        <md-input type="text" v-model="form.account"></md-input>
+        <!-- <md-input type="text" v-model="form.account"></md-input> -->
+        <a-input placeholder="请输入账号" v-model="form.account" />
       </md-field>
       <md-field md-inline>
         <label>密码</label>
-        <md-input
-          type="password"
+        <a-input-password
+          placeholder="请输入密码"
           v-model="form.password"
           @enter="login"
-        ></md-input>
+        />
       </md-field>
-      <div class="submit-box">
-        <md-button class="submit-button" @click="login">登陆</md-button>
+      <div>
+        <a-button type="primary" block @click="login">登陆 </a-button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import { Button, message } from 'ant-design-vue';
+
 export default {
   data() {
     return {
       form: {
-        account: "",
-        password: "",
-      },
+        account: '',
+        password: ''
+      }
     };
   },
   created() {
@@ -35,7 +38,7 @@ export default {
   },
   methods: {
     getLocalData() {
-      let result = JSON.parse(localStorage.getItem("loginData"));
+      let result = JSON.parse(localStorage.getItem('loginData'));
       if (result) {
         this.form = result;
         this.login();
@@ -44,26 +47,26 @@ export default {
     login() {
       let params = {
         account: this.form.account,
-        password: this.form.password,
+        password: this.form.password
       };
 
       this.$chntek
         .login(params.account, params.password)
-        .then((res) => {
-          localStorage.setItem("loginData", JSON.stringify(params));
-          this.goto("home");
+        .then(res => {
+          localStorage.setItem('loginData', JSON.stringify(params));
+          this.goto('home');
         })
         .catch(e => alert(e));
     },
     goto(name) {
       if (this.$route.name == name) return;
       this.$router.replace({ name });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .login {
   width: 100%;
   height: 100vh;
