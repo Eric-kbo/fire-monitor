@@ -41,171 +41,15 @@
 |                              | 综合显示 | ~~功能-按照位置选择设备而不是设备名~~                        | 1天  | 周存根               |
 |                              | 告警模块 | ~~合并同一个设备的报警信息~~                                 | 1天  | 周存根               |
 |                              | 接口实现 | ~~后端-用户登陆~~<br />~~后端-查询实时状态~~                 | 1天  | 刘楚门<br />启泰传感 |
-| 启泰智慧消防APP-预览版-0.1.0 | 用户登陆 | 界面-美化                                                    |      | 周兴邦               |
-|                              | 实时数据 | 界面-美化                                                    |      | 周兴邦               |
-|                              | GIS      | 界面-美化                                                    |      | 周兴邦               |
-|                              | 告警列表 | 界面-美化                                                    |      | 周兴邦               |
-|                              | 历史数据 | 界面-美化                                                    |      | 周兴邦               |
-|                              | 在线升级 |                                                              |      | 刘楚门               |
-|                              | 接口实现 |                                                              |      | 刘楚门               |
-|                              | 应用商店 |                                                              |      | 刘楚门               |
-
-#  前端
-
-## 接口定义
-
-`chntek.js`
-
-### 设备
-
-#### 状态查询
-
-```json
-#查询状态
-status(
-    ids: '设备A,设备B',	  #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是所有设备
-    date_begin: '2020-12-01', 	#指定日期范围
-    date_end:'2020-12-10'		#指定日期范围
-)
-#错误
-抛出异常
-#输出
-{
-    "设备A": [{	#设备编号
-		"hydraulic_pressure":90, 		 #水压 MPa
-		"temperature":80,				 #温度  °C
- 		"energy":70,    	 			 #电量  %
- 		"signal_intensity":29,  		 #信号强度 db
- 		"status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
- 		"status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
- 		"status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
- 		"status_of_low_temperature":0,	#低温状态，0：正常，1：报警
- 		"status_of_high_temperature":0,	#高温状态，0：正常，1：报警
- 		"status_of_slope":0,	#倾斜状态，0：正常，1：报警
- 		"status_of_vibration":0,	#振动状态，0：正常，1：报警
- 		"status_of_energy":0,		#电量状态，0：正常，1：报警
- 		"status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
- 		"status_of_water_quality":0,   #水质状态，0：正常，1：报警
-  		"status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
-  		"status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
- 		"longitude":1.2281,		#设备经度
- 		"latitude":13.128,		#设备纬度
- 		"type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
- 		"time": "2010-12-10 14:20:00"		#检测时间
-	}],
-    "设备B": [{
-        "hydraulic_pressure":90, 		 #水压
-        "temperature":80,				 #温度
-        "energy":70,    	 			 #电量
-        "signal_intensity":29,  		 #信号强度
-        "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
-        "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
-        "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
-        "status_of_low_temperature":0,	#低温状态，0：正常，1：报警
-        "status_of_high_temperature":0,	#高温状态，0：正常，1：报警
-        "status_of_slope":0,	#倾斜状态，0：正常，1：报警
-        "status_of_vibration":0,	#振动状态，0：正常，1：报警
-        "status_of_energy":0,		#电量状态，0：正常，1：报警
-        "status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
-        "status_of_water_quality":0, #水质状态，0：正常，1：报警
-        "status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
-        "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
-        "longitude":1.2281,		#设备经度
-        "latitude":13.128,		#设备纬度
-        "type": "firehydrant",
-        "time": "2010-14-10 10:20:00"		#检测时间
-    }]
-}
-```
-
-```json
-#查询状态
-status(
-    ids: '设备A,设备B',	  #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是所有设备
-    date_begin: '2020-12-01', 	#指定日期范围
-    date_end:'2020-12-10'		#指定日期范围
-)
-#错误
-抛出异常
-#输出
-[
-    {	#设备编号
-     "id":"设备A",
-     "hydraulic_pressure":90, 		 #水压 MPa
-     "temperature":80,				 #温度  °C
-     "energy":70,    	 			 #电量  %
-     "signal_intensity":29,  		 #信号强度 db
-     "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
-     "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
-     "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
-     "status_of_low_temperature":0,	#低温状态，0：正常，1：报警
-     "status_of_high_temperature":0,	#高温状态，0：正常，1：报警
-     "status_of_slope":0,	#倾斜状态，0：正常，1：报警
-     "status_of_vibration":0,	#振动状态，0：正常，1：报警
-     "status_of_energy":0,		#电量状态，0：正常，1：报警
-     "status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
-     "status_of_water_quality":0,   #水质状态，0：正常，1：报警
-     "status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
-     "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
-     "longitude":1.2281,		#设备经度
-     "latitude":13.128,		#设备纬度
-     "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-     "time": "2010-12-10 14:20:00"		#检测时间
-    },{
-        "id":"设备B",
-        "hydraulic_pressure":90, 		 #水压
-        "temperature":80,				 #温度
-        "energy":70,    	 			 #电量
-        "signal_intensity":29,  		 #信号强度
-        "status_of_low_hydraulic_pressure":0, #低水压状态，0：正常，1：报警
-        "status_of_high_hydraulic_pressure":0,#高水压状态，0：正常，1：报警
-        "status_of_leak":0,		#漏水/取水状态，0：正常，1：报警
-        "status_of_low_temperature":0,	#低温状态，0：正常，1：报警
-        "status_of_high_temperature":0,	#高温状态，0：正常，1：报警
-        "status_of_slope":0,	#倾斜状态，0：正常，1：报警
-        "status_of_vibration":0,	#振动状态，0：正常，1：报警
-        "status_of_energy":0,		#电量状态，0：正常，1：报警
-        "status_of_pressure_sensor":0, #压力传感器状态，0：正常，1：报警
-        "status_of_water_quality":0, #水质状态，0：正常，1：报警
-        "status_of_subzero_temperature":0, #负温状态，0：正常，1：报警
-        "status_of_low_signal_intensity":0, #低信号状态，0：正常，1：报警
-        "longitude":1.2281,		#设备经度
-        "latitude":13.128,		#设备纬度
-        "type": "firehydrant",
-        "time": "2010-14-10 10:20:00"		#检测时间
-    }
-]
-```
-
-#### 告警状态
-
-```json
-#方法
-warningListOfToday() #当天
-warningListOfMonths(
-    dete: '2020-12-1'	 #指定日期的历史
-)
-#错误
-抛出异常
-#输出
-[
-    {
-        "id":"设备A",		#设备编号
-        "location":"长沙市望城区望城区管委会主楼6F男卫", #地点
-        "longitude": "E113.74880433",
-        "latitude": "N28.2842444",
-        "warning_type":"信号低报警、负温标志、压力传感器报警",	#警告类型
-        "time":	"2010-12-12 11:22:00",			#时间
-    },{
-        "id":"设备B",
-        "location":"长沙市望城区望城区管委会主楼2F男卫",
-        "longitude": "E113.74880433",
-        "latitude": "N28.2842444",
-        "warning_type":"低水压警告",
-        "time":"2010-12-12 07:22:12",
-    }
-]
-```
+| 启泰智慧消防APP-预览版-0.1.0 | 用户登陆 | 界面-美化-阿里风格                                           |      | 周兴邦               |
+|                              | 实时数据 | 界面-美化-阿里风格                                           |      | 周兴邦               |
+|                              | GIS      | 界面-美化-阿里风格                                           |      | 周兴邦               |
+|                              | 告警列表 | 界面-美化-阿里风格                                           |      | 周兴邦               |
+|                              | 历史数据 | 界面-美化-阿里风格                                           |      | 周兴邦               |
+|                              | 在线升级 | 界面-新版本提示<br />功能-下载<br />功能-升级                | 4天  | 刘楚门               |
+|                              | 接口实现 | 接口-获取APP版本<br />接口-下载APP版本<br />接口-上传APP版本 | 3天  | 刘楚门               |
+|                              | 应用商店 | 腾讯应用宝<br />百度应用商店                                 | 不定 | 刘楚门               |
+|                              |          |                                                              |      |                      |
 
 # 后端
 
@@ -215,7 +59,7 @@ warningListOfMonths(
 
 #### 登陆
 
-```json
+```python
 HTTP GET http://iot.chntek.com:3410/api/User/login  
 #输入
 account: 'zhangsan'		#用户名
@@ -231,77 +75,73 @@ password: 'xf.sky.l' 	#密码
 
 #### 获取区域设备编号
 
-```json
-HTTP GET http://iot.chntek.com:3410/api/Terminal/Regions
+```python
+HTTP GET http://dungbeetles.xyz:3410/devices/regions
 Authorization: 12
 #输入
+account: 'CSCB001'		#用户名
 #输出
 {
   "err": null,
   "val": {
     "长沙市": {
       "浏阳": [
-          "00006","00008","00012","00017","00018","00022","00023","00025","00026","00033"
+          "00006","00008","00012",
+          "00017","00018","00022",
+          "00023","00025","00026",
+          "00033"
       ],
       "望城区": [
-          "00011","00014","00020","00021","00027","00028","00029","00034","00036","00039","00044","00051"
+          "00011","00014","00020",
+          "00021","00027","00028",
+          "00029","00034","00036",
+          "00039","00044","00051"
       ]
     }
   }
 }
 ```
 
-#### 状态查询-实时
+#### 状态查询-最近
 
-```json
+```python
 #查询当天的设备状态
-HTTP GET http://iot.chntek.com:3410/api/Terminal/RealTimeData
+HTTP GET http://dungbeetles.xyz:3410/devices/status-recent
 Athorization: 12
 #输入
-ids: '设备A,设备B' #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是全部
+ids: ['设备A','设备B'] #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是全部
 #输出
 {
     "err": null,		
-    "val": { 	
-        "设备A": {	#设备编号
-            "customerunit": "长沙银行浏阳分行",
-            "longitude": "E113.6360389",
-            "latitude": "N28.1428291",
-            "productTerID": "CP000010118",
-            "terminalNum": "00018",
-            "terminalType": "pressure",
-            "pressure": "0.116",
-            "temper": "8.7",
-            "electricity": 99,
-            "flow": "0.0",
-            "conductivity": "7.4",
-            "rssi": 14,
-            "monitorsTime": "2020-12-03 05:14:46",
-        },
-        "设备B": {
-            "customerunit": "长沙银行浏阳分行",
-            "longitude": "E113.6360389",
-            "latitude": "N28.1428291",
-            "productTerID": "CP000010118",
-            "terminalNum": "00018",
-            "terminalType": "pressure",
-            "pressure": "0.116",
-            "temper": "8.7",
-            "electricity": 99,
-            "flow": "0.0",
-            "conductivity": "7.4",
-            "rssi": 13,
-            "monitorsTime": "2020-12-03 03:15:56"
+    "val": [	
+        {	
+            "id": "00006",#设备编号
+            "longitude": "E113.74880433",#设备经度
+            "latitude": "N28.2842444",	#设备纬度
+            "city": "长沙市",
+            "county": "浏阳",
+            "location": "长沙银行古港支行1F现金区卫生间",
+            "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+
+            "status": [
+                {
+                    "hydraulic_pressure":0.257, 		 #水压 MPa
+                    "temperature":15.8,				 #温度  °C
+                    "energy":70,    	 			 #电量  %
+                    "signal_intensity":3,  		 #信号强度 db       
+                    "time": "2010-12-10 14:20:00"		#检测时间
+                }
+            ]
         }
-	}
+	]
 }
 ```
 
 #### 状态查询-历史
 
-```json
+```python
 #查询当天的设备状态，如果该设备当天没有状态则用最近的状态替代
-HTTP GET http://iot.chntek.com:3410/api/Terminal/HistoryData
+HTTP GET http://dungbeetles.xyz:3410/devices/status-history
 Athorization: 12
 #输入
 ids: '设备A,设备B' #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是全部
@@ -310,72 +150,51 @@ date_end: '2010-12-24' #指定日期的状态
 #输出
 {
     "err": null,		
-    "val": { 	
-        "设备A": {	#设备编号
-            "customerunit": "长沙银行浏阳分行",
-            "longitude": "E113.6360389",
-            "latitude": "N28.1428291",
-            "productTerID": "CP000010118",
-            "terminalNum": "00018",
-            "terminalType": "pressure",
-            "pressure": "0.116",
-            "temper": "8.7",
-            "electricity": 99,
-            "flow": "0.0",
-            "conductivity": "7.4",
-            "rssi": 14,
-            "monitorsTime": "2020-12-03 05:14:46",
-        },
-        "设备B": {
-            "customerunit": "长沙银行浏阳分行",
-            "longitude": "E113.6360389",
-            "latitude": "N28.1428291",
-            "productTerID": "CP000010118",
-            "terminalNum": "00018",
-            "terminalType": "pressure",
-            "pressure": "0.116",
-            "temper": "8.7",
-            "electricity": 99,
-            "flow": "0.0",
-            "conductivity": "7.4",
-            "rssi": 13,
-            "monitorsTime": "2020-12-03 03:15:56"
+    "val": [	
+        {	
+            "id": "00006",#设备编号
+            "longitude": "E113.74880433",#设备经度
+            "latitude": "N28.2842444",	#设备纬度
+            "city": "长沙市",
+            "county": "浏阳",
+            "location": "长沙银行古港支行1F现金区卫生间",
+            "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+
+            "status": [
+                {
+                    "hydraulic_pressure":0.257, 		 #水压 MPa
+                    "temperature":15.8,				 #温度  °C
+                    "energy":70,    	 			 #电量  %
+                    "signal_intensity":3,  		 #信号强度 db       
+                    "time": "2010-12-10 14:20:00"		#检测时间
+                }
+            ]
         }
-	}
+	]
 }
 ```
 
 #### 告警状态
 
-```json
+```python
 #查询指定日期的告警状态
-HTTP GET http://iot.chntek.com:3410/api/Terminal/RealTimeData
+HTTP GET http://dungbeetles.xyz:3410/0.0.1/devices/warnings
 Athorization: 12
 #输入
 searchDate:'2020-10-01' 	#指定日期的告警状态，返回该日的数据
 #输出
 {
     "err":null,
-    "val":[{
-            "productTerId": "QP000000006",
-            "terminalNum": "00006",
-            "warnName": "信号低报警、负温标志、压力传感器报警",
-            "monitorsTime": "2020-12-03 08:39:13",
-            "prefecturecity": "长沙市",
-            "distriancounty": "浏阳",
-            "customerunit": "长沙银行古港支行",
-            "longitude": "E113.74880433",
-            "latitude": "N28.2842444"
-        },{
-            "productTerId": "CP000010108",
-            "terminalNum": "00008",
-            "warnName": "信号低报警、负温标志、水质报警",
-            "monitorsTime": "2020-12-03 01:43:38",
-            "prefecturecity": "长沙市",
-            "distriancounty": "浏阳",
-            "customerunit": "长沙银行集里支行",
-            "longitude": "E113.61641049",
-            "latitude": "N28.15573705"
+    "val":[
+        {
+            "type": "信号低报警、负温标志、压力传感器报警",
+            "time": "2020-12-27 06:57:02",
+            "location": "长沙市浏阳长沙银行古港支行1F现金区卫生间"
+        },
+        {
+            "type": "信号低报警、负温标志、压力传感器报警",
+            "time": "2020-12-27 04:58:12",
+            "location": "长沙市浏阳长沙银行古港支行1F现金区卫生间"
         }
     ]
 }
