@@ -13,7 +13,7 @@ function Chntek() {
 
     this.regions = async () => {
         while (true) {
-            const { data } = await axios.get(`${proxyHost}/devices/regions`, {
+            const { data } = await axios.get(`${host}/api/Terminal/Regions`, {
                 params: { account: this.account },
                 headers: { 'Authorization': this.token }
             });
@@ -23,7 +23,7 @@ function Chntek() {
     };
 
     this.getIds = async () => {
-        const { data } = await axios.get(`${proxyHost}/devices/ids`, {
+        const { data } = await axios.get(`${host}/api/Terminal/GetAllDevice`, {
             params: { account: this.account },
             headers: { 'Authorization': this.token }
         });

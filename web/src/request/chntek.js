@@ -13,7 +13,7 @@ function Chntek() {
 
     this.regions = async () => {
         while (true) {
-            const { data } = await axios.get(`${proxyHost}/devices/regions`, {
+            const { data } = await axios.get(`${host}/api/Terminal/Regions`, {
                 params: { account: this.account },
                 headers: { 'Authorization': this.token }
             });
@@ -23,7 +23,7 @@ function Chntek() {
     };
 
     this.getIds = async () => {
-        const { data } = await axios.get(`${proxyHost}/devices/ids`, {
+        const { data } = await axios.get(`${host}/api/Terminal/GetAllDevice`, {
             params: { account: this.account },
             headers: { 'Authorization': this.token }
         });
@@ -96,7 +96,7 @@ function Chntek() {
         let val = {};
 
         for (let obj of data.val) {
-            let id = obj.productTerID;
+            let id = obj.terminalNum;
             let info = {
                 id: id,		//设备编号
                 location: obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
@@ -106,7 +106,7 @@ function Chntek() {
                 latitude: obj.latitude
             };
 
-            if (!val[id]) val[id] = { id: obj.productTerID, location: info.location, time: info.time, children: [] };
+            if (!val[id]) val[id] = { id: obj.terminalNum, location: info.location, time: info.time, children: [] };
             val[id].children.push(info);
         }
 
@@ -151,6 +151,10 @@ function Chntek() {
         }
 
         let status = await this.status(idsNew, date, date);
+        if(Object.keys(status).length == 0) {
+            let dt = new Date(Date.now() - 1 * 24 * 3600* 1000);
+            status = await this.status(idsNew, date, date);
+        }
 
         let legendData = [];
         let xAxisData = ['00', '01', '02', '03'
@@ -212,6 +216,7 @@ function Chntek() {
             if(this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
             val.push(this.devices[id]);
         }
+        console.log(val);
         return val;
     };
 
