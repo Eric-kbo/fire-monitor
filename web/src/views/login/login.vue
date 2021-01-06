@@ -1,28 +1,31 @@
 <template>
   <div class="login">
-    <form class="login-form">
+    <a-form
+        id="formLogin"
+        class="user-layout-login"
+        ref="formLogin"
+        :form="form"
+        @submit="login"
+    >
       <md-field md-inline>
-        <label>账号</label>
-        <!-- <md-input type="text" v-model="form.account"></md-input> -->
-        <a-input placeholder="请输入账号" v-model="form.account" />
+        <a-input placeholder="请输入账号" v-model="form.account"/>
       </md-field>
       <md-field md-inline>
-        <label>密码</label>
         <a-input-password
-          placeholder="请输入密码"
-          v-model="form.password"
-          @enter="login"
+            placeholder="请输入密码"
+            v-model="form.password"
+            @enter="login"
         />
       </md-field>
       <div>
-        <a-button type="primary" block @click="login">登陆 </a-button>
+        <a-button type="primary" block @click="login">登录</a-button>
       </div>
-    </form>
+    </a-form>
   </div>
 </template>
 
 <script>
-import { Button, message } from 'ant-design-vue';
+import {Button, message} from 'ant-design-vue';
 
 export default {
   data() {
@@ -51,16 +54,16 @@ export default {
       };
 
       this.$chntek
-        .login(params.account, params.password)
-        .then(res => {
-          localStorage.setItem('loginData', JSON.stringify(params));
-          this.goto('home');
-        })
-        .catch(e => alert(e));
+          .login(params.account, params.password)
+          .then(res => {
+            localStorage.setItem('loginData', JSON.stringify(params));
+            this.goto('home');
+          })
+          .catch(e => alert(e));
     },
     goto(name) {
       if (this.$route.name == name) return;
-      this.$router.replace({ name });
+      this.$router.replace({name});
     }
   }
 };
@@ -78,19 +81,6 @@ export default {
     min-width: 200px;
     .md-input {
       border-bottom: 1px solid rgba($color: #000000, $alpha: 0.5);
-    }
-  }
-  .submit-box {
-    text-align: center;
-    height: 40px;
-    line-height: 40px;
-    background-color: #ccc;
-    padding: 0;
-    .md-button {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
     }
   }
 }
