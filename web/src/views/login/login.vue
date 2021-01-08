@@ -7,6 +7,10 @@
         :form="form"
         @submit="login"
     >
+      <div class="md-toolbar-section-start" v-if="$route.name!='detail'">
+        <img src="../../assets/images/logo.png"/>
+        <span class="md-title">启泰传感</span>
+      </div>
       <a-tabs default-active-key="1"
               :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
       >
@@ -29,22 +33,26 @@
             <a-button type="primary" block @click="login">登录</a-button>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="手机号登陆" force-render>
+        <a-tab-pane key="2" tab="手机号登陆">
           <a-form-item>
-            <a-input size="large" type="text" placeholder="请输入手机号"
-                     v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '111'}], validateTrigger: 'change'}]">
-              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+            <!--            <a-input size="large" type="text" placeholder="请输入手机号"-->
+            <!--                     v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '111'}], validateTrigger: 'change'}]">-->
+            <!--              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>-->
+            <!--            </a-input>-->
+            <a-input placeholder="请输入手机号" v-model="form.phone"
+                     :rule="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号'}], validateTrigger: 'change'}]">
+              <a-icon type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
 
           <a-row :gutter="16">
             <a-col class="gutter-row" :span="16">
-              <a-form-item>
-                <a-input size="large" type="text" placeholder="输入验证码"
-                         v-decorator="['captcha', {rules: [{ required: true, message: '22' }], validateTrigger: 'blur'}]">
-                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                </a-input>
-              </a-form-item>
+              <!--              <a-form-item>-->
+              <!--                <a-input size="large" type="text" placeholder="输入验证码"-->
+              <!--                         v-decorator="['captcha', {rules: [{ required: true, message: '22' }], validateTrigger: 'blur'}]">-->
+              <!--                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>-->
+              <!--                </a-input>-->
+              <!--              </a-form-item>-->
             </a-col>
             <a-col class="gutter-row" :span="8">
               <!--              <a-button-->
@@ -70,6 +78,7 @@ export default {
   data() {
     return {
       form: {
+        phone: '',
         account: '',
         password: ''
       }
@@ -116,13 +125,5 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  .login-form {
-    min-width: 200px;
-
-    .md-input {
-      border-bottom: 1px solid rgba($color: #000000, $alpha: 0.5);
-    }
-  }
 }
 </style>
