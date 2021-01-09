@@ -32,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ant-design-vue-pro" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vuxtest" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -40,7 +40,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.general" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="D:\Program Files\JetBrains\WebStorm 2020.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -59,6 +59,9 @@
       <workItem from="1609922688832" duration="8000" />
       <workItem from="1609922698298" duration="10000" />
       <workItem from="1609922760798" duration="14328000" />
+      <workItem from="1610185405438" duration="1207000" />
+      <workItem from="1610195173369" duration="2000" />
+      <workItem from="1610195184245" duration="2856000" />
     </task>
     <servers />
   </component>
@@ -70,14 +73,24 @@
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
     <state x="1021" y="527" key="#Notifications/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609922412663" />
-    <state x="1060" y="459" key="FileChooserDialogImpl" timestamp="1609922846599">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state x="1060" y="459" key="FileChooserDialogImpl" timestamp="1610195197267">
+      <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609922846599" />
-    <state x="781" y="348" key="SettingsEditor" timestamp="1609922839748">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195197267" />
+    <state x="781" y="348" key="SettingsEditor" timestamp="1610195803664">
+      <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="781" y="348" key="SettingsEditor/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609922839748" />
+    <state x="781" y="348" key="SettingsEditor/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195803664" />
+    <state x="981" y="259" width="598" height="891" key="find.popup" timestamp="1610175204587">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610175204587" />
+    <state x="936" y="333" key="run.anything.popup" timestamp="1610195646943">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="936" y="333" key="run.anything.popup/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195646943" />
     <state x="943" y="317" key="search.everywhere.popup" timestamp="1609924107222">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>

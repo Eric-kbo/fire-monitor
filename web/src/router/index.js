@@ -6,54 +6,61 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
-    {
-        path: '*',
-        redirect: {name: 'login'}
-    },
-    {
-        name: 'login',
-        path: '/login',
-        component: () => import('../views/login/login.vue')
-    },
-    {
-        name: 'index',
-        path: '/index',
-        component: () => import('../views/index.vue'),
-        children: [
-            {
-                name: 'home',
-                path: '/home',
-                component: () => import('../views/home.vue')
-            },
-            {
-                name: 'gmap',
-                path: '/gmap',
-                component: () => import('../views/gmap.vue')
-            },
-            {
-                name: 'realtime',
-                path: '/realtime',
-                component: () => import('../views/realtime.vue')
-            },
-            {
-                name: 'history',
-                path: '/history',
-                component: () => import('../views/history.vue')
-            },
-            {
-                name: 'stat',
-                path: '/stat',
-                component: () => import('../views/stat.vue')
-            },
-            {
-                name: 'detail',
-                path: '/detail',
-                component: () => import('../views/detail.vue')
-            }
-        ]
-    },
+        {
+            path: '*',
+            redirect: {name: 'login'}
+        },
+        {
+            name: 'login',
+            path: '/login',
+            component: () => import('../views/login/login.vue')
+        },
+        {
+            name: 'index',
+            path: '/index',
+            component: () => import('../views/index.vue'),
+            children: [
+                // {
+                //     name: 'home',
+                //     path: '/home',
+                //     component: () => import('../views/home.vue')
+                // },
+                {
+                    name: 'gmap',
+                    path: '/gmap',
+                    component: () => import('../views/gmap.vue')
+                },
+                {
+                    name: 'realtime',
+                    path: '/realtime',
+                    component: () => import('../views/realtime.vue')
+                },
+                {
+                    name: 'history',
+                    path: '/history',
+                    component: () => import('../views/history.vue')
+                },
+                {
+                    name: 'stat',
+                    path: '/stat',
+                    component: () => import('../views/stat.vue')
+                },
+                {
+                    name: 'detail',
+                    path: '/detail',
+                    component: () => import('../views/detail.vue')
+                }
+            ]
+        },
+        {
+            name: 'home',
+            path: '/home',
+            component: () => import ('../views/home/home.vue'),
+            children: [],
+        },
 
-];
+    ]
+;
 
 
 // 路径自动获取函数
