@@ -34,14 +34,16 @@
                     :key="tag"
                     :closable="index !== 0"
                     :close="() => handleTagClose(tag)"
-                  >{{ `${tag.slice(0, 20)}...` }}</a-tag>
+                  >{{ `${tag.slice(0, 20)}...` }}
+                  </a-tag>
                 </a-tooltip>
                 <a-tag
                   v-else
                   :key="tag"
                   :closable="index !== 0"
                   :close="() => handleTagClose(tag)"
-                >{{ tag }}</a-tag>
+                >{{ tag }}
+                </a-tag>
               </template>
               <a-input
                 v-if="tagInputVisible"
@@ -55,7 +57,8 @@
                 @keyup.enter="handleTagInputConfirm"
               />
               <a-tag v-else @click="showTagInput" style="background: #fff; borderStyle: dashed;">
-                <a-icon type="plus"/>New Tag
+                <a-icon type="plus"/>
+                New Tag
               </a-tag>
             </div>
           </div>
@@ -205,6 +208,7 @@ export default {
       margin-bottom: 20px;
       border-radius: 50%;
       overflow: hidden;
+
       img {
         height: 100%;
         width: 100%;
@@ -239,9 +243,11 @@ export default {
     .title {
       background-position: 0 0;
     }
+
     .group {
       background-position: 0 -22px;
     }
+
     .address {
       background-position: 0 -44px;
     }
@@ -260,6 +266,7 @@ export default {
         margin: 12px 0;
         line-height: 24px;
         height: 24px;
+
         .member {
           font-size: 14px;
           color: rgba(0, 0, 0, 0.65);
@@ -270,6 +277,7 @@ export default {
           transition: all 0.3s;
           display: inline-block;
         }
+
         &:hover {
           span {
             color: #1890ff;

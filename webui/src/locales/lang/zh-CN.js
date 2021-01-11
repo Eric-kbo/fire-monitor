@@ -11,24 +11,25 @@ import result from './zh-CN/result'
 import account from './zh-CN/account'
 
 const components = {
-  antLocale: antd,
-  momentName: 'zh-cn',
-  momentLocale: momentCN
+    antLocale: antd,
+    momentName: 'zh-cn',
+    momentLocale: momentCN
 }
 
 export default {
-  message: '-',
+    message: '-',
 
-  'layouts.usermenu.dialog.title': '信息',
-  'layouts.usermenu.dialog.content': '您确定要注销吗？',
-  'layouts.userLayout.title': 'Ant Design 是西湖区最具影响力的 Web 设计规范',
-  ...components,
-  ...global,
-  ...menu,
-  ...setting,
-  ...user,
-  ...dashboard,
-  ...form,
-  ...result,
-  ...account
+    'layouts.usermenu.dialog.title': '信息',
+    'layouts.usermenu.dialog.content': '您确定要注销吗？',
+    'layouts.userLayout.title': '消防设施预警报警系统',
+    'layouts.logo.title': '防火',
+    ...components,
+    ...global,
+    ...menu,
+    ...setting,
+    ...user,
+    ...dashboard,
+    ...form,
+    ...result,
+    ...account
 }

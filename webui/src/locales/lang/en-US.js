@@ -12,24 +12,25 @@ import result from './en-US/result'
 import account from './en-US/account'
 
 const components = {
-  antLocale: antdEnUS,
-  momentName: 'eu',
-  momentLocale: momentEU
+    antLocale: antdEnUS,
+    momentName: 'eu',
+    momentLocale: momentEU
 }
 
 export default {
-  message: '-',
+    message: '-',
 
-  'layouts.usermenu.dialog.title': 'Message',
-  'layouts.usermenu.dialog.content': 'Are you sure you would like to logout?',
-  'layouts.userLayout.title': 'Ant Design is the most influential web design specification in Xihu district',
-  ...components,
-  ...global,
-  ...menu,
-  ...setting,
-  ...user,
-  ...dashboard,
-  ...form,
-  ...result,
-  ...account
+    'layouts.usermenu.dialog.title': 'Message',
+    'layouts.usermenu.dialog.content': 'Are you sure you would like to logout?',
+    'layouts.userLayout.title': 'Early warning and alarm system for fire protection facilities',
+    'layouts.logo.title': 'CHNTEK-FIRE',
+    ...components,
+    ...global,
+    ...menu,
+    ...setting,
+    ...user,
+    ...dashboard,
+    ...form,
+    ...result,
+    ...account
 }
