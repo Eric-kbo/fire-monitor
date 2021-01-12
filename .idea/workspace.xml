@@ -2,63 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e4a128e-5012-47f4-8d7a-e7fc248712e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/webui/src/assets/images/abnormal.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/assets/images/cylinders.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/assets/images/firehydrant.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/assets/images/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/assets/images/normal.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/assets/images/pressure.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/assets/images/total.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/detail.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/gmap.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/history.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/home.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/realtime.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/stat.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/complex/home.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webui/src/views/home/homeChart.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/components/GlobalHeader/RightContent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/components/GlobalHeader/RightContent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/config/defaultSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/config/defaultSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/common/tabbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/common/tabbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/webui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/GlobalFooter/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/components/GlobalFooter/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webui/src/config/router.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/config/router.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/layouts/BasicLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/layouts/BasicLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/layouts/UserLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/layouts/UserLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/locales/lang/en-US.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/account/center/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/views/account/center/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/BasicList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/CardList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/QueryList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/TableList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/components/Info.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/modules/CreateForm.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/modules/StepByStepModal.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/modules/TaskForm.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/search/Applications.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/search/Article.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/search/Projects.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/search/SearchLayout.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/search/components/CardInfo.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/search/components/IconText.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/table/Edit.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/list/table/List.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/BigForm.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/IconSelectorView.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/PermissionList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/RoleList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/TableInnerEditList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/TreeList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/UserList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/modules/OrgModal.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/other/modules/RoleModal.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/profile/advanced/Advanced.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/profile/basic/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/result/Error.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/result/Success.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/role/RoleList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/user/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/views/user/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/user/Register.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/user/RegisterResult.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/dashboard/Analysis.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/views/dashboard/Analysis.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/views/home/home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/webui/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +23,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JavaScript File" />
         <option value="Vue Single File Component" />
       </list>
     </option>
@@ -119,7 +75,7 @@
       <workItem from="1610185405438" duration="1207000" />
       <workItem from="1610195173369" duration="2000" />
       <workItem from="1610195184245" duration="2856000" />
-      <workItem from="1610331998775" duration="15926000" />
+      <workItem from="1610331998775" duration="30651000" />
     </task>
     <servers />
   </component>

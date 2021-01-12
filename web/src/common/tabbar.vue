@@ -1,40 +1,26 @@
 <template>
-  <!--  <md-bottom-bar class="tabbar">-->
-  <!--    <md-bottom-bar-item @click="goto('home')" :class="$route.name=='home'? 'active':'default'">-->
-  <!--      <i class="tabbaricon iconfont iconxianshi2"></i>-->
-  <!--      <p>综合显示</p>-->
-  <!--    </md-bottom-bar-item>-->
-  <!--    <md-bottom-bar-item @click="goto('gmap')" :class="$route.name=='gmap'? 'active':'default'">-->
-  <!--      <i class="tabbaricon iconfont iconditu1"></i>-->
-  <!--      <p>GIS模块</p>-->
-  <!--    </md-bottom-bar-item>-->
-  <!--    <md-bottom-bar-item @click="goto('realtime')" :class="$route.name=='realtime'? 'active':'default'">-->
-  <!--      <i class="tabbaricon iconfont iconshishijiankong"></i>-->
-  <!--      <p>实时监控</p>-->
-  <!--    </md-bottom-bar-item>-->
-  <!--    <md-bottom-bar-item @click="goto('history')" :class="$route.name=='history'? 'active':'default'">-->
-  <!--      <i class="tabbaricon iconfont iconjinggao1"></i>-->
-  <!--      <p>历史告警</p>-->
-  <!--    </md-bottom-bar-item>-->
-  <!--    <md-bottom-bar-item @click="goto('stat')" :class="$route.name=='stat'? 'active':'default'">-->
-  <!--      <i class="tabbaricon iconfont iconshujuzhongxin"></i>-->
-  <!--      <p>数据中心</p>-->
-  <!--    </md-bottom-bar-item>-->
-  <!--  </md-bottom-bar>-->
-  <a-card>
-    <a-card-grid style="width:25%;text-align:center">
-      Content
-    </a-card-grid>
-    <a-card-grid style="width:25%;text-align:center" :hoverable="false">
-      Content
-    </a-card-grid>
-    <a-card-grid style="width:25%;text-align:center">
-      Content
-    </a-card-grid>
-    <a-card-grid style="width:25%;text-align:center">
-      Content
-    </a-card-grid>
-  </a-card>
+  <md-bottom-bar class="tabbar">
+    <md-bottom-bar-item @click="goto('home')" :class="$route.name=='home'? 'active':'default'">
+      <i class="tabbaricon iconfont iconxianshi2"></i>
+      <p>综合显示</p>
+    </md-bottom-bar-item>
+    <md-bottom-bar-item @click="goto('gmap')" :class="$route.name=='gmap'? 'active':'default'">
+      <i class="tabbaricon iconfont iconditu1"></i>
+      <p>GIS模块</p>
+    </md-bottom-bar-item>
+    <md-bottom-bar-item @click="goto('realtime')" :class="$route.name=='realtime'? 'active':'default'">
+      <i class="tabbaricon iconfont iconshishijiankong"></i>
+      <p>实时监控</p>
+    </md-bottom-bar-item>
+    <md-bottom-bar-item @click="goto('history')" :class="$route.name=='history'? 'active':'default'">
+      <i class="tabbaricon iconfont iconjinggao1"></i>
+      <p>历史告警</p>
+    </md-bottom-bar-item>
+    <md-bottom-bar-item @click="goto('stat')" :class="$route.name=='stat'? 'active':'default'">
+      <i class="tabbaricon iconfont iconshujuzhongxin"></i>
+      <p>数据中心</p>
+    </md-bottom-bar-item>
+  </md-bottom-bar>
 </template>
 
 <script>

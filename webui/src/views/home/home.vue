@@ -1,304 +1,189 @@
 <template>
-  <a-row :gutter="24">
-    <a-col :md="24" :lg="7">
-      <a-card :bordered="false">
-        <div class="account-center-avatarHolder">
-          <div class="avatar">
-            <img :src="avatar">
-          </div>
-          <div class="username">{{ nickname }}</div>
-          <div class="bio">海纳百川，有容乃大</div>
-        </div>
-        <div class="account-center-detail">
-          <p>
-            <i class="title"></i>交互专家
-          </p>
-          <p>
-            <i class="group"></i>蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED
-          </p>
-          <p>
-            <i class="address"></i>
-            <span>浙江省</span>
-            <span>杭州市</span>
-          </p>
-        </div>
-        <a-divider/>
+  <div class="table-page-search-wrapper">
+    <a-form layout="inline">
+      <a-row :gutter="48">
+        <a-col :md="8" :sm="24">
+          <a-form-item label="城市">
+            <a-select :default-value="cityData[0]" @change="handleProvinceChange">
+              <a-select-option v-for="city in cityData" :key="city">
+                {{ city }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :md="8" :sm="24">
+          <a-form-item label="区域">
+            <a-select v-model="districtData">
+              <a-select-option v-for="district in districtData" :key="district">
+                {{ district }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :md="8" :sm="24">
+          <a-form-item label="设备">
+            <a-select v-model="devicesData">
+              <a-select-option v-for="device in devicesData" :key="device">
+                {{ device }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :md="8" :sm="24">
+          <span
+            class="table-page-search-submitButtons"
+            style="float: right">
+            <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+          </span>
+        </a-col>
+      </a-row>
+    </a-form>
 
-        <div class="account-center-tags">
-          <div class="tagsTitle">标签</div>
-        </div>
-        <a-divider :dashed="true"/>
+    <a-descriptions title="CSCB0000003">
+      <a-descriptions-item>
+        <a-tag color="blue">温度(℃):30
+        </a-tag>
+        <a-tag color="blue">水压(Mpa):1000
+        </a-tag>
+        <a-tag color="blue">电量(%):30
+        </a-tag>
+        <a-tag color="blue">检测时间:2020-12-12 09:01:00
+        </a-tag>
+      </a-descriptions-item>
+      <!--      <a-descriptions-item label="温度(℃)">30</a-descriptions-item>-->
+      <!--      <a-descriptions-item label="水压(Mpa)">1000</a-descriptions-item>-->
+      <!--      <a-descriptions-item label="电量(%)">20</a-descriptions-item>-->
+      <!--      <a-descriptions-item label="检测时间"> 2020-12-12 09:01:00</a-descriptions-item>-->
+    </a-descriptions>
+    <a-descriptions title="CSCB0000002">
+      <a-descriptions-item>
+        <a-tag color="blue">30℃
+        </a-tag>
+        <a-tag color="blue">1000mpa
+        </a-tag>
+        <a-tag color="blue">30%
+        </a-tag>
+        <a-tag color="blue">2020-12-12 09:01:00
+        </a-tag>
+      </a-descriptions-item>
+      <!--      <a-descriptions-item label="设备编号">CSCB0000003</a-descriptions-item>-->
+      <!--      <a-descriptions-item label="温度(℃)">30</a-descriptions-item>-->
+      <!--      <a-descriptions-item label="水压(Mpa)">1000</a-descriptions-item>-->
+      <!--      <a-descriptions-item label="电量(%)">20</a-descriptions-item>-->
+      <!--      <a-descriptions-item label="检测时间"> 2020-12-12 09:01:00</a-descriptions-item>-->
+    </a-descriptions>
 
-        <div class="account-center-team">
-          <div class="teamTitle">团队</div>
-        </div>
-      </a-card>
-    </a-col>
-    <a-col :md="24" :lg="17">
-    </a-col>
-  </a-row>
+    <a-card :bordered="false">
+      <s-table
+        style="margin-bottom: 24px"
+        row-key="id"
+        :columns="goodsColumns"
+        :data="loadGoodsData">
+
+      </s-table>
+    </a-card>
+
+    <home-chart></home-chart>
+  </div>
 </template>
 
 <script>
-import { timeFix } from '@/utils/util'
-import { mapState } from 'vuex'
 import { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
-import { Radar } from '@/components'
+import { Radar, STable } from '@/components'
 
-import { getRoleList, getServiceList } from '@/api/manage'
+import Chart from 'chart.js'
+import HomeChart from '@/views/home/homeChart'
 
-const DataSet = require('@antv/data-set')
-
+const cityData = ['长沙']
+const districtData = {
+  长沙: ['望城', '岳麓', '天心']
+}
 export default {
   name: 'Workplace',
   components: {
+    STable,
+    HomeChart,
+    Chart,
     PageHeaderWrapper,
     Radar
   },
   data () {
     return {
-      timeFix: timeFix(),
-      avatar: '',
-      user: {},
+      queryParam: { status: '' },
+      cityData,
+      cities: districtData[cityData[0]],
+      districtData: districtData[cityData[0]][0],
+      devicesData: ['CSCB0000003', 'CSCB0000002'],
 
-      projects: [],
-      loading: true,
-      radarLoading: true,
-      activities: [],
-      teams: [],
-
-      // data
-      axis1Opts: {
-        dataKey: 'item',
-        line: null,
-        tickLine: null,
-        grid: {
-          lineStyle: {
-            lineDash: null
-          },
-          hideFirstLine: false
+      goodsColumns: [
+        {
+          title: '设备编号',
+          dataIndex: 'id',
+          key: 'id'
+        },
+        {
+          title: '温度(℃)',
+          dataIndex: 'temp',
+          key: 'temp'
+        },
+        {
+          title: '水压(Mpa)',
+          dataIndex: 'mpa',
+          key: 'mpa'
+        },
+        {
+          title: '电量(%)',
+          dataIndex: 'elect',
+          key: 'elect'
+        },
+        {
+          title: '检测时间',
+          dataIndex: 'time',
+          key: 'time'
         }
-      },
-      axis2Opts: {
-        dataKey: 'score',
-        line: null,
-        tickLine: null,
-        grid: {
-          type: 'polygon',
-          lineStyle: {
-            lineDash: null
-          }
-        }
-      },
-      scale: [{
-        dataKey: 'score',
-        min: 0,
-        max: 80
-      }],
-      axisData: [
-        { item: '引用', a: 70, b: 30, c: 40 },
-        { item: '口碑', a: 60, b: 70, c: 40 },
-        { item: '产量', a: 50, b: 60, c: 40 },
-        { item: '贡献', a: 40, b: 50, c: 40 },
-        { item: '热度', a: 60, b: 70, c: 40 },
-        { item: '引用', a: 70, b: 50, c: 40 }
       ],
-      radarData: []
-    }
-  },
-  computed: {
-    ...mapState({
-      nickname: (state) => state.user.nickname,
-      welcome: (state) => state.user.welcome
-    }),
-    currentUser () {
-      return {
-        name: 'Serati Ma',
-        avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
+      loadGoodsData: () => {
+        return new Promise(resolve => {
+          resolve({
+            data: [
+              {
+                id: 'CSCB0000003',
+                temp: '30',
+                mpa: 1000,
+                elect: 20,
+                time: '2020-12-12 09:01:00'
+              },
+              {
+                id: 'CSCB0000002',
+                temp: '40',
+                mpa: 900,
+                elect: 50,
+                time: '2020-12-12 09:02:00'
+              }
+            ],
+            pageSize: 10,
+            pageNo: 1,
+            totalPage: 1,
+            totalCount: 10
+          })
+        }).then(res => {
+          return res
+        })
       }
-    },
-    userInfo () {
-      return this.$store.getters.userInfo
     }
-  },
-  created () {
-    this.user = this.userInfo
-    this.avatar = this.userInfo.avatar
-
-    getRoleList().then(res => {
-      // console.log('workplace -> call getRoleList()', res)
-    })
-
-    getServiceList().then(res => {
-      // console.log('workplace -> call getServiceList()', res)
-    })
-  },
-  mounted () {
-    this.getProjects()
-    this.getActivity()
-    this.getTeams()
-    this.initRadar()
   },
   methods: {
-    getProjects () {
-      this.$http.get('/list/search/projects')
-          .then(res => {
-            this.projects = res.result && res.result.data
-            this.loading = false
-          })
-    },
-    getActivity () {
-      this.$http.get('/workplace/activity')
-          .then(res => {
-            this.activities = res.result
-          })
-    },
-    getTeams () {
-      this.$http.get('/workplace/teams')
-          .then(res => {
-            this.teams = res.result
-          })
-    },
-    initRadar () {
-      this.radarLoading = true
-
-      this.$http.get('/workplace/radar')
-          .then(res => {
-            const dv = new DataSet.View().source(res.result)
-            dv.transform({
-              type: 'fold',
-              fields: ['个人', '团队', '部门'],
-              key: 'user',
-              value: 'score'
-            })
-
-            this.radarData = dv.rows
-            this.radarLoading = false
-          })
+    handleProvinceChange (value) {
+      this.cities = cityData[value]
+      this.secondCity = cityData[value][0]
     }
+
   }
 }
 </script>
 
 <style lang="less" scoped>
-
-.project-list {
-
-  .card-title {
-    font-size: 0;
-
-    a {
-      color: rgba(0, 0, 0, 0.85);
-      margin-left: 12px;
-      line-height: 24px;
-      height: 24px;
-      display: inline-block;
-      vertical-align: top;
-      font-size: 14px;
-
-      &:hover {
-        color: #1890ff;
-      }
-    }
-  }
-
-  .card-description {
-    color: rgba(0, 0, 0, 0.45);
-    height: 44px;
-    line-height: 22px;
-    overflow: hidden;
-  }
-
-  .project-item {
-    display: flex;
-    margin-top: 8px;
-    overflow: hidden;
-    font-size: 12px;
-    height: 20px;
-    line-height: 20px;
-
-    a {
-      color: rgba(0, 0, 0, 0.45);
-      display: inline-block;
-      flex: 1 1 0;
-
-      &:hover {
-        color: #1890ff;
-      }
-    }
-
-    .datetime {
-      color: rgba(0, 0, 0, 0.25);
-      flex: 0 0 auto;
-      float: right;
-    }
-  }
-
-  .ant-card-meta-description {
-    color: rgba(0, 0, 0, 0.45);
-    height: 44px;
-    line-height: 22px;
-    overflow: hidden;
-  }
-}
-
-.item-group {
-  padding: 20px 0 8px 24px;
-  font-size: 0;
-
-  a {
-    color: rgba(0, 0, 0, 0.65);
-    display: inline-block;
-    font-size: 14px;
-    margin-bottom: 13px;
-    width: 25%;
-  }
-}
-
-.members {
-  a {
-    display: block;
-    margin: 12px 0;
-    line-height: 24px;
-    height: 24px;
-
-    .member {
-      font-size: 14px;
-      color: rgba(0, 0, 0, .65);
-      line-height: 24px;
-      max-width: 100px;
-      vertical-align: top;
-      margin-left: 12px;
-      transition: all 0.3s;
-      display: inline-block;
-    }
-
-    &:hover {
-      span {
-        color: #1890ff;
-      }
-    }
-  }
-}
-
-.mobile {
-
-  .project-list {
-
-    .project-card-grid {
-      width: 100%;
-    }
-  }
-
-  .more-info {
-    border: 0;
-    padding-top: 16px;
-    margin: 16px 0 16px;
-  }
-
-  .headerContent .title .welcome-text {
-    display: none;
-  }
-}
 
 </style>

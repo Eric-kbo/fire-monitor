@@ -20,11 +20,11 @@ const routes = [
             path: '/index',
             component: () => import('../views/index.vue'),
             children: [
-                // {
-                //     name: 'home',
-                //     path: '/home',
-                //     component: () => import('../views/home.vue')
-                // },
+                {
+                    name: 'home',
+                    path: '/home',
+                    component: () => import('../views/home.vue')
+                },
                 {
                     name: 'gmap',
                     path: '/gmap',
