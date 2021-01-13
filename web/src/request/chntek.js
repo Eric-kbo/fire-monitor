@@ -112,7 +112,7 @@ function Chntek() {
 
         let val2 = [];
         for (let id in val) {
-            if(this.ids.indexOf(id) == -1) continue
+            if (this.ids.indexOf(id) == -1) continue
             val2.push(val[id]);
         }
 
@@ -141,27 +141,24 @@ function Chntek() {
 
     this.transDeviceStatus = async (ids) => {
         console.log('transDeviceStatus: ');
-        let dt = new Date();
-        let date = dt.toISOString().slice(0, 10);
-
-        let idsNew = [];
+        
+        let status = {};
         for (let id of ids) {
-            if(this.devices[id] == undefined) continue;
-            idsNew.push(this.devices[id].id);
-        }
+            if (this.devices[id] == undefined) continue;
 
-        let status = await this.status(idsNew, date, date);
-        if(Object.keys(status).length == 0) {
-            let dt = new Date(Date.now() - 1 * 24 * 3600* 1000);
-            status = await this.status(idsNew, date, date);
+            const { data } = await axios.get(`${proxyHost}/devices/status-recent`, {
+                params: { id:  this.devices[id].id }
+            });
+
+            status[this.devices[id].id] = data.val
         }
 
         let legendData = [];
-        let xAxisData = ['00', '01', '02', '03'
-            , '04', '05', '06', '07', '08'
-            , '09', '10', '11', '12', '14'
+        let xAxisData = ['1', '2', '3'
+            , '4', '5', '6', '7', '8'
+            , '9', '10', '11', '12', '14'
             , '15', '16', '17', '18', '19'
-            , '20', '21', '22', '23'];
+            , '20'];
         let hydraulicPressures = [];
         let list = [];
 
@@ -177,21 +174,7 @@ function Chntek() {
             for (let detail of device) {
                 detail.id = id;
                 list.push(detail);
-            }
-
-            let et = new Date();
-
-            for (let t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24 && t < et.getHours(); t++) {
-                for (let detail of device) {
-                    let time = new Date(detail.time);
-
-                    if (t == time.getHours()) {
-                        hydraulicPressure = detail['hydraulic_pressure'];
-                        break;
-                    }
-                }
-
-                hydraulicPressureData.data.push(hydraulicPressure);
+                hydraulicPressureData.data.push(detail['hydraulic_pressure']);
             }
 
             hydraulicPressures.push(hydraulicPressureData);
@@ -213,7 +196,7 @@ function Chntek() {
         let keys = {};
         let val = [];
         for (let id of this.ids) {
-            if(this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
+            if (this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
             val.push(this.devices[id]);
         }
         console.log(val);
@@ -240,7 +223,7 @@ function Chntek() {
 
         let idsNew = [];
         for (let id of ids) {
-            if(this.devices[id] == undefined) continue;
+            if (this.devices[id] == undefined) continue;
             idsNew.push(this.devices[id].id);
         }
 
@@ -267,21 +250,21 @@ function Chntek() {
 
         try {
             let warnings = await chntek.transWarningListOfToday();
-           
+
             if (warnings.length != this.warningsLength) {
                 window.cordova.plugins.notification.local.schedule({
                     text: '有新的告警信息...',
                     foreground: true
-                })    
+                })
             }
 
             this.warningsLength = warnings.length;
-            
+
             let ids = this.ids.slice(0)
             let sum = ids.length, normal = 0, abnormal = 0;
 
             for (let w of warnings) {
-                if(w == undefined) continue;
+                if (w == undefined) continue;
                 let i = ids.indexOf(w.id);
                 if (i == -1) continue;
                 ids.splice(i, 1);
@@ -321,7 +304,7 @@ function Chntek() {
                 for (let detail of device) {
                     let t = this.devices[id] == undefined ? 0 : new Date(this.devices[id].time).getTime()
                     let t1 = new Date(detail.time).getTime()
-                    if(t > t1) continue
+                    if (t > t1) continue
                     detail.id = id;
                     this.devices[id] = detail;
                     this.devices[detail.location + id] = detail;
