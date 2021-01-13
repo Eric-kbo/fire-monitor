@@ -20,7 +20,7 @@
       <!-- 信息窗体 -->
       <bm-info-window
         v-for="(item,index) in list"
-        :show="show && currentMark == index"
+        :show="show && currentMark === index"
         :key="index"
         :width="220"
         :closeOnClick="true"
@@ -137,21 +137,17 @@ export default {
       switch (type) {
         case 'pressure':
           return { url: require('@/assets/images/pressure.png'), size: { width: 32, height: 32 } }
-          break
         case 'firehydrant':
           return { url: require('@/assets/images/firehydrant.png'), size: { width: 32, height: 32 } }
-          break
         case 'cylinders':
           return { url: require('@/assets/images/cylinders.png'), size: { width: 32, height: 32 } }
-          break
       }
-      ;
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 /* 地图容器必须设置宽和高属性 */
 .map {
   position: fixed;

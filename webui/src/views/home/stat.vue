@@ -1,120 +1,116 @@
 <template>
-  <div class="stat">
-    <div class="datePicker">
-      <div class="display-flex date">
-        <label for="dateStart">先选择一个起始日期：</label>
-        <input class="data-input flex_1" id="dateStart" type="date" v-model="dateStart"/>
+  <div>
+    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form-group
+        id="input-group-1"
+        label="city:"
+        size="sm"
+        label-for="input-1"
+        description="We'll never share your email with anyone else."
+      >
+        <b-form-select
+          size="sm"
+          id="input-3"
+          v-model="form.food"
+          :options="foods"
+          required
+        ></b-form-select>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+      </b-form-group>
+
+      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
+        <b-form-select
+          size="sm"
+          id="input-3"
+          v-model="form.food"
+          :options="foods"
+          required
+        ></b-form-select>
+      </b-form-group>
+
+      <b-form-group id="input-group-4">
+        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
+          <b-form-checkbox value="me">Check me out</b-form-checkbox>
+          <b-form-checkbox value="that">Check that out</b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+    <b-card class="mt-3" header="Form Data Result">
+      <pre class="m-0">{{ form }}</pre>
+    </b-card>
+    <div>
+      <div>
+        <b-dropdown size="lg" text="Large" class="m-2">
+          <b-dropdown-item-button>Action</b-dropdown-item-button>
+          <b-dropdown-item-button>Another action</b-dropdown-item-button>
+          <b-dropdown-item-button>Something else here</b-dropdown-item-button>
+        </b-dropdown>
+
+        <b-dropdown size="lg" split text="Large Split" class="m-2">
+          <b-dropdown-item-button>Action</b-dropdown-item-button>
+          <b-dropdown-item-button>Another action</b-dropdown-item-button>
+          <b-dropdown-item-button>Something else here...</b-dropdown-item-button>
+        </b-dropdown>
       </div>
-      <div class="display-flex date">
-        <label for="dateEnd">再选择一个截止日期：</label>
-        <input class="data-input flex_1" id="dateEnd" type="date" v-model="dateEnd"/>
+      <div>
+        <b-dropdown size="sm" text="Small" class="m-2">
+          <b-dropdown-item-button>Action</b-dropdown-item-button>
+          <b-dropdown-item-button>Another action</b-dropdown-item-button>
+          <b-dropdown-item-button>Something else here...</b-dropdown-item-button>
+        </b-dropdown>
+
+        <b-dropdown size="sm" split text="Small Split" class="m-2">
+          <b-dropdown-item-button>Action</b-dropdown-item-button>
+          <b-dropdown-item-button>Another action</b-dropdown-item-button>
+          <b-dropdown-item-button>Something else here...</b-dropdown-item-button>
+        </b-dropdown>
       </div>
     </div>
-    <searchbar :options="{btnText:'点这里查询'}" :model="params" @change="search($event)"></searchbar>
-    <div></div>
-    <table class="table">
-      <tbody>
-        <tr class="head">
-          <th>设备编号</th>
-          <th>温度(℃)</th>
-          <th>水压(Mpa)</th>
-          <th>电量(%)</th>
-          <th>检测时间</th>
-        </tr>
-        <tr v-for="(item,index) in list" :key="index">
-          <td>{{ item.id }}</td>
-          <td>{{ item.temperature }}</td>
-          <td>{{ item.hydraulic_pressure }}</td>
-          <td>{{ item.energy }}</td>
-          <td>{{ item.time }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
 <script>
-import searchbar from '../components/searchbar'
-import chartVue from '../components/chartfor'
-
 export default {
-  name: 'Log',
-  components: {
-    searchbar,
-    chartVue
-  },
+  name: 'Stat',
   data () {
     return {
-      dateStart: new Date().toISOString().slice(0, 10),
-      dateEnd: new Date().toISOString().slice(0, 10),
-      list: [],
-      params: null
+      form: {
+        email: '',
+        name: '',
+        food: null,
+        checked: []
+      },
+      foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+      show: true
     }
   },
-  created () {
-    // 初始化日期为一个月前到当天
-    const timestamp1 = Date.now()
-    const timestamp2 = timestamp1 - 30 * 24 * 3600 * 1000
-    this.dateStart = new Date(timestamp2).toISOString().slice(0, 10)
-    this.dateEnd = new Date(timestamp1).toISOString().slice(0, 10)
-    // 获取本地数据
-    this.getLocalParams()
-  },
   methods: {
-    getLocalParams () {
-      const params = JSON.parse(localStorage.getItem('paramsStat'))
-      // 如果保存有查询参数则直接调用
-      if (params) {
-        this.params = params
-        this.search(params)
-      }
+    onSubmit (evt) {
+      evt.preventDefault()
+      alert(JSON.stringify(this.form))
     },
-    async search (params) {
-      if (params.devices.length) {
-        params.dateStart = this.dateStart
-        params.dateEnd = this.dateEnd
-        localStorage.setItem('paramsStat', JSON.stringify(params))
-        this.$chntek.transDeviceStatusHistory(params.devices, params.dateStart, params.dateEnd).then(res => {
-          console.log(res)
-          this.list = res
-        })
-      }
+    onReset (evt) {
+      evt.preventDefault()
+      // Reset our form values
+      this.form.email = ''
+      this.form.name = ''
+      this.form.food = null
+      this.form.checked = []
+      // Trick to reset/clear native browser form validation state
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.stat {
-  display: flex;
-  flex-direction: column;
-  padding-top: 10px;
+<style lang="less" scoped>
 
-  .datePicker {
-    margin: 0 10px;
-    z-index: 1;
-
-    .date {
-      margin: 10px 0;
-      height: 28px;
-      line-height: 28px;
-    }
-  }
-}
-
-.table {
-  margin: 0 10px 70px 10px;
-  border-collapse: collapse;
-  font-size: 12px;
-
-  .head {
-    background-color: #ccc;
-  }
-
-  th,
-  td {
-    border: 1px solid #666;
-    text-align: center;
-  }
-}
 </style>
