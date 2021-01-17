@@ -77,7 +77,6 @@ password: 'xf.sky.l' 	#密码
 
 ```python
 HTTP GET http://dungbeetles.xyz:3410/devices/regions
-Authorization: 12
 #输入
 account: 'CSCB001'		#用户名
 #输出
@@ -102,73 +101,67 @@ account: 'CSCB001'		#用户名
 }
 ```
 
-#### 状态查询-最近
+#### 设备查询
 
 ```python
-#查询当天的设备状态
-HTTP GET http://dungbeetles.xyz:3410/devices/status-recent
-Athorization: 12
+#查询设备信息
+HTTP GET http://dungbeetles.xyz:3410/devices/primary
 #输入
-ids: ['设备A','设备B'] #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是全部
+id: '设备A' #被查询的设备编号
 #输出
 {
     "err": null,		
-    "val": [	
-        {	
-            "id": "00006",#设备编号
-            "longitude": "E113.74880433",#设备经度
-            "latitude": "N28.2842444",	#设备纬度
-            "city": "长沙市",
-            "county": "浏阳",
-            "location": "长沙银行古港支行1F现金区卫生间",
-            "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-            "status": [
-                {
-                    "hydraulic_pressure":0.257, 		 #水压 MPa
-                    "temperature":15.8,				 #温度  °C
-                    "energy":70,    	 			 #电量  %
-                    "signal_intensity":3,  		 #信号强度 db       
-                    "time": "2010-12-10 14:20:00"		#检测时间
-                }
-            ]
-        }
-    ]
+    "val": {
+        "id": "设备A",#设备编号
+        "longitude": "E113.74880433",#设备经度
+        "latitude": "N28.2842444",	#设备纬度
+        "city": "长沙市",
+        "county": "浏阳",
+        "location": "长沙银行古港支行1F现金区卫生间",
+        "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+	}
+}
+```
+
+#### 状态查询-最近
+
+```python
+#查询最近的设备状态
+HTTP GET http://dungbeetles.xyz:3410/devices/status-recent
+#输入
+id: '设备A' #被查询的设备编号
+#输出
+{
+    "err": null,		
+    "val": {
+        "hydraulic_pressure":0.257, 		 #水压 MPa
+        "temperature":15.8,				 #温度  °C
+        "energy":70,    	 			 #电量  %
+        "signal_intensity":3,  		 #信号强度 db       
+        "time": "2010-12-10 14:20:00"		#检测时间
+	}
 }
 ```
 
 #### 状态查询-历史
 
 ```python
-#查询当天的设备状态，如果该设备当天没有状态则用最近的状态替代
+#查询历史的设备状态
 HTTP GET http://dungbeetles.xyz:3410/devices/status-history
-Athorization: 12
 #输入
-ids: ['设备A','设备B'] #被查询的设备编号，如果是多个设备则用逗号分隔，不填则是全部
+id: '设备A' #被查询的设备编号
 date_begin: '2010-12-24' #指定日期的状态
 date_end: '2010-12-24' #指定日期的状态
 #输出
 {
     "err": null,		
-    "val": [	
-        {	
-            "id": "00006",#设备编号
-            "longitude": "E113.74880433",#设备经度
-            "latitude": "N28.2842444",	#设备纬度
-            "city": "长沙市",
-            "county": "浏阳",
-            "location": "长沙银行古港支行1F现金区卫生间",
-            "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-            "status": [
-                {
-                    "hydraulic_pressure":0.257, 		 #水压 MPa
-                    "temperature":15.8,				 #温度  °C
-                    "energy":70,    	 			 #电量  %
-                    "signal_intensity":3,  		 #信号强度 db       
-                    "time": "2010-12-10 14:20:00"		#检测时间
-                }
-            ]
-        }
-    ]
+    "val": {
+        "hydraulic_pressure":0.257, 		 #水压 MPa
+        "temperature":15.8,				 #温度  °C
+        "energy":70,    	 			 #电量  %
+        "signal_intensity":3,  		 #信号强度 db       
+        "time": "2010-12-10 14:20:00"		#检测时间
+    }
 }
 ```
 
@@ -176,10 +169,10 @@ date_end: '2010-12-24' #指定日期的状态
 
 ```python
 #查询指定日期的告警状态
-HTTP GET http://dungbeetles.xyz:3410/0.0.1/devices/warnings
-Athorization: 12
+HTTP GET http://dungbeetles.xyz:3410/devices/warnings
 #输入
-searchDate:'2020-10-01' 	#指定日期的告警状态，返回该日的数据
+id:'设备A'
+date:'2020-10-01' 	#指定日期的告警状态，返回该日的数据
 #输出
 {
     "err":null,
