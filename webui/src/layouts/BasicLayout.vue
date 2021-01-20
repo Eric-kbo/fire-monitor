@@ -31,9 +31,9 @@
     </template>
     <router-view/>
     <!-- custom footer / 自定义Footer -->
-    <template v-slot:footerRender>
-      <global-footer/>
-    </template>
+        <template v-slot:footerRender v-if="true">
+          <global-footer/>
+        </template>
   </pro-layout>
 </template>
 

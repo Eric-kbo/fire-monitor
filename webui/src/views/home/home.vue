@@ -101,7 +101,7 @@ const districtData = {
   长沙: ['望城', '岳麓', '天心']
 }
 export default {
-  name: 'Workplace',
+  name: 'Home',
   components: {
     STable,
     HomeChart,

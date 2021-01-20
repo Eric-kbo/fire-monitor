@@ -19,7 +19,11 @@ import bootstrap from './core/bootstrap'
 import './core/lazy_use' // use lazy load components
 import './permission' // permission control
 import './utils/filter' // global filter
-import './global.less' // global style
+import './global.less'
+import BaiduMap from 'vue-baidu-map' // global style
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
 
@@ -31,6 +35,12 @@ Vue.component('page-container', PageHeaderWrapper)
 Vue.component('page-header-wrapper', PageHeaderWrapper)
 
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
+
+Vue.use(BaiduMap, {
+  ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
+})
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 new Vue({
   router,
