@@ -2,18 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e4a128e-5012-47f4-8d7a-e7fc248712e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/complex/home.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webui/src/views/home/homeChart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/babel.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/components/HelloWorld.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/layout/BasicLayout.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/layout/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/router/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/view/cart/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/view/goods/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/view/home/home.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/view/home/homeChart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/src/view/user/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/vue.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/common/tabbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/common/tabbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/webui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/components/GlobalFooter/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/components/GlobalFooter/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/config/router.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/config/router.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/dashboard/Analysis.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/views/dashboard/Analysis.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/views/home/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/views/home/home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/webui/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/views/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/home.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +45,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1mghI5df5O8At9NOcXioA4x3lv7" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -39,7 +55,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/webui/src/views/home" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/www/src/view/home" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -53,8 +69,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Git\qitai\chntek-fire-fighting\www\src\view\home" />
+      <recent name="E:\Git\qitai\chntek-fire-fighting\www" />
+      <recent name="E:\Git\qitai\chntek-fire-fighting\www\src\view" />
+      <recent name="E:\Git\qitai\chntek-fire-fighting\webt\webt\src\view" />
       <recent name="E:\Git\qitai\chntek-fire-fighting\webui\src\views\home" />
-      <recent name="E:\Git\qitai\chntek-fire-fighting\webui\src\assets" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -76,6 +95,9 @@
       <workItem from="1610195173369" duration="2000" />
       <workItem from="1610195184245" duration="2856000" />
       <workItem from="1610331998775" duration="30651000" />
+      <workItem from="1610951290892" duration="2474000" />
+      <workItem from="1610953855559" duration="11020000" />
+      <workItem from="1610969649794" duration="19737000" />
     </task>
     <servers />
   </component>
@@ -87,19 +109,20 @@
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
     <state x="1021" y="527" key="#Notifications/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609922412663" />
-    <state x="1060" y="459" key="FileChooserDialogImpl" timestamp="1610195197267">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="1060" y="459" key="FileChooserDialogImpl" timestamp="1610958075890">
+      <screen x="0" y="0" width="2560" height="1409" />
     </state>
-    <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609922846599" />
+    <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1610958075890" />
     <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195197267" />
-    <state x="781" y="348" key="SettingsEditor" timestamp="1610195803664">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="781" y="348" key="SettingsEditor" timestamp="1611107935163">
+      <screen x="0" y="0" width="2560" height="1409" />
     </state>
-    <state x="781" y="348" key="SettingsEditor/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609922839748" />
+    <state x="781" y="348" key="SettingsEditor/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1611107935163" />
     <state x="781" y="348" key="SettingsEditor/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195803664" />
-    <state x="981" y="259" width="598" height="891" key="find.popup" timestamp="1610175204587">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="981" y="259" width="598" height="891" key="find.popup" timestamp="1611038685080">
+      <screen x="0" y="0" width="2560" height="1409" />
     </state>
+    <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1611038685080" />
     <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610175204587" />
     <state x="936" y="333" width="672" height="677" key="run.anything.popup" timestamp="1610292938966">
       <screen x="0" y="0" width="2560" height="1410" />
@@ -109,5 +132,17 @@
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
     <state x="943" y="317" key="search.everywhere.popup/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609924107222" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/www/src/view/home/home.vue</url>
+          <line>144</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -9,18 +9,26 @@ import "@/common/common.scss";
 // 引入UI库
 import VueMaterial from 'vue-material';
 import 'vue-material/dist/vue-material.css';
+
+import {Button} from 'vant'
+
+Vue.use(Button);
+
 Vue.use(VueMaterial);
 
 // 引入echarts
 import echarts from 'echarts';
+
 Vue.prototype.$echarts = echarts;
 
 // 引入转换接口
 import chntek from "./request/chntek";
+
 Vue.prototype.$chntek = chntek;
 
 // 引入模拟接口(读取本地模拟数据)
 import http from "./request/http";
+
 Vue.prototype.$http = http;
 
 // 引入路由
@@ -37,13 +45,13 @@ Vue.config.productionTip = false;
 Vue.use(Antd);
 
 Vue.use(BaiduMap, {
-  ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
+    ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
 });
 
 Vue.config.productionTip = false;
 
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app');
