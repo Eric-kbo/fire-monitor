@@ -141,13 +141,13 @@ function Chntek() {
 
     this.transDeviceStatus = async (ids) => {
         console.log('transDeviceStatus: ');
-        
+
         let status = {};
         for (let id of ids) {
             if (this.devices[id] == undefined) continue;
 
             const { data } = await axios.get(`${proxyHost}/devices/status-recent`, {
-                params: { id:  this.devices[id].id }
+                params: { id: this.devices[id].id }
             });
 
             status[this.devices[id].id] = data.val
@@ -197,6 +197,12 @@ function Chntek() {
         let val = [];
         for (let id of this.ids) {
             if (this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
+            const { data } = await axios.get(`${proxyHost}/devices/status-recent`, {params: { id }});
+            
+            for(let k in data.val[0]) {
+                this.devices[id][k] = data.val[0][k]
+            }
+
             val.push(this.devices[id]);
         }
         console.log(val);
@@ -281,40 +287,23 @@ function Chntek() {
     };
 
     this.login = async (account, password) => {
-        const { data } = await axios.get(`${host}/api/user/login`, {
-            params: { account, password }
-        });
+        let res = await axios.get(`${host}/api/user/login`, { params: { account, password } });
 
-        if (data.err) throw data.err;
-        console.log('token:', data.val.token);
-        this.token = data.val.token;
+        if (res.data.err) throw res.data.err;
+        console.log('token:', res.data.val.token);
+        this.token = res.data.val.token;
         this.account = account
-
+        
         this.ids = await this.getIds();
-        let ids = this.ids.slice(0)
+        let strIds = '';
+        for (let id of this.ids) strIds += id + ',';
+        res = await axios.get(`${proxyHost}/devices/primary`, { params: { ids:strIds } });
+        if (res.data.err) throw res.data.err;
 
-        for (let timestamp = Date.now(), day = 0; ids.length && day < 60; day++, timestamp -= 1 * 24 * 3600 * 1000) {
-            let dt = new Date(timestamp);
-            let date = dt.toISOString().slice(0, 10);
-            let status = await this.status(ids, date, date);
-
-            for (let id in status) {
-                let device = status[id];
-
-                for (let detail of device) {
-                    let t = this.devices[id] == undefined ? 0 : new Date(this.devices[id].time).getTime()
-                    let t1 = new Date(detail.time).getTime()
-                    if (t > t1) continue
-                    detail.id = id;
-                    this.devices[id] = detail;
-                    this.devices[detail.location + id] = detail;
-                }
-
-                let i = ids.indexOf(id);
-                ids.splice(i, 1);
-            }
+        for (let detail of res.data.val) {
+            this.devices[detail.id] = detail;
+            this.devices[detail.location + detail.id] = detail;
         }
-
 
         try {
             document.addEventListener('deviceready', async () => {
