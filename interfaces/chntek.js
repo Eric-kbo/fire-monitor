@@ -70,11 +70,11 @@ function Chntek() {
                     "status_of_water_quality": 0,   //水质状态，0：正常，1：报警
                     "status_of_subzero_temperature": 0, //负温状态，0：正常，1：报警
                     "status_of_low_signal_intensity": 0,//低信号状态，0：正常，1：报警
-                    "type": obj.terminalType,
-                    "longitude": obj.longitude,		        //设备经度
-                    "latitude": obj.latitude,		        //设备纬度
-                    "location": obj.customerunit,    //位置
-                    "time": obj.monitorsTime		//检测时间
+                    "type": obj.TerminalType,
+                    "longitude": obj.Longitude,		        //设备经度
+                    "latitude": obj.Latitude,		        //设备纬度
+                    "location": obj.Customerunit,    //位置
+                    "time": obj.MonitorsTime		//检测时间
                 });
             }
         }
@@ -96,17 +96,17 @@ function Chntek() {
         let val = {};
 
         for (let obj of data.val) {
-            let id = obj.terminalNum;
+            let id = obj.ProductTerId;
             let info = {
                 id: id,		//设备编号
-                location: obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
-                warning_type: obj.warnName,	//警告类型
-                time: obj.monitorsTime,			//时间
-                longitude: obj.longitude,
-                latitude: obj.latitude
+                location: obj.Prefecturecity + obj.Distriancounty + obj.Customerunit, //地点
+                warning_type: obj.WarnName,	//警告类型
+                time: obj.MonitorsTime,			//时间
+                longitude: obj.Longitude,
+                latitude: obj.Latitude
             };
 
-            if (!val[id]) val[id] = { id: obj.terminalNum, location: info.location, time: info.time, children: [] };
+            if (!val[id]) val[id] = { id: obj.ProductTerId, location: info.location, time: info.time, children: [] };
             val[id].children.push(info);
         }
 
@@ -146,10 +146,15 @@ function Chntek() {
 
         let idsNew = [];
         for (let id of ids) {
+            if(this.devices[id] == undefined) continue;
             idsNew.push(this.devices[id].id);
         }
 
         let status = await this.status(idsNew, date, date);
+        if(Object.keys(status).length == 0) {
+            let dt = new Date(Date.now() - 1 * 24 * 3600* 1000);
+            status = await this.status(idsNew, date, date);
+        }
 
         let legendData = [];
         let xAxisData = ['00', '01', '02', '03'
@@ -235,6 +240,7 @@ function Chntek() {
 
         let idsNew = [];
         for (let id of ids) {
+            if(this.devices[id] == undefined) continue;
             idsNew.push(this.devices[id].id);
         }
 
@@ -304,7 +310,7 @@ function Chntek() {
         this.ids = await this.getIds();
         let ids = this.ids.slice(0)
 
-        for (let timestamp = Date.now(), day = 0; ids.length && day < 14; day++, timestamp -= 1 * 24 * 3600 * 1000) {
+        for (let timestamp = Date.now(), day = 0; ids.length && day < 60; day++, timestamp -= 1 * 24 * 3600 * 1000) {
             let dt = new Date(timestamp);
             let date = dt.toISOString().slice(0, 10);
             let status = await this.status(ids, date, date);
@@ -313,7 +319,7 @@ function Chntek() {
                 let device = status[id];
 
                 for (let detail of device) {
-                    let t = this.devices[id] ? new Date(this.devices[id].time).getTime() : 0
+                    let t = this.devices[id] == undefined ? 0 : new Date(this.devices[id].time).getTime()
                     let t1 = new Date(detail.time).getTime()
                     if(t > t1) continue
                     detail.id = id;

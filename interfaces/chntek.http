@@ -12,7 +12,9 @@ GET http://iot.chntek.com:3410/api/user/login
 
 ###查询所有区域设备
 GET http://iot.chntek.com:3410/api/Terminal/Regions
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYxMTUwMDM3NCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.8nnKmig8Ar5uAC5WDZLxJZEl9mEpPsqbN4YrBt-H_UQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYxMjQ4NjE5OCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.--VK2JdU8IgkgnjyQ9Kck_22McjIEgaf2FkhNDjjNEE
+
+
 
 ###查询所有设备
 GET http://iot.chntek.com:3410/api/Terminal/GetAllDevice
@@ -20,12 +22,12 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxz
 
 ###查询设备状态
 GET http://iot.chntek.com:3410/api/Terminal/HistoryData
-    ?ids=CSCB0000007
-    &date_begin=2020-11-29
-    &date_end=2020-12-29
+    ?ids=CSCB0000001,CSCB0000002,CSCB0000003,CSCB0000004,CSCB0000005,CSCB0000006,CSCB0000007,CSCB0000008,CSCB0000009,CSCB0000010,CSCB0000011,CSCB0000012
+    &date_begin=2021-01-04
+    &date_end=2021-01-05
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYxMTUwMDM3NCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.8nnKmig8Ar5uAC5WDZLxJZEl9mEpPsqbN4YrBt-H_UQ
-    
+
 ###查询告警状态
 GET http://iot.chntek.com:3410/api/Terminal/RealTimeData
-    ?searchDate=2020-12-01
+    ?searchDate=2021-1-05
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYxMTUwMDM3NCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.8nnKmig8Ar5uAC5WDZLxJZEl9mEpPsqbN4YrBt-H_UQ

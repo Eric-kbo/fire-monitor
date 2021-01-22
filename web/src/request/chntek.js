@@ -70,11 +70,11 @@ function Chntek() {
                     "status_of_water_quality": 0,   //水质状态，0：正常，1：报警
                     "status_of_subzero_temperature": 0, //负温状态，0：正常，1：报警
                     "status_of_low_signal_intensity": 0,//低信号状态，0：正常，1：报警
-                    "type": obj.terminalType,
-                    "longitude": obj.longitude,		        //设备经度
-                    "latitude": obj.latitude,		        //设备纬度
-                    "location": obj.customerunit,    //位置
-                    "time": obj.monitorsTime		//检测时间
+                    "type": obj.TerminalType,
+                    "longitude": obj.Longitude,		        //设备经度
+                    "latitude": obj.Latitude,		        //设备纬度
+                    "location": obj.Customerunit,    //位置
+                    "time": obj.MonitorsTime		//检测时间
                 });
             }
         }
@@ -96,23 +96,23 @@ function Chntek() {
         let val = {};
 
         for (let obj of data.val) {
-            let id = obj.productTerID;
+            let id = obj.ProductTerId;
             let info = {
                 id: id,		//设备编号
-                location: obj.prefecturecity + obj.distriancounty + obj.customerunit, //地点
-                warning_type: obj.warnName,	//警告类型
-                time: obj.monitorsTime,			//时间
-                longitude: obj.longitude,
-                latitude: obj.latitude
+                location: obj.Prefecturecity + obj.Distriancounty + obj.Customerunit, //地点
+                warning_type: obj.WarnName,	//警告类型
+                time: obj.MonitorsTime,			//时间
+                longitude: obj.Longitude,
+                latitude: obj.Latitude
             };
 
-            if (!val[id]) val[id] = { id: obj.productTerID, location: info.location, time: info.time, children: [] };
+            if (!val[id]) val[id] = { id: obj.ProductTerId, location: info.location, time: info.time, children: [] };
             val[id].children.push(info);
         }
 
         let val2 = [];
         for (let id in val) {
-            if(this.ids.indexOf(id) == -1) continue
+            if (this.ids.indexOf(id) == -1) continue
             val2.push(val[id]);
         }
 
@@ -141,23 +141,24 @@ function Chntek() {
 
     this.transDeviceStatus = async (ids) => {
         console.log('transDeviceStatus: ');
-        let dt = new Date();
-        let date = dt.toISOString().slice(0, 10);
 
-        let idsNew = [];
+        let status = {};
         for (let id of ids) {
-            if(this.devices[id] == undefined) continue;
-            idsNew.push(this.devices[id].id);
+            if (this.devices[id] == undefined) continue;
+
+            const { data } = await axios.get(`${proxyHost}/devices/status-recent`, {
+                params: { id: this.devices[id].id }
+            });
+
+            status[this.devices[id].id] = data.val
         }
 
-        let status = await this.status(idsNew, date, date);
-
         let legendData = [];
-        let xAxisData = ['00', '01', '02', '03'
-            , '04', '05', '06', '07', '08'
-            , '09', '10', '11', '12', '14'
+        let xAxisData = ['1', '2', '3'
+            , '4', '5', '6', '7', '8'
+            , '9', '10', '11', '12', '14'
             , '15', '16', '17', '18', '19'
-            , '20', '21', '22', '23'];
+            , '20'];
         let hydraulicPressures = [];
         let list = [];
 
@@ -173,21 +174,7 @@ function Chntek() {
             for (let detail of device) {
                 detail.id = id;
                 list.push(detail);
-            }
-
-            let et = new Date();
-
-            for (let t = 0, hydraulicPressure = 0, temperature = 0, energy = 100; t < 24 && t < et.getHours(); t++) {
-                for (let detail of device) {
-                    let time = new Date(detail.time);
-
-                    if (t == time.getHours()) {
-                        hydraulicPressure = detail['hydraulic_pressure'];
-                        break;
-                    }
-                }
-
-                hydraulicPressureData.data.push(hydraulicPressure);
+                hydraulicPressureData.data.push(detail['hydraulic_pressure']);
             }
 
             hydraulicPressures.push(hydraulicPressureData);
@@ -209,9 +196,16 @@ function Chntek() {
         let keys = {};
         let val = [];
         for (let id of this.ids) {
-            if(this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
+            if (this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
+            const { data } = await axios.get(`${proxyHost}/devices/status-recent`, {params: { id }});
+            
+            for(let k in data.val[0]) {
+                this.devices[id][k] = data.val[0][k]
+            }
+
             val.push(this.devices[id]);
         }
+        console.log(val);
         return val;
     };
 
@@ -235,7 +229,7 @@ function Chntek() {
 
         let idsNew = [];
         for (let id of ids) {
-            if(this.devices[id] == undefined) continue;
+            if (this.devices[id] == undefined) continue;
             idsNew.push(this.devices[id].id);
         }
 
@@ -262,21 +256,21 @@ function Chntek() {
 
         try {
             let warnings = await chntek.transWarningListOfToday();
-           
+
             if (warnings.length != this.warningsLength) {
                 window.cordova.plugins.notification.local.schedule({
                     text: '有新的告警信息...',
                     foreground: true
-                })    
+                })
             }
 
             this.warningsLength = warnings.length;
-            
+
             let ids = this.ids.slice(0)
             let sum = ids.length, normal = 0, abnormal = 0;
 
             for (let w of warnings) {
-                if(w == undefined) continue;
+                if (w == undefined) continue;
                 let i = ids.indexOf(w.id);
                 if (i == -1) continue;
                 ids.splice(i, 1);
@@ -293,40 +287,23 @@ function Chntek() {
     };
 
     this.login = async (account, password) => {
-        const { data } = await axios.get(`${host}/api/user/login`, {
-            params: { account, password }
-        });
+        let res = await axios.get(`${host}/api/user/login`, { params: { account, password } });
 
-        if (data.err) throw data.err;
-        console.log('token:', data.val.token);
-        this.token = data.val.token;
+        if (res.data.err) throw res.data.err;
+        console.log('token:', res.data.val.token);
+        this.token = res.data.val.token;
         this.account = account
-
+        
         this.ids = await this.getIds();
-        let ids = this.ids.slice(0)
+        let strIds = '';
+        for (let id of this.ids) strIds += id + ',';
+        res = await axios.get(`${proxyHost}/devices/primary`, { params: { ids:strIds } });
+        if (res.data.err) throw res.data.err;
 
-        for (let timestamp = Date.now(), day = 0; ids.length && day < 60; day++, timestamp -= 1 * 24 * 3600 * 1000) {
-            let dt = new Date(timestamp);
-            let date = dt.toISOString().slice(0, 10);
-            let status = await this.status(ids, date, date);
-
-            for (let id in status) {
-                let device = status[id];
-
-                for (let detail of device) {
-                    let t = this.devices[id] == undefined ? 0 : new Date(this.devices[id].time).getTime()
-                    let t1 = new Date(detail.time).getTime()
-                    if(t > t1) continue
-                    detail.id = id;
-                    this.devices[id] = detail;
-                    this.devices[detail.location + id] = detail;
-                }
-
-                let i = ids.indexOf(id);
-                ids.splice(i, 1);
-            }
+        for (let detail of res.data.val) {
+            this.devices[detail.id] = detail;
+            this.devices[detail.location + detail.id] = detail;
         }
-
 
         try {
             document.addEventListener('deviceready', async () => {
