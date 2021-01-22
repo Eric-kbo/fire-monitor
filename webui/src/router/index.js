@@ -1,17 +1,69 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import { constantRouterMap } from '@/config/router.config'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-// hack router push callback
-const originalPush = Router.prototype.push
-Router.prototype.push = function push (location, onResolve, onReject) {
-  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-  return originalPush.call(this, location).catch(err => err)
-}
+Vue.use(Router);
 
-Vue.use(Router)
+const routes = [
+    {
+        path: '*',
+        redirect: '/home'
+    },
+    {
+        name: 'user',
+        path: '/user',
+        component: () => import('../view/user'),
+        meta: {
+            title: '会员中心'
+        }
+    },
+    {
+        name: 'cart',
+        path: '/cart',
+        component: () => import('../view/cart'),
+        meta: {
+            title: '购物车'
+        }
+    },
+    {
+        name: 'home1',
+        path: '/home1',
+        component: () => import('../view/home/home'),
+        meta: {
+            title: '综合显示'
+        }
+    },
+    {
+        name: 'home',
+        redirect: '/home',
+        component: () => import('../layout/BasicLayout'),
+        children: [
+            {
+                name: 'home',
+                path: '/home',
+                component: () => import('../view/home/home'),
+                meta: {
+                    title: '综合显示'
+                }
+            }
+        ]
+    }
+];
 
-export default new Router({
-  mode: 'history',
-  routes: constantRouterMap
-})
+// add route path
+routes.forEach(route => {
+    route.path = route.path || '/' + (route.name || '');
+});
+
+const router = new Router({routes});
+
+router.beforeEach((to, from, next) => {
+    const title = to.meta && to.meta.title;
+    if (title) {
+        document.title = title;
+    }
+    next();
+});
+
+export {
+    router
+};

@@ -2,31 +2,246 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e4a128e-5012-47f4-8d7a-e7fc248712e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/www/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/babel.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/App.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/assets/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/components/HelloWorld.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/layout/BasicLayout.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/layout/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/router/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/view/cart/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/view/goods/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/view/home/home.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/view/home/homeChart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/src/view/user/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/www/vue.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.env.development" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.env.preview" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.eslintrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.github/ISSUE_TEMPLATE/bug_report.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.github/ISSUE_TEMPLATE/feature_request.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.github/ISSUE_TEMPLATE/need-help-issue.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.github/pull_request_template.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/.travis.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/README.zh-CN.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/config/plugin.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/config/themePluginConfig.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/docs/add-page-loading-animate.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/docs/webpack-bundle-analyzer.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/jest.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/public/avatar2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/public/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/api/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/api/manage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/background.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/icons/bx-analyse.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/images/abnormal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/images/cylinders.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/images/firehydrant.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/images/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/images/normal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/images/pressure.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/images/total.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/assets/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/ArticleListContent/ArticleListContent.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/ArticleListContent/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/AvatarList/Item.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/AvatarList/List.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/AvatarList/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/AvatarList/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/AvatarList/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/Bar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/ChartCard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/Liquid.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/MiniArea.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/MiniBar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/MiniProgress.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/MiniSmoothArea.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/Radar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/RankList.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/TagCloud.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/TransferBar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/Trend.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/chart.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Charts/smooth.area.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Dialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Editor/QuillEditor.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Editor/WangEditor.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Ellipsis/Ellipsis.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Ellipsis/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Ellipsis/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/FooterToolbar/FooterToolBar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/FooterToolbar/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/FooterToolbar/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/FooterToolbar/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/GlobalFooter/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/GlobalHeader/AvatarDropdown.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/GlobalHeader/RightContent.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/IconSelector/IconSelector.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/IconSelector/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/IconSelector/icons.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/IconSelector/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/MultiTab/MultiTab.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/MultiTab/events.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/MultiTab/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/MultiTab/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/NProgress/nprogress.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/NoticeIcon/NoticeIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/NoticeIcon/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/NumberInfo/NumberInfo.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/NumberInfo/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/NumberInfo/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/NumberInfo/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Other/CarbonAds.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/PageLoading/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Search/GlobalSearch.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Search/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/SelectLang/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/SelectLang/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/SettingDrawer/SettingDrawer.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/SettingDrawer/SettingItem.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/SettingDrawer/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/SettingDrawer/settingConfig.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/SettingDrawer/themeColor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/StandardFormRow/StandardFormRow.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/StandardFormRow/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Table/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Table/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/TagSelect/TagSelectOption.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/TagSelect/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/TextArea/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/TextArea/style.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Tree/Tree.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Trend/Trend.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Trend/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Trend/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/Trend/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/_util/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/index.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/components/tools/TwoStepCaptcha.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/config/defaultSettings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/config/router.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/core/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/core/directives/action.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/core/icons.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/core/lazy_use.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/core/permission/permission.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/core/use.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/global.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layouts/BasicLayout.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layouts/BasicLayout.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layouts/BlankLayout.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layouts/PageView.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layouts/RouteView.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layouts/UserLayout.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layouts/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/account/settings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/dashboard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/dashboard/analysis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/form/basicForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/global.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/menu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/result.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/result/fail.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/result/success.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/setting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/en-US/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/account/settings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/complex/home.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/dashboard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/dashboard/analysis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/form/basicForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/global.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/menu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/result.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/result/fail.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/result/success.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/setting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/locales/lang/zh-CN/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/services/article.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/services/auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/services/manage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/services/other.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/services/tagCloud.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/services/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/mock/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/permission.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/router/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/router/generator-routers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/router/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/app-mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/device-mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/getters.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/i18n-mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/modules/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/modules/async-router.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/modules/permission.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/modules/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/store/mutation-types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/domUtil.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/filter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/request.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/routeConvert.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/screenLog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/utils/utils.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/404.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/center/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/center/page/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/center/page/Article.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/center/page/Project.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/center/page/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/settings/AvatarModal.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/settings/BasicSetting.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/settings/Binding.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/settings/Custom.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/settings/Index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/settings/Notification.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/account/settings/Security.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/dashboard/Analysis.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/dashboard/Monitor.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/dashboard/TestWork.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/dashboard/Workplace.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/dashboard/Workplace.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/exception/403.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/exception/404.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/exception/500.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/advancedForm/AdvancedForm.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/advancedForm/RepositoryForm.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/advancedForm/TaskForm.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/basicForm/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/stepForm/Step1.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/stepForm/Step2.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/stepForm/Step3.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/form/stepForm/StepForm.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/detail.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/gmap.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/history.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/home.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/homeChart.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/realtime.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/home/stat.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/views/user/Login.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/tests/unit/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/vue.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/webstorm.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/yarn.lock" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +270,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/www/src/view/home" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -97,7 +312,8 @@
       <workItem from="1610331998775" duration="30651000" />
       <workItem from="1610951290892" duration="2474000" />
       <workItem from="1610953855559" duration="11020000" />
-      <workItem from="1610969649794" duration="19737000" />
+      <workItem from="1610969649794" duration="19914000" />
+      <workItem from="1611196613822" duration="6922000" />
     </task>
     <servers />
   </component>
@@ -132,17 +348,5 @@
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
     <state x="943" y="317" key="search.everywhere.popup/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609924107222" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/www/src/view/home/home.vue</url>
-          <line>144</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
