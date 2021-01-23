@@ -13,7 +13,7 @@ import chntek_db as db
 app = Flask(__name__,'')
 app.config['JSON_AS_ASCII'] = False
 
-@app.route('/devices/ids')
+@app.route('/devices/ids', methods=['GET'])
 def ids():
     try:
         account = request.args['account']
@@ -22,7 +22,7 @@ def ids():
         ids = []
     return { 'val':ids, 'err':None}
 
-@app.route('/devices/regions')
+@app.route('/devices/regions', methods=['GET'])
 def regions():
     try:
         account = request.args['account']
@@ -48,7 +48,7 @@ def regions():
 
     return { 'val': regions,'err':None}
 
-@app.route('/devices/primary')
+@app.route('/devices/primary', methods=['GET'])
 def primary():
     ids = request.args['ids'].split(',')
     primaries = []
@@ -62,7 +62,7 @@ def primary():
 
     return { 'val':primaries, 'err':None}
 
-@app.route('/devices/status-recent')
+@app.route('/devices/status-recent', methods=['GET'])
 def status_realtime():
     id = request.args['id']
 
@@ -78,7 +78,7 @@ def status_realtime():
         if len(status) > 20: break
     return { 'val':status[0:20], 'err':None}
 
-@app.route('/devices/status-history')
+@app.route('/devices/status-history', methods=['GET'])
 def status_history():
     id = request.args['id']
     date_begin = request.args['date_begin']
@@ -93,7 +93,7 @@ def status_history():
             print(e)   
     return { 'val': status, 'err':None}
 
-@app.route('/devices/warnings')
+@app.route('/devices/warnings', methods=['GET'])
 def warnings():
     id = request.args['id']
     date = datetime.datetime.strptime(request.args['date'],'%Y-%m-%d').date()
@@ -111,7 +111,7 @@ from werkzeug.utils import secure_filename
 os.makedirs(f'static/app', exist_ok=True)
 
 app.config['UPLOAD_FOLDER'] = 'static/app/'
-@app.route('/app/upload', methods=['GET', 'POST'])
+@app.route('/app/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
         err = 'No file part'
@@ -124,7 +124,7 @@ def upload_file():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return { 'val': True, 'err': None }
 
-@app.route('/app/latest', methods=['GET', 'POST'])
+@app.route('/app/latest', methods=['GET'])
 def latest():
     dirs = os.listdir(app.config['UPLOAD_FOLDER'])
     if not dirs:
