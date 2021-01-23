@@ -7,10 +7,12 @@ from pandas import date_range
 
 from flask import Flask, flash,abort, redirect, request, url_for
 from gevent import pywsgi
+from flask_cors import CORS
 
 import chntek_db as db
 
 app = Flask(__name__,'')
+CORS(app,send_wildcard=True)
 app.config['JSON_AS_ASCII'] = False
 
 @app.route('/devices/ids', methods=['GET'])
