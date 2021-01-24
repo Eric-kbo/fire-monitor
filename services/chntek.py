@@ -71,6 +71,7 @@ def status_realtime():
     status = []
     for days in range(60):
         time = datetime.datetime.now() - datetime.timedelta(days)
+        print(time)
         try:
             with open(f'db/devices/{id}/status/{time.date()}.json') as f:
                 status += json.load(f)

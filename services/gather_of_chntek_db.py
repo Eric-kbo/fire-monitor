@@ -46,9 +46,10 @@ def gather(token,ids,today=datetime.datetime.now()):
                 'conductivity':       s['conductivity']
             })
 
-        print(f'gather db/devices/{tid}')
+        print(f'gather db/devices/{tid}/primary.json')
         with open(f'db/devices/{tid}/primary.json','w') as f:
             f.write(json.dumps(primary,indent=4,ensure_ascii=False))
+        print(f'gather db/devices/{tid}/status/{today.date()}.json',end=' ')
         with open(f'db/devices/{tid}/status/{today.date()}.json','w') as f:
             f.write(json.dumps(status,indent=4,ensure_ascii=False))
         with open(f'db/devices/{tid}/warnings/{today.date()}.json','w') as f:
@@ -65,27 +66,23 @@ def gather(token,ids,today=datetime.datetime.now()):
 
         try:
             print(f'gather db/devices/{tid}/warnings/{today.date()}.json',end=' ')
-            with open(f'db/devices/{tid}/primary.json','w+') as f:
-                if f.seek(0,2) == 0: f.write('{}')
-                f.seek(0)
-                primary = json.load(f)
+            with open(f'db/devices/{tid}/primary.json','r+') as f:
+                primary_later = json.load(f)
                 primary = {
                     'id':tid,
-                    'longitude':w['Longitude'] if w['Longitude'] else primary['Longitude'],
-                    'latitude': w['Latitude'] if w['Latitude'] else primary['Latitude'],
-                    'city': w['Prefecturecity'] if w['Prefecturecity'] else primary['city'],
-                    'county': w['Distriancounty'] if w['Distriancounty'] else primary['county'],
-                    'location': w['Customerunit'] if w['Customerunit'] else primary['location'],
-                    'type': 'firehydrant',  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+                    'longitude':w['Longitude'] if w['Longitude'] else primary_later['longitude'],
+                    'latitude': w['Latitude'] if w['Latitude'] else primary_later['latitude'],
+                    'city': w['Prefecturecity'] if w['Prefecturecity'] else primary_later['city'],
+                    'county': w['Distriancounty'] if w['Distriancounty'] else primary_later['county'],
+                    'location': w['Customerunit'] if w['Customerunit'] else primary_later['location'],
+                    'type': primary_later['type'] if 'type' in primary_later else 'firehydrant'  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
                 }
 
                 f.seek(0)
                 f.truncate()
                 f.write(json.dumps(primary,indent=4,ensure_ascii=False))
 
-            with open(f'db/devices/{tid}/warnings/{today.date()}.json','w+') as f:
-                if f.seek(0,2) == 0: f.write('[]')
-                f.seek(0)
+            with open(f'db/devices/{tid}/warnings/{today.date()}.json','r+') as f:
                 warnings = json.load(f)
                 warnings.append({
                     'type': w['WarnName'],
@@ -96,8 +93,11 @@ def gather(token,ids,today=datetime.datetime.now()):
                 f.truncate()
                 f.write(json.dumps(warnings,indent=4,ensure_ascii=False))
                 print()
+        except FileNotFoundError:
+            pass
         except TypeError as e:
             print(e)
+
 
 print('program [recent days]')
 import sys
