@@ -4,6 +4,10 @@
         title="启泰传感"
     />
     <!--    <van-search v-model="value" placeholder="请输入搜索关键词"/>-->
+
+    <van-row>
+    </van-row>
+
     <van-row>
       <van-col span="18">
         <van-field
@@ -27,40 +31,58 @@
           @finish="onFinish"
           @change="changeFinish"
       />
+      <!--      <van-picker show-toolbar :columns="options"-->
+      <!--                  @confirm="onConfirm"-->
+      <!--                  @cancel="onCancel"-->
+      <!--                  @change="onChange"/>-->
     </van-popup>
+
 
     <home-chart style="margin-top: 15px; "></home-chart>
 
     <van-collapse v-model="activeNames">
-      <van-collapse-item name="1">
-        <template #title>
-          <div>设备1</div>
-        </template>
-        <template v-for="(item,key) in statusList">
-
-          <van-cell-group
-              :key="key">
+      <template v-for="(list,key) in statusList">
+        <van-collapse-item :name="key" :key="key">
+          <template #title>
             <van-row>
-              <van-col span="6">
-                温度:
-                <van-tag plain type="primary">{{ item.temperature }}</van-tag>
-              </van-col>
-              <van-col span="6">
-                压力:
-                <van-tag plain type="success">{{ item.hydraulic_pressure }}</van-tag>
-              </van-col>
-              <van-col span="6">
-                电量:
-                <van-tag plain type="danger">{{ item.energy }}%</van-tag>
+              <van-col span="12">
+                {{ list.title.id }}
               </van-col>
               <van-col span="12">
-                时间:
-                <van-tag plain type="warning">{{ item.time }}</van-tag>
+                {{ list.title.latitude }}
               </van-col>
             </van-row>
-          </van-cell-group>
-        </template>
-      </van-collapse-item>
+            <van-row>
+              <van-col span="24">
+                {{ list.title.location }}
+              </van-col>
+            </van-row>
+          </template>
+          <template v-for="(item,key) in list.data">
+            <van-cell-group
+                :key="key">
+              <van-row>
+                <van-col span="6">
+                  温度:
+                  <van-tag plain type="primary">{{ item.temperature }}</van-tag>
+                </van-col>
+                <van-col span="6">
+                  压力:
+                  <van-tag plain type="success">{{ item.hydraulic_pressure }}</van-tag>
+                </van-col>
+                <van-col span="6">
+                  电量:
+                  <van-tag plain type="danger">{{ item.energy }}%</van-tag>
+                </van-col>
+                <van-col span="12">
+                  时间:
+                  <van-tag plain type="warning">{{ item.time }}</van-tag>
+                </van-col>
+              </van-row>
+            </van-cell-group>
+          </template>
+        </van-collapse-item>
+      </template>
     </van-collapse>
   </div>
 </template>
@@ -80,7 +102,8 @@ import {
   Tag,
   Divider,
   Card,
-  Search, Button
+  Search, Button,
+  Picker
 } from 'vant';
 import HomeChart from './homeChart'
 
@@ -101,10 +124,12 @@ export default {
     [Search.name]: Search,
     [Button.name]: Button,
     [Card.name]: Card,
+    [Picker.name]: Picker,
     HomeChart,
   },
   data() {
     return {
+      Arealoading: true,
       activeNames: ['1', '2'],
       value: '',
       show: false,
@@ -113,6 +138,7 @@ export default {
       cascaderValue: '',
       // 选项列表，children 代表子选项，支持多级嵌套
       options: [],
+      optionList: {},
     };
   },
   created() {
@@ -129,17 +155,16 @@ export default {
           opt.children.push({
             text: a,
             value: a,
-            children: []
+            list: []
           })
+          this.optionList[a] = res[x][a]
           res[x][a].forEach(b => {
             const i = opt.children.findIndex(i => i.text === a)
-            opt.children[i].children.push({
-              text: b,
-              value: b,
-            })
+            opt.children[i].list.push(b)
           });
         })
         this.options.push(opt)
+        console.log(JSON.stringify(this.options))
       })
     })
     this.getStatus('CSCB0000001');
@@ -148,12 +173,21 @@ export default {
     getRegion() {
       const list = this.fieldValue.split('-');
       const val = list[list.length - 1]
-      this.getStatus(val)
+      const datas = this.optionList[val]
+      if (datas && datas.length > 0) {
+        this.$chntek.statusPrimary(datas.toString()).then(res => {
+          datas.forEach(x => {
+            this.getStatus(x, res)
+          })
+        })
+      }
     },
-    getStatus(val) {
+    getStatus(val, list) {
       this.$chntek.statusRecent(val).then(res => {
-        this.statusList = res;
-        console.log(this.statusList)
+        this.statusList.push({
+          title: list.find(a => a.id === val),
+          data: res
+        });
       })
     },
     // 全部选项选择完毕后，会触发 finish 事件

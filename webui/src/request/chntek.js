@@ -27,6 +27,14 @@ function Chntek() {
         });
         if (data.val) return data.val;
     };
+    this.statusPrimary = async (val) => {
+        const {data} = await axios.get(`${proxyHost}/devices/primary`, {
+            // params: {account: this.account},
+            params: {ids: val},
+            headers: {'Authorization': this.token}
+        });
+        if (data.val) return data.val;
+    };
 }
 
 const chntek = new Chntek();
