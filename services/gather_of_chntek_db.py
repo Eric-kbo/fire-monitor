@@ -84,6 +84,10 @@ def gather(token,ids,today=datetime.datetime.now()):
 
             with open(f'db/devices/{tid}/warnings/{today.date()}.json','r+') as f:
                 warnings = json.load(f)
+                if not w['WarnName']: continue
+                w['WarnName'] = w['WarnName'].replace('、水质报警','')
+                w['WarnName'] = w['WarnName'].replace('水质报警','')
+
                 warnings.append({
                     'type': w['WarnName'],
                     'time': w['MonitorsTime'],
@@ -94,7 +98,7 @@ def gather(token,ids,today=datetime.datetime.now()):
                 f.write(json.dumps(warnings,indent=4,ensure_ascii=False))
                 print()
         except FileNotFoundError:
-            pass
+            print()
         except TypeError as e:
             print(e)
 
@@ -109,5 +113,5 @@ for account in db.ids:
     for i in db.ids[account]:
         ids += f'{i},'
 
-    for i in range(1 if len(sys.argv) == 1 else int(sys.argv[1]),-1,-1):
+    for i in range(0 if len(sys.argv) == 1 else int(sys.argv[1]),-1,-1):
         gather(token,ids,datetime.datetime.now() - datetime.timedelta(days=i))
