@@ -96,6 +96,10 @@ function Chntek() {
         let val = {};
 
         for (let obj of data.val) {
+            if(obj.WarnName == '') continue
+            obj.WarnName = obj.WarnName.replace(/、水质报警/,'')
+            obj.WarnName = obj.WarnName.replace(/水质报警/,'')
+            
             let id = obj.ProductTerId;
             let info = {
                 id: id,		//设备编号
@@ -305,14 +309,9 @@ function Chntek() {
             this.devices[detail.location + detail.id] = detail;
         }
 
-        try {
-            document.addEventListener('deviceready', async () => {
-                await this.syncingWarnings();
-                this.timer = setInterval(async () => this.syncingWarnings(), 20000);
-                window.cordova.plugins.backgroundMode.enable();
-            });
-        }
-        catch (e) { }
+        window.cordova.plugins.backgroundMode.enable();
+        await this.syncingWarnings();
+        this.timer = setInterval(async () => this.syncingWarnings(), 20000);
     };
 
     this.logout = async () => {
@@ -320,6 +319,29 @@ function Chntek() {
         window.cordova.plugins.backgroundMode.disable();
     };
 };
+
+document.addEventListener('deviceready', async () => {
+    let version = window.cordova.plugins.version.getAppVersion();
+    const { data } = await axios.get(`${proxyHost}/app/latest`);
+    
+    if(data.err)
+        return
+
+    if(-1 != data.val.indexOf(version))
+        return
+
+    var uri = encodeURI(data.val)
+    var fileURL = 'cdvfile://localhost/temporary/tuner.apk'
+    var fileTransfer = new window.FileTransfer()
+    fileTransfer.download(
+        uri, fileURL, function (entry) {
+            alert('确认并安装新版本更新！')
+            cordova.plugins.fileOpener2.open('cdvfile://localhost/temporary/tuner.apk','application/vnd.android.package-archive')
+        },
+        function (error) {
+            console.error('download error: ' + error.source + error.target + error.code)
+        })
+})
 
 const chntek = new Chntek();
 

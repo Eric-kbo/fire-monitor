@@ -107,19 +107,30 @@ account: 'CSCB001'		#用户名
 #查询设备信息
 HTTP GET http://dungbeetles.xyz:3410/devices/primary
 #输入
-id: '设备A' #被查询的设备编号
+ids: '设备A,设备B' #被查询的设备编号，多个用逗号分隔
 #输出
 {
     "err": null,		
-    "val": {
-        "id": "设备A",#设备编号
-        "longitude": "E113.74880433",#设备经度
-        "latitude": "N28.2842444",	#设备纬度
-        "city": "长沙市",
-        "county": "浏阳",
-        "location": "长沙银行古港支行1F现金区卫生间",
-        "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-	}
+    "val": [
+        {
+            "id": "设备A",#设备编号
+            "longitude": "E113.74880433",#设备经度
+            "latitude": "N28.2842444",	#设备纬度
+            "city": "长沙市",
+            "county": "浏阳",
+            "location": "长沙银行古港支行1F现金区卫生间",
+            "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+		},
+        {
+            "id": "设备B",#设备编号
+            "longitude": "E113.74880433",#设备经度
+            "latitude": "N28.2842444",	#设备纬度
+            "city": "长沙市",
+            "county": "浏阳",
+            "location": "长沙银行古港支行1F现金区卫生间",
+            "type": "firehydrant"
+		}
+    ]
 }
 ```
 
@@ -133,13 +144,15 @@ id: '设备A' #被查询的设备编号
 #输出
 {
     "err": null,		
-    "val": {
-        "hydraulic_pressure":0.257, 		 #水压 MPa
-        "temperature":15.8,				 #温度  °C
-        "energy":70,    	 			 #电量  %
-        "signal_intensity":3,  		 #信号强度 db       
-        "time": "2010-12-10 14:20:00"		#检测时间
-	}
+    "val": [
+        {
+            "hydraulic_pressure":0.257, 		 #水压 MPa
+            "temperature":15.8,				 #温度  °C
+            "energy":70,    	 			 #电量  %
+            "signal_intensity":3,  		 #信号强度 db       
+            "time": "2010-12-10 14:20:00"		#检测时间
+		}
+    ]
 }
 ```
 
@@ -155,13 +168,15 @@ date_end: '2010-12-24' #指定日期的状态
 #输出
 {
     "err": null,		
-    "val": {
-        "hydraulic_pressure":0.257, 		 #水压 MPa
-        "temperature":15.8,				 #温度  °C
-        "energy":70,    	 			 #电量  %
-        "signal_intensity":3,  		 #信号强度 db       
-        "time": "2010-12-10 14:20:00"		#检测时间
-    }
+    "val": [
+        {
+            "hydraulic_pressure":0.257, 		 #水压 MPa
+            "temperature":15.8,				 #温度  °C
+            "energy":70,    	 			 #电量  %
+            "signal_intensity":3,  		 #信号强度 db       
+            "time": "2010-12-10 14:20:00"		#检测时间
+    	}
+    ]
 }
 ```
 

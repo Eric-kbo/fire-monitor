@@ -15,6 +15,16 @@
     },
     "cordova-plugin-local-notification": {
       "PACKAGE_NAME": "dungbeetles.chntek"
+    },
+    "cordova_app_version_plugin": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    },
+    "cordova-plugin-file-opener2": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "dungbeetles.chntek"
     }
   },
   "dependent_plugins": {
@@ -22,6 +32,9 @@
       "PACKAGE_NAME": "dungbeetles.chntek"
     },
     "cordova-plugin-badge": {
+      "PACKAGE_NAME": "dungbeetles.chntek"
+    },
+    "cordova-plugin-file": {
       "PACKAGE_NAME": "dungbeetles.chntek"
     }
   }
