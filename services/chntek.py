@@ -67,9 +67,13 @@ def primary():
 @app.route('/devices/status-recent', methods=['GET'])
 def status_realtime():
     id = request.args['id']
+    try:
+        size = int(request.args['size'])
+    except KeyError:
+        size = 20
 
     status = []
-    for days in range(60):
+    for days in range(30):
         time = datetime.datetime.now() - datetime.timedelta(days)
         print(time)
         try:
@@ -78,15 +82,19 @@ def status_realtime():
         except FileNotFoundError as e:
             print(e)
 
-        if len(status) > 20: break
-    return { 'val':status[0:20], 'err':None}
+        if len(status) > size: break
+    return { 'val':status[0:size], 'err':None}
 
 @app.route('/devices/status-history', methods=['GET'])
 def status_history():
     id = request.args['id']
     date_begin = request.args['date_begin']
     date_end = request.args['date_end']
-    size = int(request.args['size'])
+    
+    try:
+        size = int(request.args['size'])
+    except KeyError:
+        size = 20
 
     status = []
     for time in date_range(date_begin,date_end):

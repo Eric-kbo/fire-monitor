@@ -49,7 +49,7 @@
 
 # 前端
 
-![](.\prototype-design\app.png)
+![](prototype-design\app.png)
 
 # 后端
 
@@ -141,11 +141,19 @@ ids: '设备A,设备B' #被查询的设备编号，多个用逗号分隔
 HTTP GET http://dungbeetles.xyz:3410/devices/status-recent
 #输入
 id: '设备A' #被查询的设备编号
+size: 2 #限制查询数据量为2条
 #输出
 {
     "err": null,		
     "val": [
         {
+            "hydraulic_pressure":0.257, 		 #水压 MPa
+            "temperature":15.8,				 #温度  °C
+            "energy":70,    	 			 #电量  %
+            "signal_intensity":3,  		 #信号强度 db       
+            "time": "2010-12-10 14:20:00"		#检测时间
+		},
+		{
             "hydraulic_pressure":0.257, 		 #水压 MPa
             "temperature":15.8,				 #温度  °C
             "energy":70,    	 			 #电量  %
