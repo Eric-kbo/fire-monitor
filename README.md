@@ -49,7 +49,7 @@
 
 # 前端
 
-![](D:\chntek-fire-fighting\prototype-design\app.png)
+![](.\prototype-design\app.png)
 
 # 后端
 
