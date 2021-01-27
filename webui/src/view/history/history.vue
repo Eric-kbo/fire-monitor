@@ -58,7 +58,9 @@
               </van-col>
             </van-row>
           </template>
-          <van-loading color="#1989fa" v-if="!detailList"/>
+          <template v-if="detailList.length<=0">
+            <van-loading color="#1989fa"/>
+          </template>
           <template v-for="(item,key) in detailList">
             <van-cell-group
                 :key="key">
@@ -215,6 +217,7 @@ export default {
       this.date = `${this.formatDate(start)}/${this.formatDate(end)}`;
     },
     getStatusDetail($activeNames) {
+      this.detailList = [];
       const data = this.statusList[$activeNames];
       this.statusList.forEach(x => {
         if (x === data) {
