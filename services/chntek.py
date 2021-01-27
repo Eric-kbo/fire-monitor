@@ -86,6 +86,7 @@ def status_history():
     id = request.args['id']
     date_begin = request.args['date_begin']
     date_end = request.args['date_end']
+    size = int(request.args['size'])
 
     status = []
     for time in date_range(date_begin,date_end):
@@ -93,8 +94,10 @@ def status_history():
             with open(f'db/devices/{id}/status/{time.date()}.json') as f:
                 status = json.load(f) + status
         except FileNotFoundError as e:
-            print(e)   
-    return { 'val': status, 'err':None}
+            print(e)
+
+        if len(status) > size: break
+    return { 'val': status[0:size], 'err':None}
 
 @app.route('/devices/warnings', methods=['GET'])
 def warnings():

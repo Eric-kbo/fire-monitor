@@ -49,7 +49,7 @@ def gather(token,ids,today=datetime.datetime.now()):
         print(f'gather db/devices/{tid}/primary.json')
         with open(f'db/devices/{tid}/primary.json','w') as f:
             f.write(json.dumps(primary,indent=4,ensure_ascii=False))
-        print(f'gather db/devices/{tid}/status/{today.date()}.json',end=' ')
+        print(f'gather db/devices/{tid}/status/{today.date()}.json')
         with open(f'db/devices/{tid}/status/{today.date()}.json','w') as f:
             f.write(json.dumps(status,indent=4,ensure_ascii=False))
         with open(f'db/devices/{tid}/warnings/{today.date()}.json','w') as f:
@@ -96,12 +96,12 @@ def gather(token,ids,today=datetime.datetime.now()):
                 f.seek(0)
                 f.truncate()
                 f.write(json.dumps(warnings,indent=4,ensure_ascii=False))
-                print()
-        except FileNotFoundError:
-            print()
+        except FileNotFoundError as e: 
+            pass
         except TypeError as e:
-            print(e)
-
+            pass
+        finally:
+            print()
 
 print('program [recent days]')
 import sys
