@@ -28,6 +28,14 @@ const routes = [
                 meta: {
                     title: '综合显示'
                 }
+            },
+            {
+                name: 'history',
+                path: '/history',
+                component: () => import('../view/history/history'),
+                meta: {
+                    title: '数据中心'
+                }
             }
         ]
     }

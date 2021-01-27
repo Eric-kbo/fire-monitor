@@ -27,6 +27,14 @@ function Chntek() {
         });
         if (data.val) return data.val;
     };
+    this.statusHistory = async (val, date_begin, date_end, size) => {
+        const {data} = await axios.get(`${proxyHost}/devices/status-history`, {
+            // params: {account: this.account},
+            params: {id: val, date_begin: date_begin, date_end: date_end, size: size},
+            headers: {'Authorization': this.token}
+        });
+        if (data.val) return data.val;
+    };
     this.statusPrimary = async (val) => {
         const {data} = await axios.get(`${proxyHost}/devices/primary`, {
             // params: {account: this.account},

@@ -2,10 +2,10 @@
   <div>
     <router-view></router-view>
     <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o">综合展示</van-tabbar-item>
-      <van-tabbar-item icon="search">模块</van-tabbar-item>
-      <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+      <van-tabbar-item replace to="/home" icon="wap-home">综合展示</van-tabbar-item>
+      <van-tabbar-item replace to="/gis" icon="map-marked">GIS模块</van-tabbar-item>
+      <van-tabbar-item replace to="/realtime" icon="underway">实时告警</van-tabbar-item>
+      <van-tabbar-item replace to="/history" icon="browsing-history">数据中心</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -20,7 +20,11 @@ export default {
         path: '/login'
       })
     }
-  }
+  }, data() {
+    return {
+      active: 0,
+    };
+  },
 }
 </script>
 <style scoped>
