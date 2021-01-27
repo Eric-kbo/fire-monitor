@@ -58,7 +58,8 @@
               </van-col>
             </van-row>
           </template>
-          <template v-for="(item,key) in list.data">
+          <van-loading color="#1989fa" v-if="!detailList"/>
+          <template v-for="(item,key) in detailList">
             <van-cell-group
                 :key="key">
               <van-row>
@@ -103,7 +104,7 @@ import {
   Divider,
   Card,
   Search, Button,
-  Picker, Calendar
+  Picker, Calendar, Loading
 } from 'vant';
 
 export default {
@@ -125,6 +126,7 @@ export default {
     [Card.name]: Card,
     [Picker.name]: Picker,
     [Calendar.name]: Calendar,
+    [Loading.name]: Loading,
   },
   data() {
     return {
@@ -217,7 +219,7 @@ export default {
       this.statusList.forEach(x => {
         if (x === data) {
           this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
-            x = res;
+            this.detailList = res;
           })
         }
       });
