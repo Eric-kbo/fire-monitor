@@ -37,13 +37,13 @@ import router from './router';
 // 引入全局状态管理(后期增加功能时考虑)
 import store from "./store";
 
-import BaiduMap from 'vue-baidu-map';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 
 Vue.config.productionTip = false;
 Vue.use(Antd);
 
+import BaiduMap from 'vue-baidu-map';
 Vue.use(BaiduMap, {
     ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
 });

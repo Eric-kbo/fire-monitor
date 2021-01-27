@@ -32,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../tencent/ndc" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/webui/src/assets" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -49,11 +49,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="X:\GIT\qitai\chntek-fire-fighting\webui\src\assets" />
       <recent name="E:\Git\qitai\chntek-fire-fighting\webui\src" />
       <recent name="E:\Git\qitai\chntek-fire-fighting\www\src\view\home" />
       <recent name="E:\Git\qitai\chntek-fire-fighting\www" />
       <recent name="E:\Git\qitai\chntek-fire-fighting\www\src\view" />
-      <recent name="E:\Git\qitai\chntek-fire-fighting\webt\webt\src\view" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -79,7 +79,7 @@
       <workItem from="1610953855559" duration="11020000" />
       <workItem from="1610969649794" duration="19914000" />
       <workItem from="1611196613822" duration="40707000" />
-      <workItem from="1611755516343" duration="3009000" />
+      <workItem from="1611755516343" duration="6329000" />
     </task>
     <servers />
   </component>

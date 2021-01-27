@@ -36,6 +36,22 @@ const routes = [
                 meta: {
                     title: '数据中心'
                 }
+            },
+            {
+                name: 'gmap',
+                path: '/gmap',
+                component: () => import('../view/gmap/gmap'),
+                meta: {
+                    title: 'gis模块'
+                }
+            },
+            {
+                name: 'realtime',
+                path: '/realtime',
+                component: () => import('../view/realtime/realtime'),
+                meta: {
+                    title: '实时告警'
+                }
             }
         ]
     }

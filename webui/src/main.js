@@ -4,7 +4,11 @@ import {router} from './router';
 import {Tabbar, TabbarItem, NavBar} from 'vant';
 // 引入转换接口
 import chntek from "./request/chntek";
+import BaiduMap from 'vue-baidu-map';
 
+Vue.use(BaiduMap, {
+    ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
+});
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
 Vue.use(NavBar);
