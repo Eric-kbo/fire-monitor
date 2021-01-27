@@ -219,13 +219,14 @@ export default {
     getStatusDetail($activeNames) {
       this.detailList = [];
       const data = this.statusList[$activeNames];
-      this.statusList.forEach(x => {
-        if (x === data) {
-          this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
-            this.detailList = res;
-          })
-        }
-      });
+      console.log(data)
+      // this.statusList.forEach(x => {
+      //   if (x === data) {
+      //     this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
+      //       this.detailList = res;
+      //     })
+      //   }
+      // });
     },
   },
 };

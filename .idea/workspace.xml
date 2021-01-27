@@ -32,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/webui/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../tencent/ndc" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -79,7 +79,7 @@
       <workItem from="1610953855559" duration="11020000" />
       <workItem from="1610969649794" duration="19914000" />
       <workItem from="1611196613822" duration="40707000" />
-      <workItem from="1611755516343" duration="1036000" />
+      <workItem from="1611755516343" duration="3009000" />
     </task>
     <servers />
   </component>
@@ -105,11 +105,11 @@
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
     <state x="1021" y="527" key="#Notifications/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1609922412663" />
-    <state x="1060" y="459" key="FileChooserDialogImpl" timestamp="1610958075890">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state x="1060" y="459" key="FileChooserDialogImpl" timestamp="1611758629552">
+      <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1610958075890" />
-    <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195197267" />
+    <state x="1060" y="459" key="FileChooserDialogImpl/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1611758629552" />
     <state x="781" y="225" key="RollbackChangesDialog" timestamp="1611497517427">
       <screen x="0" y="0" width="1920" height="1049" />
     </state>
