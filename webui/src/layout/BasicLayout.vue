@@ -12,10 +12,17 @@
 
 <script>
 export default {
-  name: "BasicLayout"
+  name: "BasicLayout",
+  created() {
+    const token = localStorage.getItem('chntek-token')
+    if (!token) {
+      this.$router.push({
+        path: '/login'
+      })
+    }
+  }
 }
 </script>
-
 <style scoped>
 
 </style>

@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e4a128e-5012-47f4-8d7a-e7fc248712e2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/webui/src/view/login/login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layout/BasicLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/layout/BasicLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webui/src/request/chntek.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/request/chntek.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/view/home/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/view/home/home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webui/src/view/home/homeChart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/view/home/homeChart.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +84,7 @@
       <workItem from="1610951290892" duration="2474000" />
       <workItem from="1610953855559" duration="11020000" />
       <workItem from="1610969649794" duration="19914000" />
-      <workItem from="1611196613822" duration="24786000" />
+      <workItem from="1611196613822" duration="32696000" />
     </task>
     <servers />
   </component>
@@ -120,10 +124,10 @@
     </state>
     <state x="781" y="348" key="SettingsEditor/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1611107935163" />
     <state x="781" y="348" key="SettingsEditor/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195803664" />
-    <state x="981" y="259" width="598" height="891" key="find.popup" timestamp="1611558438467">
+    <state x="981" y="259" width="598" height="891" key="find.popup" timestamp="1611732916829">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
-    <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1611558438467" />
+    <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1611732916829" />
     <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610175204587" />
     <state x="936" y="333" width="672" height="677" key="run.anything.popup" timestamp="1610292938966">
       <screen x="0" y="0" width="2560" height="1410" />

@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-// const host = 'http://iot.chntek.com:3410';
+const host = 'http://iot.chntek.com:3410';
 const proxyHost = 'http://dungbeetles.xyz:3410';
 
 function Chntek() {
@@ -34,6 +34,14 @@ function Chntek() {
             headers: {'Authorization': this.token}
         });
         if (data.val) return data.val;
+    };
+
+
+    this.login = async (account, password) => {
+        let res = await axios.get(`${host}/api/user/login`, {params: {account, password}});
+        if (res.data.err) throw res.data.err;
+        localStorage.setItem('chntek-account', account);
+        localStorage.setItem('chntek-token', res.data.val.token);
     };
 }
 

@@ -17,3 +17,25 @@ new Vue({
     el: '#app',
     render: h => h(App)
 });
+
+router.beforeEach((to, from, next) => {
+    let token = localStorage.getItem('chntek-token')
+    if (token) {
+        if (to.path == '/login') {
+            next({
+                replace: true,
+                name: 'home',
+            })
+        }
+        next()
+    } else {
+        if (to.path == '/login') {
+            next()
+        } else {
+            next({
+                replace: true,
+                name: 'login',
+            })
+        }
+    }
+})
