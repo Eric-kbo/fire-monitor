@@ -6,9 +6,6 @@
         <van-loading size="24px" color="#0094ff" vertical>数据量太大,正在加载中...</van-loading>
       </div>
     </van-overlay>
-    <van-nav-bar
-        title="启泰传感"
-    />
     <!--    <van-search v-model="value" placeholder="请输入搜索关键词"/>-->
 
     <van-row>

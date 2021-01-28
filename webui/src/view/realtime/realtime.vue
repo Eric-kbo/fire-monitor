@@ -1,10 +1,5 @@
 <template>
   <div style="margin-bottom: 15%">
-    <van-nav-bar
-        title="启泰传感"
-    />
-    <!--    <van-search v-model="value" placeholder="请输入搜索关键词"/>-->
-
     <van-row>
     </van-row>
 

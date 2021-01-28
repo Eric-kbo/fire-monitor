@@ -110,7 +110,6 @@ export default {
       let array = resultObj;
       // 从数组的第一个元素中映射需要展示的数据
       this.list = array.map(item => {
-        console.log(item.id, item.longitude, item.latitude);
         return {
           unit: item.location,
           id: item.id,
@@ -154,12 +153,12 @@ export default {
 /* 地图容器必须设置宽和高属性 */
 .map {
   position: fixed;
-  top: 60px;
+  top: 45px;
   /* left:0 有用，不要删 */
   left: 0px;
   padding: 0;
   width: 100%;
-  height: calc(100vh - 116px);
+  height: calc(100vh - 95px);
 }
 
 .map-container {

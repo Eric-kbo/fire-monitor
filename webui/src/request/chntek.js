@@ -51,6 +51,22 @@ function Chntek() {
         localStorage.setItem('chntek-account', account);
         localStorage.setItem('chntek-token', res.data.val.token);
     };
+
+    this.transUnitList = async () => {
+        let val = [];
+        for (let id of this.ids) {
+            if (this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
+            const {data} = await axios.get(`${proxyHost}/devices/status-recent`, {params: {id}});
+
+            for (let k in data.val[0]) {
+                this.devices[id][k] = data.val[0][k]
+            }
+
+            val.push(this.devices[id]);
+        }
+        console.log(val);
+        return val;
+    };
 }
 
 const chntek = new Chntek();

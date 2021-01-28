@@ -1,5 +1,8 @@
 <template>
   <div>
+    <van-nav-bar
+        title="启泰传感"
+    />
     <router-view></router-view>
     <van-tabbar v-model="active">
       <van-tabbar-item replace to="/home" icon="wap-home">综合展示</van-tabbar-item>
