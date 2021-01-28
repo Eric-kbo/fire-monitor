@@ -1,5 +1,11 @@
 <template>
   <div style="margin-bottom: 15%">
+    <!--遮罩层-->
+    <van-overlay style="z-index: 999999" :show="overlayShow">
+      <div class="wrapper">
+        <van-loading size="24px" color="#0094ff" vertical>数据量太大,正在加载中...</van-loading>
+      </div>
+    </van-overlay>
     <van-nav-bar
         title="启泰传感"
     />
@@ -58,9 +64,6 @@
               </van-col>
             </van-row>
           </template>
-          <template v-if="detailList.length<=0">
-            <van-loading color="#1989fa"/>
-          </template>
           <template v-for="(item,key) in detailList">
             <van-cell-group
                 :key="key">
@@ -106,7 +109,7 @@ import {
   Divider,
   Card,
   Search, Button,
-  Picker, Calendar, Loading
+  Picker, Calendar, Loading, Overlay
 } from 'vant';
 
 export default {
@@ -129,11 +132,13 @@ export default {
     [Picker.name]: Picker,
     [Calendar.name]: Calendar,
     [Loading.name]: Loading,
+    [Overlay.name]: Overlay,
   },
   data() {
     return {
       Arealoading: true,
       activeNames: ['1', '2'],
+      overlayShow: false,
       value: '',
       date: '',
       starTime: '',
@@ -143,6 +148,7 @@ export default {
       fieldValue: '',
       statusList: [],
       detailList: [],
+      nowCheck: -1,
       cascaderValue: '',
       // 选项列表，children 代表子选项，支持多级嵌套
       options: [],
@@ -150,6 +156,10 @@ export default {
     };
   },
   created() {
+    const nowDate = new Date();
+    this.starTime = this.formatDateBefoeWeek(nowDate);
+    this.endTime = this.formatDate(nowDate);
+    this.date = `${this.starTime}/${this.endTime}`;
     this.$chntek.regions('CSCB001').then(res => {
       const keys = Object.keys(res);
       keys.forEach(x => {
@@ -175,7 +185,6 @@ export default {
         console.log(JSON.stringify(this.options))
       })
     })
-    this.getStatus('CSCB0000001');
   },
   methods: {
     getRegion() {
@@ -209,6 +218,9 @@ export default {
     formatDate(date) {
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     },
+    formatDateBefoeWeek(date) {
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 7}`;
+    },
     onConfirm(date) {
       const [start, end] = date;
       this.dateRangeShow = false;
@@ -216,44 +228,39 @@ export default {
       this.endTime = this.formatDate(end);
       this.date = `${this.formatDate(start)}/${this.formatDate(end)}`;
     },
-    getStatusDetail($activeNames) {
-      this.detailList = [];
+    getStatusDetail: function ($activeNames) {
       const data = this.statusList[$activeNames];
-      console.log(data)
-      // this.statusList.forEach(x => {
-      //   if (x === data) {
-      //     this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
-      //       this.detailList = res;
-      //     })
-      //   }
-      // });
+      this.statusList.forEach(x => {
+        if (x === data) {
+          if (this.nowCheck !== $activeNames) {
+            this.detailList = [];
+            this.nowCheck = $activeNames;
+            this.overlayShow = true;
+            this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
+              this.detailList = res;
+              this.overlayShow = false;
+            }).catch(() => {
+              this.overlayShow = false;
+            })
+          }
+        }
+      });
     },
   },
 };
 </script>
 
 <style lang="less">
-.user {
-  &-poster {
-    width: 100%;
-    height: 53vw;
-    display: block;
-  }
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
 
-  &-group {
-    margin-bottom: 15px;
-  }
-
-  &-links {
-    padding: 15px 0;
-    font-size: 12px;
-    text-align: center;
-    background-color: #fff;
-
-    .van-icon {
-      display: block;
-      font-size: 24px;
-    }
-  }
+.block {
+  width: 100%;
+  align-content: center;
+  background-color: #fff;
 }
 </style>

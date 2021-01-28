@@ -99,6 +99,7 @@ export default {
     this.getData();
   },
   methods: {
+    // eslint-disable-next-line no-unused-vars
     onReady({BMap, map}) {
       this.getData();
     },
