@@ -24,6 +24,7 @@ const routes = [
             {
                 name: 'home',
                 path: '/home',
+                redirect: '/gmap',
                 component: () => import('../view/home/home'),
                 meta: {
                     title: '综合显示'

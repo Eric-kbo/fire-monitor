@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0e4a128e-5012-47f4-8d7a-e7fc248712e2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/request/chntek.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/request/chntek.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/utils/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webui/src/view/gmap/gmap.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/view/gmap/gmap.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/layout/BasicLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/layout/BasicLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webui/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/webui/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
