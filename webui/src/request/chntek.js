@@ -64,7 +64,6 @@ function Chntek() {
 
             val.push(this.devices[id]);
         }
-        console.log(val);
         return val;
     };
 }
