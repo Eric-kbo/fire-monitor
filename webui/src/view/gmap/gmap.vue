@@ -125,6 +125,7 @@ export default {
     }
   },
   mounted() {
+    // const p = localStorage.getItem('chntek-account');
     this.$chntek.regions('CSCB001').then(res => {
       const param = getAllDeviceslist(res, []);
       this.$chntek.statusPrimary(param.toString()).then(res => {

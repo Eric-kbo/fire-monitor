@@ -108,6 +108,7 @@ import {
   Search, Button,
   Picker, Calendar, Loading, Overlay
 } from 'vant';
+import {getAllDeviceslist} from "../../utils";
 
 export default {
   components: {
@@ -153,6 +154,17 @@ export default {
     };
   },
   created() {
+    // 初始化加载所有历史数据
+    // const p = localStorage.getItem('chntek-account');
+    this.$chntek.regions('CSCB001').then(res => {
+      const param = getAllDeviceslist(res, []);
+      this.$chntek.statusPrimary(param.toString()).then(res => {
+        param.forEach(x => {
+          this.getStatus(x, res)
+        })
+      })
+    })
+
     const nowDate = new Date();
     this.starTime = this.formatDateBefoeWeek(nowDate);
     this.endTime = this.formatDate(nowDate);
@@ -179,7 +191,6 @@ export default {
           });
         })
         this.options.push(opt)
-        console.log(JSON.stringify(this.options))
       })
     })
   },
