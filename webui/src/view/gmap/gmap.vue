@@ -1,100 +1,123 @@
 <template>
   <div class="map-container">
-    <!-- 注意这里必须设置center和zoom，不然组件是不会渲染地图的 -->
-    <!--    <baidu-map class="map" :center="center" :zoom="zoom" @ready="onReady">-->
-    <!--      &lt;!&ndash; 自定义组件 &ndash;&gt;-->
-    <!--      &lt;!&ndash; 缩放组件 &ndash;&gt;-->
-    <!--      <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT"></bm-navigation>-->
-    <!--      &lt;!&ndash; 标记组件 &ndash;&gt;-->
-    <!--      <bm-marker-->
-    <!--          v-for="(item,index) in list"-->
-    <!--          :key="index+'-'"-->
-    <!--          :position="{lng: item.lng, lat: item.lat}"-->
-    <!--          :dragging="false"-->
-    <!--          :offset="{width: 0 , height: 0}"-->
-    <!--          @click="infoWindowOpen(index)"-->
-    <!--          class="iconfont warn_type"-->
-    <!--          :icon="iconStyle(item.type)"-->
-    <!--      ></bm-marker>-->
-
-    <!--      &lt;!&ndash; 信息窗体 &ndash;&gt;-->
-    <!--      <bm-info-window-->
-    <!--          v-for="(item,index) in list"-->
-    <!--          :show="show && currentMark == index"-->
-    <!--          :key="index"-->
-    <!--          :width="220"-->
-    <!--          :closeOnClick="true"-->
-    <!--          :autoPan="true"-->
-    <!--          :offset="{width: 0 , height: -10}"-->
-    <!--          :position="{lng: item.lng, lat: item.lat}"-->
-    <!--          @close="infoWindowClose"-->
-    <!--          class="message-box"-->
-    <!--      >-->
-    <!--        <p class="display-flex message">-->
-    <!--          单位地点:-->
-    <!--          <span class="flex_1 overEllipsis">{{ item.unit }}</span>-->
-    <!--        </p>-->
-    <!--        <p class="display-flex message">-->
-    <!--          设备编号:-->
-    <!--          <span class="flex_1">{{ item.id }}</span>-->
-    <!--        </p>-->
-    <!--        <p class="display-flex message">-->
-    <!--          当前水压:-->
-    <!--          <span class="flex_1">{{ item.hydraulic_pressure }}Mpa</span>-->
-    <!--        </p>-->
-    <!--        <p class="display-flex message">-->
-    <!--          当前温度:-->
-    <!--          <span class="flex_1">{{ item.temperature }}°C</span>-->
-    <!--        </p>-->
-    <!--        <p class="display-flex message">-->
-    <!--          当前电量:-->
-    <!--          <span class="flex_1">{{ item.energy }}%</span>-->
-    <!--        </p>-->
-    <!--        <p class="display-flex message">-->
-    <!--          信号强度:-->
-    <!--          <span class="flex_1">{{ item.signal_intensity }}db</span>-->
-    <!--        </p>-->
-    <!--        <p class="display-flex message">-->
-    <!--          监测时间:-->
-    <!--          <span class="flex_1">{{ item.time }}</span>-->
-    <!--        </p>-->
-    <!--        <p class="display-flex message">-->
-    <!--          经纬坐标:-->
-    <!--          <span class="flex_1">{{ item.longitude.slice(0, 7) }} {{ item.latitude.slice(0, 6) }}</span>-->
-    <!--        </p>-->
-    <!--      </bm-info-window>-->
-    <!--    </baidu-map>-->
-
-    <baidu-map class="map" style="display: flex; flex-direction: column" center="长沙">
+    <!--     注意这里必须设置center和zoom，不然组件是不会渲染地图的 -->
+    <baidu-map class="map" :center="center" :zoom="zoom" @ready="onReady">
+      <!-- 自定义组件 -->
+      <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+      <!-- 缩放组件 -->
+      <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+      <!-- 标记组件 -->
       <bml-marker-clusterer>
-        <template v-for="(item,index) in list">
-          <bm-marker
-              :position="{lng: item.lng, lat: item.lat}"
-              :key="index"
-              :dragging="false"
-              @click="infoWindowOpen(index)"
-              class="iconfont warn_type"
-              :icon="iconStyle(item.type)"
-          ></bm-marker>
-
-        </template>
+        <bm-marker
+            v-for="(item,index) in list"
+            :key="index+'-'"
+            :position="{lng: item.lng, lat: item.lat}"
+            :dragging="false"
+            :offset="{width: 0 , height: 0}"
+            @click="infoWindowOpen(index)"
+            class="iconfont warn_type"
+            :icon="iconStyle(item.type)"
+        ></bm-marker>
       </bml-marker-clusterer>
 
+      <!-- 信息窗体 -->
+      <bm-info-window
+          v-for="(item,index) in list"
+          :show="show && currentMark == index"
+          :key="index"
+          :width="220"
+          :closeOnClick="true"
+          :autoPan="true"
+          :offset="{width: 0 , height: -10}"
+          :position="{lng: item.lng, lat: item.lat}"
+          @close="infoWindowClose"
+          class="message-box"
+      >
+        <template>
 
-      <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-      <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
-      <bm-view style="width: 100%; height:100px; flex: 1"></bm-view>
+          <van-cell-group
+              :key="key">
+            <van-row>
+              <van-col span="6">
+                温度:
+                <van-tag plain type="primary">{{ item.temperature }}</van-tag>
+              </van-col>
+              <van-col span="6">
+                压力:
+                <van-tag plain type="success">{{ item.hydraulic_pressure }}</van-tag>
+              </van-col>
+              <van-col span="6">
+                电量:
+                <van-tag plain type="danger">{{ item.energy }}%</van-tag>
+              </van-col>
+              <van-col span="12">
+                时间:
+                <van-tag plain type="warning">{{ item.time }}</van-tag>
+              </van-col>
+            </van-row>
+          </van-cell-group>
+        </template>
+
+
+        <p class="display-flex message">
+          单位地点:
+          <span class="flex_1 overEllipsis">{{ item.unit }}</span>
+        </p>
+        <p class="display-flex message">
+          设备编号:
+          <span class="flex_1">{{ item.id }}</span>
+        </p>
+        <p class="display-flex message">
+          当前水压:
+          <span class="flex_1">{{ item.hydraulic_pressure }}Mpa</span>
+        </p>
+        <p class="display-flex message">
+          当前温度:
+          <span class="flex_1">{{ item.temperature }}°C</span>
+        </p>
+        <p class="display-flex message">
+          当前电量:
+          <span class="flex_1">{{ item.energy }}%</span>
+        </p>
+        <p class="display-flex message">
+          信号强度:
+          <span class="flex_1">{{ item.signal_intensity }}db</span>
+        </p>
+        <p class="display-flex message">
+          监测时间:
+          <span class="flex_1">{{ item.time }}</span>
+        </p>
+        <p class="display-flex message">
+          经纬坐标:
+          <span class="flex_1">{{ item.longitude.slice(0, 7) }} {{ item.latitude.slice(0, 6) }}</span>
+        </p>
+      </bm-info-window>
     </baidu-map>
   </div>
 </template>
 
 <script>
 import {getAllDeviceslist} from "../../utils";
-import {BmlMarkerClusterer} from 'vue-baidu-map'
+import {BmlMarkerClusterer} from 'vue-baidu-map';
+import {
+  Collapse, CollapseItem,
+  Row,
+  Col,
+  Icon,
+  Cell,
+  CellGroup,
+} from 'vant';
 
 export default {
   components: {
-    BmlMarkerClusterer
+    BmlMarkerClusterer,
+    [Collapse.name]: Collapse,
+    [CollapseItem.name]: CollapseItem,
+    [Row.name]: Row,
+    [Col.name]: Col,
+    [Icon.name]: Icon,
+    [Cell.name]: Cell,
+    [CellGroup.name]: CellGroup,
   },
   data() {
     return {
