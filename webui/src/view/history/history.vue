@@ -51,8 +51,11 @@
               <van-col span="12">
                 {{ list.title.id }}
               </van-col>
-              <van-col span="12">
-                {{ list.title.latitude }}
+              <van-col span="4">
+                {{ list.title.city }}
+              </van-col>
+              <van-col span="8">
+                {{ list.title.county }}
               </van-col>
             </van-row>
             <van-row>
@@ -108,7 +111,7 @@ import {
   Search, Button,
   Picker, Calendar, Loading, Overlay
 } from 'vant';
-import {getAllDeviceslist} from "../../utils";
+import {formatDate, formatDateBeforWeek, getAllDeviceslist} from "../../utils";
 
 export default {
   components: {
@@ -166,8 +169,8 @@ export default {
     })
 
     const nowDate = new Date();
-    this.starTime = this.formatDateBefoeWeek(nowDate);
-    this.endTime = this.formatDate(nowDate);
+    this.starTime = formatDateBeforWeek(nowDate);
+    this.endTime = formatDate(nowDate);
     this.date = `${this.starTime}/${this.endTime}`;
     this.$chntek.regions('CSCB001').then(res => {
       const keys = Object.keys(res);
@@ -222,12 +225,6 @@ export default {
     },
     changeFinish({selectedOptions}) {
       this.fieldValue = selectedOptions.map((option) => option.text).join('-');
-    },
-    formatDate(date) {
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    },
-    formatDateBefoeWeek(date) {
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 7}`;
     },
     onConfirm(date) {
       const [start, end] = date;

@@ -41,8 +41,11 @@
               <van-col span="12">
                 {{ list.title.id }}
               </van-col>
-              <van-col span="12">
-                {{ list.title.latitude }}
+              <van-col span="4">
+                {{ list.title.city }}
+              </van-col>
+              <van-col span="8">
+                {{ list.title.county }}
               </van-col>
             </van-row>
             <van-row>

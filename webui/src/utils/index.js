@@ -13,3 +13,19 @@ export function getAllDeviceslist(res, child) {
     }
     return child;
 }
+
+export function formatDate(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+
+export function formatDateBeforDay(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
+}
+
+export function formatDateBeforWeek(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 7}`;
+}
+
+export function formatDateBeforMonth(date) {
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}

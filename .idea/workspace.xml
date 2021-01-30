@@ -33,7 +33,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/webui/src/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -82,6 +82,8 @@
       <workItem from="1611196613822" duration="40707000" />
       <workItem from="1611755516343" duration="6329000" />
       <workItem from="1611838752382" duration="8547000" />
+      <workItem from="1612013870897" duration="2344000" />
+      <workItem from="1612016629006" duration="5040000" />
     </task>
     <servers />
   </component>
@@ -122,12 +124,12 @@
     </state>
     <state x="781" y="348" key="SettingsEditor/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1611107935163" />
     <state x="781" y="348" key="SettingsEditor/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1610195803664" />
-    <state x="644" y="193" width="567" height="664" key="find.popup" timestamp="1611929340311">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state x="981" y="259" width="598" height="891" key="find.popup" timestamp="1612016422899">
+      <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="644" y="193" width="567" height="664" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1611929340311" />
     <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1409/-1920.220.1920.1050@0.0.2560.1409" timestamp="1611908447734" />
-    <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1611845029882" />
+    <state x="981" y="259" width="598" height="891" key="find.popup/0.0.2560.1410/2560.0.1920.1050@0.0.2560.1410" timestamp="1612016422899" />
     <state x="936" y="333" width="672" height="677" key="run.anything.popup" timestamp="1611737742297">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
