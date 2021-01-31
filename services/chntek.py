@@ -111,6 +111,10 @@ def status_history():
 def warnings():
     id = request.args['id']
     date = datetime.datetime.strptime(request.args['date'],'%Y-%m-%d').date()
+    try:
+        size = int(request.args['size'])
+    except KeyError:
+        size = 20
 
     warnings = []
     try:
@@ -119,7 +123,7 @@ def warnings():
     except FileNotFoundError as e:
         print(e)
 
-    return { 'val': warnings, 'err':None }
+    return { 'val': warnings[0:size], 'err':None }
 
 from werkzeug.utils import secure_filename
 os.makedirs(f'static/app', exist_ok=True)
