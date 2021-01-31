@@ -204,16 +204,27 @@ HTTP GET http://dungbeetles.xyz:3410/devices/warnings
 #输入
 id:'设备A'
 date:'2020-10-01' 	#指定日期的告警状态，返回该日的数据
+size: 2 #数量数据限制
 #输出
 {
     "err":null,
     "val":[
         {
+            "conductivity":"7.4",
+            "energy":99,
+            "hydraulic_pressure":"0.153",
+            "signal_intensity":6,
+            "temperature":"11.4",
             "type": "信号低报警、负温标志、压力传感器报警",
             "time": "2020-12-27 06:57:02",
             "location": "长沙市浏阳长沙银行古港支行1F现金区卫生间"
         },
         {
+            "conductivity":"7.4",
+            "energy":99,
+            "hydraulic_pressure":"0.153",
+            "signal_intensity":6,
+            "temperature":"11.4",
             "type": "信号低报警、负温标志、压力传感器报警",
             "time": "2020-12-27 04:58:12",
             "location": "长沙市浏阳长沙银行古港支行1F现金区卫生间"
