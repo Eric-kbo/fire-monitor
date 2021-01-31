@@ -72,6 +72,7 @@ def gather(token,ids,today=datetime.datetime.now()):
             if tid not in primaries:
                 with open(f'db/devices/{tid}/primary.json','r') as f:
                     primaries[tid] = json.load(f)
+                    print(primaries[tid])
             if tid not in statues:
                 statues[tid] = {}
                 with open(f'db/devices/{tid}/status/{today.date()}.json','r') as f:
@@ -83,15 +84,16 @@ def gather(token,ids,today=datetime.datetime.now()):
 
         if tid not in warnings:
             warnings[tid] = []
-     
+
+        p = primaries[tid]
         primaries[tid]['id'] = tid
-        primaries[tid]['longitude'] = w['Longitude'] if w['Longitude'] else primaries[tid]['longitude']
-        primaries[tid]['latitude'] = w['Latitude'] if w['Latitude'] else primaries[tid]['latitude'],
-        primaries[tid]['city'] = w['Prefecturecity'] if w['Prefecturecity'] else primaries[tid]['city'],
-        primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else primaries[tid]['county'],
-        primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else primaries[tid]['location'],
-        primaries[tid]['type'] = primaries[tid]['type'] if 'type' in primaries[tid] else 'firehydrant'  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-        
+        primaries[tid]['longitude'] = w['Longitude'] if w['Longitude'] else p['longitude']
+        primaries[tid]['latitude'] = w['Latitude'] if w['Latitude'] else p['latitude']
+        primaries[tid]['city'] = w['Prefecturecity'] if w['Prefecturecity'] else p['city']
+        primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
+        primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else p['location']
+        primaries[tid]['type'] = p['type'] if 'type' in p else 'firehydrant'  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+
         if not w['WarnName']: continue
         w['WarnName'] = w['WarnName'].replace('、水质报警','')
         w['WarnName'] = w['WarnName'].replace('水质报警','')
