@@ -52,6 +52,15 @@ function Chntek() {
         localStorage.setItem('chntek-token', res.data.val.token);
     };
 
+    this.warrigs = async (val, date, size) => {
+        const {data} = await axios.get(`${proxyHost}/devices/warnings`, {
+            // params: {account: this.account},
+            params: {id: val, date: date, size: size},
+            headers: {'Authorization': this.token}
+        });
+        if (data.val) return data.val;
+    };
+
     this.transUnitList = async () => {
         let val = [];
         for (let id of this.ids) {

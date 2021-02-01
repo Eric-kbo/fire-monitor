@@ -144,7 +144,7 @@ export default {
     // 初始化加载所有历史数据
     // const p = localStorage.getItem('chntek-account');
     const nowDate = new Date();
-    this.starTime = formatDateBeforDay(nowDate);
+    this.starTime = formatDateBeforDay(nowDate, -1);
     this.endTime = formatDate(nowDate);
     this.loadData();
   },
@@ -160,7 +160,7 @@ export default {
       })
     },
     getStatus(val, list) {
-      this.$chntek.statusHistory(val, this.starTime, this.endTime, 1).then(res => {
+      this.$chntek.warrigs(val, this.starTime, 1).then(res => {
         const data = list.find(a => a.id === val);
         if (data) {
           // switch (data.type) {
