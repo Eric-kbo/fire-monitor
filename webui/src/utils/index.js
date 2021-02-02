@@ -40,10 +40,6 @@ export function formatDateBeforDay(date, day) {
     // return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
-export function formatDateBeforWeek(date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 7}`;
-}
-
 export function formatDateBeforMonth(date) {
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 }

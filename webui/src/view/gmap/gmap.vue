@@ -23,72 +23,55 @@
       <!-- 信息窗体 -->
       <bm-info-window
           :show="show"
-          :key="index"
           :width="220"
           :closeOnClick="true"
           :autoPan="true"
           :offset="{width: 0 , height: -10}"
-          :position="{lng: currentLng, lat: currentLat}"
+          :position="{lng: showTag.lng, lat: showTag.lat}"
           @close="infoWindowClose"
           class="message-box"
       >
-        <div :key="index" style="overflow: scroll" v-for="(item,index) in currentList">
-          <!--          <van-cell-group-->
-          <!--              :key="index">-->
-          <!--            <van-row>-->
-          <!--              <van-col span="6">-->
-          <!--                温度:-->
-          <!--                <van-tag plain type="primary">{{ item.temperature }}</van-tag>-->
-          <!--              </van-col>-->
-          <!--              <van-col span="6">-->
-          <!--                压力:-->
-          <!--                <van-tag plain type="success">{{ item.hydraulic_pressure }}</van-tag>-->
-          <!--              </van-col>-->
-          <!--              <van-col span="6">-->
-          <!--                电量:-->
-          <!--                <van-tag plain type="danger">{{ item.energy }}%</van-tag>-->
-          <!--              </van-col>-->
-          <!--              <van-col span="12">-->
-          <!--                时间:-->
-          <!--                <van-tag plain type="warning">{{ item.time }}</van-tag>-->
-          <!--              </van-col>-->
-          <!--            </van-row>-->
-          <!--          </van-cell-group>-->
-
-
+        <div style="border-bottom: #999999 1px solid">
           <p class="display-flex message">
             单位地点:
-            <span class="flex_1 overEllipsis">{{ item.unit }}</span>
+            <span class="flex_1 overEllipsis">{{ showTag.unit }}</span>
           </p>
           <p class="display-flex message">
             设备编号:
-            <span class="flex_1">{{ item.id }}</span>
+            <span class="flex_1">{{ showTag.id }}</span>
           </p>
           <p class="display-flex message">
             当前水压:
-            <span class="flex_1">{{ item.hydraulic_pressure }}Mpa</span>
+            <span class="flex_1">{{ showTag.hydraulic_pressure }}Mpa</span>
           </p>
           <p class="display-flex message">
             当前温度:
-            <span class="flex_1">{{ item.temperature }}°C</span>
+            <span class="flex_1">{{ showTag.temperature }}°C</span>
           </p>
           <p class="display-flex message">
             当前电量:
-            <span class="flex_1">{{ item.energy }}%</span>
+            <span class="flex_1">{{ showTag.energy }}%</span>
           </p>
           <p class="display-flex message">
             信号强度:
-            <span class="flex_1">{{ item.signal_intensity }}db</span>
+            <span class="flex_1">{{ showTag.signal_intensity }}db</span>
           </p>
           <p class="display-flex message">
             监测时间:
-            <span class="flex_1">{{ item.time }}</span>
+            <span class="flex_1">{{ showTag.time }}</span>
           </p>
           <p class="display-flex message">
             经纬坐标:
-            <span class="flex_1">{{ item.longitude.slice(0, 7) }} {{ item.latitude.slice(0, 6) }}</span>
+            <span class="flex_1">{{ getPosition() }}</span>
           </p>
-
+        </div>
+        <div style="text-align: center;margin-top: 1rem" v-if="currentList.length>1">
+          <p class="display-flex message">
+            此坐标还有:
+            <span class="flex_1">{{ currentList.length - 1 }}</span>
+            个设备
+          </p>
+          <van-button type="primary" @click="showMoreDetail">查看更多</van-button>
         </div>
       </bm-info-window>
     </baidu-map>
@@ -99,6 +82,7 @@
 import {getAllDeviceslist} from "../../utils";
 import {BmlMarkerClusterer} from 'vue-baidu-map';
 import {
+  Button,
   Collapse, CollapseItem,
   Row,
   Col,
@@ -117,6 +101,7 @@ export default {
     [Icon.name]: Icon,
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
+    [Button.name]: Button,
   },
   data() {
     return {
@@ -125,13 +110,10 @@ export default {
       show: false,
       list: [],
       currentList: [],
-      currentLat: '',
-      currentLng: '',
+      showTag: {},
       current: 0,
       currentMark: 0,
       center: '长沙',
-
-      statusList: [],
     };
   },
   watch: {
@@ -165,42 +147,44 @@ export default {
     onReady({BMap, map}) {
       this.getData();
     },
-    getStatus(val, list) {
+    getStatus(val, datas) {
+      debugger;
       this.$chntek.statusRecent(val).then(res => {
-        this.statusList.push({
-          title: list.find(a => a.id === val),
-          data: res[0]
-        });
-        this.getData();
+        this.getData(datas.find(a => a.id === val), res[0]);
       })
     },
-    getData() {
-      this.statusList.forEach(x => {
+    getData(title, data) {
+      if (title && data) {
         this.list.push({
-          unit: x.title.location,
-          id: x.title.id,
-          longitude: x.title.longitude,
-          latitude: x.title.latitude,
-          type: x.title.type,
-          lng: x.title.longitude && x.title.longitude.slice(1),
-          lat: x.title.latitude && x.title.latitude.slice(1),
-          hydraulic_pressure: x.data.hydraulic_pressure,
-          temperature: x.data.temperature,
-          energy: x.data.energy,
-          signal_intensity: x.data.signal_intensity,
-          time: x.data.time,
+          unit: title.location,
+          id: title.id,
+          longitude: title.longitude,
+          latitude: title.latitude,
+          type: title.type,
+          lng: title.longitude && title.longitude.slice(1),
+          lat: title.latitude && title.latitude.slice(1),
+          hydraulic_pressure: data.hydraulic_pressure,
+          temperature: data.temperature,
+          energy: data.energy,
+          signal_intensity: data.signal_intensity,
+          time: data.time,
         });
-      })
-      this.center = this.list[0];
+        this.center = this.list[0];
+      }
     },
     getPosition() {
+      if (this.showTag) {
+        return this.showTag.longitude + ';' + this.showTag.latitude;
+      }
+      return '';
     },
     infoWindowOpen(index) {
       this.currentMark = index;
       const checkData = this.list[index];
       this.currentList = this.list.filter(a => a.latitude === checkData.latitude && a.longitude === checkData.longitude);
-      this.currentLng = this.currentList[0].lng;
-      this.currentLat = this.currentList[0].lat;
+
+      console.log(JSON.stringify(this.currentList))
+      this.showTag = this.currentList[0];
       this.show = true;
     },
     infoWindowClose() {
@@ -216,6 +200,14 @@ export default {
           return {url: require('@/assets/images/cylinders_mini.png'), size: {width: 32, height: 32}};
       }
 
+    },
+    showMoreDetail() {
+      this.$router.push({
+        name: 'tagDetail',
+        params: {
+          ids: this.currentList
+        }
+      })
     },
   }
 }

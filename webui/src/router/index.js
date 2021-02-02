@@ -47,11 +47,27 @@ const routes = [
                 }
             },
             {
+                name: 'tagDetail',
+                path: '/tagDetail',
+                component: () => import('../view/gmap/tagDetail'),
+                meta: {
+                    title: 'gis模块'
+                }
+            },
+            {
                 name: 'realtime',
                 path: '/realtime',
                 component: () => import('../view/realtime/realtime'),
                 meta: {
                     title: '实时告警'
+                }
+            },
+            {
+                name: 'test',
+                path: '/test',
+                component: () => import('../view/test/test'),
+                meta: {
+                    title: '测试'
                 }
             }
         ]

@@ -111,7 +111,7 @@ import {
   Search, Button,
   Picker, Calendar, Loading, Overlay
 } from 'vant';
-import {formatDate, formatDateBeforWeek, getAllDeviceslist} from "../../utils";
+import {formatDate, formatDateBeforDay, getAllDeviceslist} from "../../utils";
 
 export default {
   components: {
@@ -167,9 +167,8 @@ export default {
         })
       })
     })
-
     const nowDate = new Date();
-    this.starTime = formatDateBeforWeek(nowDate);
+    this.starTime = formatDateBeforDay(nowDate, -7);
     this.endTime = formatDate(nowDate);
     this.date = `${this.starTime}/${this.endTime}`;
     this.$chntek.regions('CSCB001').then(res => {
