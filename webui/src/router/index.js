@@ -6,7 +6,7 @@ Vue.use(Router);
 const routes = [
     {
         path: '*',
-        redirect: '/login'
+        redirect: '/home'
     },
     {
         name: 'login',
