@@ -8,33 +8,39 @@
     </ul>
     <table class="table">
       <tbody>
-        <tr class="head">
-          <th>设备编号</th>
-          <th>温度(℃)</th>
-          <th>水压(Mpa)</th>
-          <th>电量(%)</th>
-          <th>检测时间</th>
-        </tr>
-        <tr v-for="(item,index) in list" :key="index">
-          <td>{{item.id}}</td>
-          <td>{{item.temperature}}</td>
-          <td>{{item.hydraulic_pressure}}</td>
-          <td>{{item.energy}}</td>
-          <td>{{item.time}}</td>
-        </tr>
+      <tr class="head">
+        <th>设备编号</th>
+        <th>温度(℃)</th>
+        <th>水压(Mpa)</th>
+        <th>电量(%)</th>
+        <th>检测时间</th>
+      </tr>
+      <tr v-for="(item,index) in list" :key="index">
+        <td>{{ item.id }}</td>
+        <td>{{ item.temperature }}</td>
+        <td>{{ item.hydraulic_pressure }}</td>
+        <td>{{ item.energy }}</td>
+        <td>{{ item.time }}</td>
+      </tr>
       </tbody>
     </table>
+
+    <van-button type="primary">fuck</van-button>
+    <van-button round type="info">圆形按钮</van-button>
   </div>
 </template>
 
 <script>
 import searchbar from "../components/searchbar";
 import chartVue from '../components/chart';
+import {Button} from 'vant';
+
 export default {
   name: 'home',
   components: {
     searchbar,
-    chartVue
+    chartVue,
+    Button,
   },
   data() {
     return {
@@ -91,6 +97,7 @@ export default {
 .charts {
   margin-top: 20px;
   margin-bottom: 20px;
+
   .item {
     text-align: center;
     border-bottom: 1px solid #eee;
@@ -106,9 +113,11 @@ export default {
   margin: 0 10px 70px 10px;
   border-collapse: collapse;
   font-size: 12px;
+
   .head {
     background-color: #ccc;
   }
+
   th,
   td {
     border: 1px solid #666;
