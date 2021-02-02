@@ -22,75 +22,74 @@
 
       <!-- 信息窗体 -->
       <bm-info-window
-          v-for="(item,index) in list"
-          :show="show && currentMark == index"
+          :show="show"
           :key="index"
           :width="220"
           :closeOnClick="true"
           :autoPan="true"
           :offset="{width: 0 , height: -10}"
-          :position="{lng: item.lng, lat: item.lat}"
+          :position="{lng: currentLng, lat: currentLat}"
           @close="infoWindowClose"
           class="message-box"
       >
-        <template>
-
-          <van-cell-group
-              :key="key">
-            <van-row>
-              <van-col span="6">
-                温度:
-                <van-tag plain type="primary">{{ item.temperature }}</van-tag>
-              </van-col>
-              <van-col span="6">
-                压力:
-                <van-tag plain type="success">{{ item.hydraulic_pressure }}</van-tag>
-              </van-col>
-              <van-col span="6">
-                电量:
-                <van-tag plain type="danger">{{ item.energy }}%</van-tag>
-              </van-col>
-              <van-col span="12">
-                时间:
-                <van-tag plain type="warning">{{ item.time }}</van-tag>
-              </van-col>
-            </van-row>
-          </van-cell-group>
-        </template>
+        <div :key="index" style="overflow: scroll" v-for="(item,index) in currentList">
+          <!--          <van-cell-group-->
+          <!--              :key="index">-->
+          <!--            <van-row>-->
+          <!--              <van-col span="6">-->
+          <!--                温度:-->
+          <!--                <van-tag plain type="primary">{{ item.temperature }}</van-tag>-->
+          <!--              </van-col>-->
+          <!--              <van-col span="6">-->
+          <!--                压力:-->
+          <!--                <van-tag plain type="success">{{ item.hydraulic_pressure }}</van-tag>-->
+          <!--              </van-col>-->
+          <!--              <van-col span="6">-->
+          <!--                电量:-->
+          <!--                <van-tag plain type="danger">{{ item.energy }}%</van-tag>-->
+          <!--              </van-col>-->
+          <!--              <van-col span="12">-->
+          <!--                时间:-->
+          <!--                <van-tag plain type="warning">{{ item.time }}</van-tag>-->
+          <!--              </van-col>-->
+          <!--            </van-row>-->
+          <!--          </van-cell-group>-->
 
 
-        <p class="display-flex message">
-          单位地点:
-          <span class="flex_1 overEllipsis">{{ item.unit }}</span>
-        </p>
-        <p class="display-flex message">
-          设备编号:
-          <span class="flex_1">{{ item.id }}</span>
-        </p>
-        <p class="display-flex message">
-          当前水压:
-          <span class="flex_1">{{ item.hydraulic_pressure }}Mpa</span>
-        </p>
-        <p class="display-flex message">
-          当前温度:
-          <span class="flex_1">{{ item.temperature }}°C</span>
-        </p>
-        <p class="display-flex message">
-          当前电量:
-          <span class="flex_1">{{ item.energy }}%</span>
-        </p>
-        <p class="display-flex message">
-          信号强度:
-          <span class="flex_1">{{ item.signal_intensity }}db</span>
-        </p>
-        <p class="display-flex message">
-          监测时间:
-          <span class="flex_1">{{ item.time }}</span>
-        </p>
-        <p class="display-flex message">
-          经纬坐标:
-          <span class="flex_1">{{ item.longitude.slice(0, 7) }} {{ item.latitude.slice(0, 6) }}</span>
-        </p>
+          <p class="display-flex message">
+            单位地点:
+            <span class="flex_1 overEllipsis">{{ item.unit }}</span>
+          </p>
+          <p class="display-flex message">
+            设备编号:
+            <span class="flex_1">{{ item.id }}</span>
+          </p>
+          <p class="display-flex message">
+            当前水压:
+            <span class="flex_1">{{ item.hydraulic_pressure }}Mpa</span>
+          </p>
+          <p class="display-flex message">
+            当前温度:
+            <span class="flex_1">{{ item.temperature }}°C</span>
+          </p>
+          <p class="display-flex message">
+            当前电量:
+            <span class="flex_1">{{ item.energy }}%</span>
+          </p>
+          <p class="display-flex message">
+            信号强度:
+            <span class="flex_1">{{ item.signal_intensity }}db</span>
+          </p>
+          <p class="display-flex message">
+            监测时间:
+            <span class="flex_1">{{ item.time }}</span>
+          </p>
+          <p class="display-flex message">
+            经纬坐标:
+            <span class="flex_1">{{ item.longitude.slice(0, 7) }} {{ item.latitude.slice(0, 6) }}</span>
+          </p>
+
+        </div>
       </bm-info-window>
     </baidu-map>
   </div>
@@ -125,6 +124,9 @@ export default {
       zoom: 8,
       show: false,
       list: [],
+      currentList: [],
+      currentLat: '',
+      currentLng: '',
       current: 0,
       currentMark: 0,
       center: '长沙',
@@ -191,8 +193,14 @@ export default {
       })
       this.center = this.list[0];
     },
+    getPosition() {
+    },
     infoWindowOpen(index) {
       this.currentMark = index;
+      const checkData = this.list[index];
+      this.currentList = this.list.filter(a => a.latitude === checkData.latitude && a.longitude === checkData.longitude);
+      this.currentLng = this.currentList[0].lng;
+      this.currentLat = this.currentList[0].lat;
       this.show = true;
     },
     infoWindowClose() {
