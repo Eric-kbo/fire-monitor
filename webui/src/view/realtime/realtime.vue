@@ -139,6 +139,7 @@ export default {
       abNormalCount: 0,
       loading: false,
       finished: false,
+      account: '',
 
       Arealoading: true,
       activeNames: ['1', '2'],
@@ -157,7 +158,7 @@ export default {
   },
   created() {
     // 初始化加载所有历史数据
-    // const p = localStorage.getItem('chntek-account');
+    this.account = localStorage.getItem('chntek-account');
     const nowDate = new Date();
     this.starTime = formatDateBeforDay(nowDate, -1);
     this.endTime = formatDate(nowDate);
@@ -178,7 +179,7 @@ export default {
       }, 1000);
     },
     loadData() {
-      this.$chntek.regions('CSCB001').then(res => {
+      this.$chntek.regions(this.account).then(res => {
         const param = getAllDeviceslist(res, []);
         this.allCount = param.length;
         this.$chntek.statusPrimary(param.toString()).then(res => {

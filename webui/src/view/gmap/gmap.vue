@@ -114,11 +114,12 @@ export default {
       current: 0,
       currentMark: 0,
       center: '长沙',
+      account: '',
     };
   },
   mounted() {
-    // const p = localStorage.getItem('chntek-account');
-    this.$chntek.regions('CSCB001').then(res => {
+    this.account = localStorage.getItem('chntek-account');
+    this.$chntek.regions(this.account).then(res => {
       const param = getAllDeviceslist(res, []);
       this.$chntek.statusPrimary(param.toString()).then(res => {
         param.forEach(x => {
