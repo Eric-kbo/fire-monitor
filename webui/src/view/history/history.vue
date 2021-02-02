@@ -158,8 +158,12 @@ export default {
   },
   created() {
     // 初始化加载所有历史数据
-    // const p = localStorage.getItem('chntek-account');
-    this.$chntek.regions('CSCB001').then(res => {
+    this.account = localStorage.getItem('chntek-account');
+    const searchStr = localStorage.getItem('chntek-history-search');
+    if (searchStr) {
+      this.fieldValue = searchStr;
+    }
+    this.$chntek.regions(this.account).then(res => {
       const param = getAllDeviceslist(res, []);
       this.$chntek.statusPrimary(param.toString()).then(res => {
         param.forEach(x => {
@@ -171,7 +175,7 @@ export default {
     this.starTime = formatDateBeforDay(nowDate, -7);
     this.endTime = formatDate(nowDate);
     this.date = `${this.starTime}/${this.endTime}`;
-    this.$chntek.regions('CSCB001').then(res => {
+    this.$chntek.regions(this.account).then(res => {
       const keys = Object.keys(res);
       keys.forEach(x => {
         const opt = {
@@ -198,6 +202,7 @@ export default {
   },
   methods: {
     getRegion() {
+      localStorage.setItem('chntek-history-search', this.fieldValue);
       const list = this.fieldValue.split('-');
       const val = list[list.length - 1]
       const datas = this.optionList[val]

@@ -136,10 +136,13 @@ export default {
       // 选项列表，children 代表子选项，支持多级嵌套
       options: [],
       optionList: {},
+
+      account: '',
     };
   },
   created() {
-    this.$chntek.regions('CSCB001').then(res => {
+    this.account = localStorage.getItem('chntek-account');
+    this.$chntek.regions(this.account).then(res => {
       const keys = Object.keys(res);
       keys.forEach(x => {
         const opt = {
@@ -164,7 +167,6 @@ export default {
         console.log(JSON.stringify(this.options))
       })
     })
-    this.getStatus('CSCB0000001');
   },
   methods: {
     getRegion() {
