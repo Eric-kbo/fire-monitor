@@ -159,6 +159,10 @@ export default {
   created() {
     // 初始化加载所有历史数据
     // const p = localStorage.getItem('chntek-account');
+    const searchStr = localStorage.getItem('chntek-history-search');
+    if (searchStr) {
+      this.fieldValue = searchStr;
+    }
     this.$chntek.regions('CSCB001').then(res => {
       const param = getAllDeviceslist(res, []);
       this.$chntek.statusPrimary(param.toString()).then(res => {
@@ -198,6 +202,7 @@ export default {
   },
   methods: {
     getRegion() {
+      localStorage.setItem('chntek-history-search', this.fieldValue);
       const list = this.fieldValue.split('-');
       const val = list[list.length - 1]
       const datas = this.optionList[val]

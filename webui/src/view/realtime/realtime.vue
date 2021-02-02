@@ -81,7 +81,6 @@
             </template>
           </van-collapse-item>
         </template>
-
       </van-list>
     </van-collapse>
   </div>

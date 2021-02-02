@@ -116,21 +116,6 @@ export default {
       center: '长沙',
     };
   },
-  watch: {
-    current(newV) {
-      this.$nextTick(() => {
-        this.center = {
-          lng: this.list[newV].lng,
-          lat: this.list[newV].lat
-        };
-        setTimeout(() => {
-          console.log(this.list[newV]);
-          this.infoWindowOpen(newV);
-        }, 0);
-      });
-
-    }
-  },
   mounted() {
     // const p = localStorage.getItem('chntek-account');
     this.$chntek.regions('CSCB001').then(res => {
@@ -181,8 +166,6 @@ export default {
       this.currentMark = index;
       const checkData = this.list[index];
       this.currentList = this.list.filter(a => a.latitude === checkData.latitude && a.longitude === checkData.longitude);
-
-      console.log(JSON.stringify(this.currentList))
       this.showTag = this.currentList[0];
       this.show = true;
     },
@@ -198,7 +181,6 @@ export default {
         case 'cylinders':
           return {url: require('@/assets/images/cylinders_mini.png'), size: {width: 32, height: 32}};
       }
-
     },
     showMoreDetail() {
       this.$router.push({
