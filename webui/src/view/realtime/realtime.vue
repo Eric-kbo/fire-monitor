@@ -20,6 +20,7 @@
           v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
+          @load="onLoad"
       >
         <template v-for="(list,key) in statusList">
           <van-collapse-item :name="key" :key="key">
@@ -38,6 +39,16 @@
               <van-row>
                 <van-col span="24">
                   {{ list.title.location }}
+                </van-col>
+              </van-row>
+              <van-row>
+                <van-col span="24">
+                  {{ list.data.type }}
+                </van-col>
+              </van-row>
+              <van-row>
+                <van-col span="24">
+                  {{ list.data.time }}
                 </van-col>
               </van-row>
             </template>
@@ -61,6 +72,10 @@
                     时间:
                     <van-tag plain type="warning">{{ item.time }}</van-tag>
                   </van-col>
+                </van-row>
+                <van-row>
+                  信息:
+                  <van-tag plain type="danger">{{ item.type }}</van-tag>
                 </van-row>
               </van-cell-group>
             </template>
@@ -133,6 +148,7 @@ export default {
       endTime: '',
       statusList: [],
       detailList: [],
+      allDevices: [],
       nowCheck: -1,
       cascaderValue: '',
       // 选项列表，children 代表子选项，支持多级嵌套
@@ -149,33 +165,55 @@ export default {
     this.loadData();
   },
   methods: {
+    onLoad() {
+      setTimeout(() => {
+        this.starTime = formatDateBeforDay(this.starTime, -1);
+        // if (this.refreshing) {
+        //   this.list = [];
+        //   this.refreshing = false;
+        // }
+        this.allDevices.forEach(x => {
+          this.getHistoryStatus(x);
+        })
+        this.loading = false;
+      }, 1000);
+    },
     loadData() {
       this.$chntek.regions('CSCB001').then(res => {
         const param = getAllDeviceslist(res, []);
+        this.allCount = param.length;
         this.$chntek.statusPrimary(param.toString()).then(res => {
+          this.allDevices = res;
           param.forEach(x => {
             this.getStatus(x, res)
           })
         })
       })
     },
+    getHistoryStatus(data) {
+      this.$chntek.warrigs(data.id, this.starTime, 1).then(res => {
+        if (data) {
+          if (res && res.length > 0) {
+            this.statusList.push({
+              title: data,
+              data: res[0]
+            });
+          }
+        }
+      })
+    },
     getStatus(val, list) {
       this.$chntek.warrigs(val, this.starTime, 1).then(res => {
         const data = list.find(a => a.id === val);
         if (data) {
-          // switch (data.type) {
-          //   case 'pressure':
-          //     break;
-          //   case 'pressure':
-          //     break;
-          //   case 'pressure':
-          //     break;
-          // }
-
-          this.statusList.push({
-            title: data,
-            data: res
-          });
+          if (res && res.length > 0) {
+            this.statusList.push({
+              title: data,
+              data: res[0]
+            });
+            this.abNormalCount = this.statusList.length
+            this.normalCount = this.allCount - this.abNormalCount;
+          }
         }
       })
     },
@@ -187,7 +225,7 @@ export default {
             this.detailList = [];
             this.nowCheck = $activeNames;
             this.overlayShow = true;
-            this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
+            this.$chntek.warrigs(data.title.id, data.data.time.substring(0, 10), 20).then(res => {
               this.detailList = res;
               this.overlayShow = false;
             }).catch(() => {
@@ -197,6 +235,12 @@ export default {
         }
       });
     },
+    getPosition(data) {
+      if (data) {
+        return data.longitude + ';' + data.latitude;
+      }
+      return '';
+    }
   },
 };
 </script>

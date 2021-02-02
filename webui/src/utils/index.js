@@ -43,3 +43,10 @@ export function formatDateBeforDay(date, day) {
 export function formatDateBeforMonth(date) {
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 }
+
+export function getPosition(data) {
+    if (data) {
+        return data.longitude + ';' + data.latitude;
+    }
+    return '';
+}
