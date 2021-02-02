@@ -12,51 +12,51 @@ function Chntek() {
     this.ids = 0;
 
     this.regions = async (val) => {
-        const {data} = await axios.get(`${proxyHost}/devices/regions`, {
+        const { data } = await axios.get(`${proxyHost}/devices/regions`, {
             // params: {account: this.account},
-            params: {account: val},
-            headers: {'Authorization': this.token}
+            params: { account: val },
+            headers: { 'Authorization': this.token }
         });
         if (data.val) return data.val;
     };
     this.statusRecent = async (val) => {
-        const {data} = await axios.get(`${proxyHost}/devices/status-recent`, {
+        const { data } = await axios.get(`${proxyHost}/devices/status-recent`, {
             // params: {account: this.account},
-            params: {id: val},
-            headers: {'Authorization': this.token}
+            params: { id: val },
+            headers: { 'Authorization': this.token }
         });
         if (data.val) return data.val;
     };
     this.statusHistory = async (val, date_begin, date_end, size) => {
-        const {data} = await axios.get(`${proxyHost}/devices/status-history`, {
+        const { data } = await axios.get(`${proxyHost}/devices/status-history`, {
             // params: {account: this.account},
-            params: {id: val, date_begin: date_begin, date_end: date_end, size: size},
-            headers: {'Authorization': this.token}
+            params: { id: val, date_begin: date_begin, date_end: date_end, size: size },
+            headers: { 'Authorization': this.token }
         });
         if (data.val) return data.val;
     };
     this.statusPrimary = async (val) => {
-        const {data} = await axios.get(`${proxyHost}/devices/primary`, {
+        const { data } = await axios.get(`${proxyHost}/devices/primary`, {
             // params: {account: this.account},
-            params: {ids: val},
-            headers: {'Authorization': this.token}
+            params: { ids: val },
+            headers: { 'Authorization': this.token }
         });
         if (data.val) return data.val;
     };
 
 
     this.login = async (account, password) => {
-        let res = await axios.get(`${host}/api/user/login`, {params: {account, password}});
+        let res = await axios.get(`${host}/api/user/login`, { params: { account, password } });
         if (res.data.err) throw res.data.err;
         localStorage.setItem('chntek-account', account);
         localStorage.setItem('chntek-token', res.data.val.token);
     };
 
     this.warrigs = async (val, date, size) => {
-        const {data} = await axios.get(`${proxyHost}/devices/warnings`, {
+        const { data } = await axios.get(`${proxyHost}/devices/warnings`, {
             // params: {account: this.account},
-            params: {id: val, date: date, size: size},
-            headers: {'Authorization': this.token}
+            params: { id: val, date: date, size: size },
+            headers: { 'Authorization': this.token }
         });
         if (data.val) return data.val;
     };
@@ -65,7 +65,7 @@ function Chntek() {
         let val = [];
         for (let id of this.ids) {
             if (this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
-            const {data} = await axios.get(`${proxyHost}/devices/status-recent`, {params: {id}});
+            const { data } = await axios.get(`${proxyHost}/devices/status-recent`, { params: { id } });
 
             for (let k in data.val[0]) {
                 this.devices[id][k] = data.val[0][k]
@@ -76,6 +76,31 @@ function Chntek() {
         return val;
     };
 }
+
+document.addEventListener('deviceready', async () => {
+    let version = window.cordova.plugins.version.getAppVersion();
+    const { data } = await axios.get(`${proxyHost}/app/latest`);
+
+    if (data.err)
+        return
+
+    if (-1 != data.val.indexOf(version))
+        return
+
+    var uri = encodeURI(data.val)
+    var fileURL = 'cdvfile://localhost/temporary/tuner.apk'
+    var fileTransfer = new window.FileTransfer()
+    fileTransfer.download(
+        uri, fileURL, function (entry) {
+            entry
+            alert('确认并安装新版本更新！')
+            window.cordova.plugins.fileOpener2.open('cdvfile://localhost/temporary/tuner.apk', 'application/vnd.android.package-archive')
+        },
+        function (error) {
+            console.error('download error: ' + error.source + error.target + error.code)
+        })
+})
+
 
 const chntek = new Chntek();
 

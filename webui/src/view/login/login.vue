@@ -75,6 +75,7 @@ export default {
       this.$chntek
           .login(params.account, params.password)
           .then(() => {
+            window.cordova.plugins.backgroundMode.enable();
             localStorage.setItem('loginData', JSON.stringify(params));
             // 获取数据
             this.$router.push({
