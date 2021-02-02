@@ -148,7 +148,6 @@ export default {
       this.getData();
     },
     getStatus(val, datas) {
-      debugger;
       this.$chntek.statusRecent(val).then(res => {
         this.getData(datas.find(a => a.id === val), res[0]);
       })
