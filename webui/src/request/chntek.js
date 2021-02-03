@@ -75,32 +75,38 @@ function Chntek() {
         }
         return val;
     };
+
+    this.update = async () => {
+        let version = window.cordova.plugins.version.getAppVersion();
+        const { data } = await axios.get(`${proxyHost}/app/latest`);
+
+        if (data.err) {
+            alert('无法获取最新版本')
+            return
+        }
+
+        if (-1 != data.val.indexOf(version + '.apk')) {
+            alert('已是最新版本！')
+            return
+        }
+
+        // var uri = encodeURI('http://dungbeetles.xyz/app-debug.apk')
+        var uri = encodeURI(data.val)
+        var fileURL = 'cdvfile://localhost/temporary/tuner.apk'
+        var fileTransfer = new window.FileTransfer()
+        fileTransfer.download(
+            uri, fileURL, function (entry) {
+                entry
+                alert('确认并安装新版本更新！')
+                window.cordova.plugins.fileOpener2.open('cdvfile://localhost/temporary/tuner.apk', 'application/vnd.android.package-archive')
+            },
+            function (error) {
+                console.error('download error: ' + error.source + error.target + error.code)
+            })
+    }
 }
 
-document.addEventListener('deviceready', async () => {
-    let version = window.cordova.plugins.version.getAppVersion();
-    const { data } = await axios.get(`${proxyHost}/app/latest`);
-
-    if (data.err)
-        return
-
-    if (-1 != data.val.indexOf(version+'.apk'))
-        return
-
-    // var uri = encodeURI('http://dungbeetles.xyz/app-debug.apk')
-    var uri = encodeURI(data.val)
-    var fileURL = 'cdvfile://localhost/temporary/tuner.apk'
-    var fileTransfer = new window.FileTransfer()
-    fileTransfer.download(
-        uri, fileURL, function (entry) {
-            entry
-            alert('确认并安装新版本更新！')
-            window.cordova.plugins.fileOpener2.open('cdvfile://localhost/temporary/tuner.apk', 'application/vnd.android.package-archive')
-        },
-        function (error) {
-            console.error('download error: ' + error.source + error.target + error.code)
-        })
-})
+document.addEventListener('deviceready', async () => { })
 
 
 const chntek = new Chntek();

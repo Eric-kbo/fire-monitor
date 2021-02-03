@@ -12,6 +12,9 @@ GET http://dungbeetles.xyz:3410/devices/primary?ids=CSCB0000001
 GET http://localhost:3410/devices/status-history?id=CSCB0000001&size=20&date_begin=2021-01-04&date_end=2021-01-27
 
 ###
+GET http://dungbeetles.xyz:3410/devices/warnings?id=CSCB0000001&date=2021-02-03&size=1
+
+###
 POST http://dungbeetles.xyz:3410/app/upload
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 

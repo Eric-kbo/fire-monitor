@@ -73,7 +73,7 @@ export default {
           return true;
       }
     },
-    onSelect(action) {
+    async onSelect(action) {
       switch (action.text) {
         case '注销':
           window.cordova.plugins.backgroundMode.disable();
@@ -81,7 +81,7 @@ export default {
           this.$router.go(0);
           break;
         case "更新":
-          alert('已是最新版本！')
+          await this.$chntek.update()
           break;
       }
     }

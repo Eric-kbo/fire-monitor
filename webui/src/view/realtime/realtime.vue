@@ -20,18 +20,18 @@
         <template v-for="(list,key) in statusList">
           <van-collapse-item :name="key" :key="key">
             <template #title>
-              <van-row>
+              <van-row :class="nowStatus(list)?'nowStatus':''">
                 <van-col span="12">{{ list.title.id }}</van-col>
                 <van-col span="4">{{ list.title.city }}</van-col>
                 <van-col span="8">{{ list.title.county }}</van-col>
               </van-row>
-              <van-row>
+              <van-row :class="nowStatus(list)?'nowStatus':''">
                 <van-col span="24">{{ list.title.location }}</van-col>
               </van-row>
-              <van-row>
+              <van-row :class="nowStatus(list)?'nowStatus':''">
                 <van-col span="24">{{ list.data.type }}</van-col>
               </van-row>
-              <van-row>
+              <van-row :class="nowStatus(list)?'nowStatus':''">
                 <van-col span="24">{{ list.data.time }}</van-col>
               </van-row>
             </template>
@@ -246,12 +246,22 @@ export default {
         return data.longitude + ";" + data.latitude;
       }
       return "";
+    },
+    nowStatus(data) {
+      if (data.data.time.substring(0, 10) !== getNowFormatDate(new Date())) {
+        return true;
+      }
+      return false;
     }
   }
 };
 </script>
 
 <style lang="less">
+.nowStatus {
+  color: #cccccc;
+}
+
 .wrapper {
   display: flex;
   align-items: center;
