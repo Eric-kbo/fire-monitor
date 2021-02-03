@@ -111,7 +111,7 @@ import {
   Search, Button,
   Picker, Calendar, Loading, Overlay
 } from 'vant';
-import {formatDate, formatDateBeforDay, getAllDeviceslist} from "../../utils";
+import {formatDate, formatDateBeforDay, getAllDeviceslist, getNowFormatDate} from "../../utils";
 
 export default {
   components: {
@@ -172,7 +172,7 @@ export default {
       })
     })
     const nowDate = new Date();
-    this.starTime = formatDateBeforDay(nowDate, -7);
+    this.starTime = formatDateBeforDay(nowDate, -1);
     this.endTime = formatDate(nowDate);
     this.date = `${this.starTime}/${this.endTime}`;
     this.$chntek.regions(this.account).then(res => {
@@ -208,6 +208,7 @@ export default {
       const datas = this.optionList[val]
       if (datas && datas.length > 0) {
         this.$chntek.statusPrimary(datas.toString()).then(res => {
+          this.statusList = [];
           datas.forEach(x => {
             this.getStatus(x, res)
           })
@@ -233,9 +234,9 @@ export default {
     onConfirm(date) {
       const [start, end] = date;
       this.dateRangeShow = false;
-      this.starTime = this.formatDate(start);
-      this.endTime = this.formatDate(end);
-      this.date = `${this.formatDate(start)}/${this.formatDate(end)}`;
+      this.starTime = getNowFormatDate(start);
+      this.endTime = getNowFormatDate(end);
+      this.date = `${this.starTime}/${this.endTime}`;
     },
     getStatusDetail: function ($activeNames) {
       const data = this.statusList[$activeNames];

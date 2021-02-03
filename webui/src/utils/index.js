@@ -18,8 +18,12 @@ export function formatDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
-export function getNowFormatDate() {
-    var date = new Date();
+export function getNowFormatDate(date) {
+    if (!date) {
+        date = new Date();
+    } else {
+        date = new Date(date);
+    }
     var seperator1 = "-";
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
