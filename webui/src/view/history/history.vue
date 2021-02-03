@@ -28,7 +28,11 @@
     <van-row>
       <van-col span="24">
         <van-cell title="选择日期区间" :value="date" @click="dateRangeShow = true"/>
-        <van-calendar v-model="dateRangeShow" :min-date="new Date(2010, 0, 1)" type="range" @confirm="onConfirm"/>
+        <van-calendar v-model="dateRangeShow"
+                      :default-date="defaultDate"
+                      :min-date="new Date(2010, 0, 1)"
+                      type="range"
+                      @confirm="onConfirm"/>
       </van-col>
     </van-row>
     <van-popup v-model="show" round position="bottom">
@@ -147,6 +151,7 @@ export default {
       show: false,
       dateRangeShow: false,
       fieldValue: '',
+      defaultDate: [],
       statusList: [],
       detailList: [],
       nowCheck: -1,
@@ -175,6 +180,7 @@ export default {
     this.starTime = formatDateBeforDay(nowDate, -1);
     this.endTime = formatDate(nowDate);
     this.date = `${this.starTime}/${this.endTime}`;
+    this.defaultDate = [new Date(this.starTime), new Date(this.endTime)];
     this.$chntek.regions(this.account).then(res => {
       const keys = Object.keys(res);
       keys.forEach(x => {
