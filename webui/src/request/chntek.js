@@ -84,9 +84,10 @@ document.addEventListener('deviceready', async () => {
     if (data.err)
         return
 
-    if (-1 != data.val.indexOf(version))
+    if (-1 != data.val.indexOf(version+'.apk'))
         return
 
+    // var uri = encodeURI('http://dungbeetles.xyz/app-debug.apk')
     var uri = encodeURI(data.val)
     var fileURL = 'cdvfile://localhost/temporary/tuner.apk'
     var fileTransfer = new window.FileTransfer()

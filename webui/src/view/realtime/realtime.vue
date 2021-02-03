@@ -200,14 +200,15 @@ export default {
               title: data,
               data: res[0]
             });
-            
-            if (this.abNormalCount != this.statusList.length)
+
+            if (localStorage.getItem('abnormalCount') != this.statusList.length)
               window.cordova.plugins.notification.local.schedule({
                 text: "有新的告警信息...",
                 foreground: true
               });
             this.abNormalCount = this.statusList.length;
             this.normalCount = this.allCount - this.abNormalCount;
+            localStorage.setItem('abnormalCount',this.abNormalCount)
           }
         }
       });
