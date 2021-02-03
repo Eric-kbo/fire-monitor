@@ -93,7 +93,12 @@ import {
   GridItem,
   List
 } from "vant";
-import { formatDate, formatDateBeforDay, getAllDeviceslist } from "../../utils";
+import {
+  formatDate,
+  getNowFormatDate,
+  formatDateBeforDay,
+  getAllDeviceslist
+} from "../../utils";
 
 export default {
   components: {
@@ -200,15 +205,17 @@ export default {
               title: data,
               data: res[0]
             });
+            if (this.starTime == getNowFormatDate(new Date())) {
+              this.abNormalCount = this.statusList.length;
 
-            if (localStorage.getItem('abnormalCount') != this.statusList.length)
-              window.cordova.plugins.notification.local.schedule({
-                text: "有新的告警信息...",
-                foreground: true
-              });
-            this.abNormalCount = this.statusList.length;
+              if (localStorage.getItem("abnormalCount") != this.abNormalCount)
+                window.cordova.plugins.notification.local.schedule({
+                  text: "有新的告警信息...",
+                  foreground: true
+                });
+            }
             this.normalCount = this.allCount - this.abNormalCount;
-            localStorage.setItem('abnormalCount',this.abNormalCount)
+            localStorage.setItem("abnormalCount", this.abNormalCount);
           }
         }
       });
