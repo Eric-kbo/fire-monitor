@@ -104,7 +104,7 @@ import {
   Search, Button,
   Picker, Calendar, Loading, Overlay, Grid, GridItem, List
 } from 'vant';
-import {formatDate, formatDateBeforDay, getAllDeviceslist} from "../../utils";
+import {formatDate, getNowFormatDate, formatDateBeforDay, getAllDeviceslist} from "../../utils";
 
 export default {
   components: {
@@ -211,7 +211,9 @@ export default {
               title: data,
               data: res[0]
             });
-            this.abNormalCount = this.statusList.length
+            if (this.starTime == getNowFormatDate(new Date())) {
+              this.abNormalCount = this.statusList.length
+            }
             this.normalCount = this.allCount - this.abNormalCount;
           }
         }
