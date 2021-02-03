@@ -154,7 +154,7 @@ export default {
     // 初始化加载所有历史数据
     this.account = localStorage.getItem("chntek-account");
     const nowDate = new Date();
-    this.starTime = formatDateBeforDay(nowDate, -1);
+    this.starTime = formatDateBeforDay(nowDate, 0);
     this.endTime = formatDate(nowDate);
     this.loadData();
   },
