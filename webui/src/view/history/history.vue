@@ -28,7 +28,11 @@
     <van-row>
       <van-col span="24">
         <van-cell title="选择日期区间" :value="date" @click="dateRangeShow = true"/>
-        <van-calendar v-model="dateRangeShow" :min-date="new Date(2010, 0, 1)" type="range" @confirm="onConfirm"/>
+        <van-calendar v-model="dateRangeShow"
+                      :default-date="defaultDate"
+                      :min-date="new Date(2010, 0, 1)"
+                      type="range"
+                      @confirm="onConfirm"/>
       </van-col>
     </van-row>
     <van-popup v-model="show" round position="bottom">
@@ -111,7 +115,7 @@ import {
   Search, Button,
   Picker, Calendar, Loading, Overlay
 } from 'vant';
-import {formatDate, formatDateBeforDay, getAllDeviceslist} from "../../utils";
+import {formatDate, formatDateBeforDay, getAllDeviceslist, getNowFormatDate} from "../../utils";
 
 export default {
   components: {
@@ -147,6 +151,7 @@ export default {
       show: false,
       dateRangeShow: false,
       fieldValue: '',
+      defaultDate: [],
       statusList: [],
       detailList: [],
       nowCheck: -1,
@@ -172,9 +177,10 @@ export default {
       })
     })
     const nowDate = new Date();
-    this.starTime = formatDateBeforDay(nowDate, -7);
+    this.starTime = formatDateBeforDay(nowDate, -1);
     this.endTime = formatDate(nowDate);
     this.date = `${this.starTime}/${this.endTime}`;
+    this.defaultDate = [new Date(this.starTime), new Date(this.endTime)];
     this.$chntek.regions(this.account).then(res => {
       const keys = Object.keys(res);
       keys.forEach(x => {
@@ -208,6 +214,7 @@ export default {
       const datas = this.optionList[val]
       if (datas && datas.length > 0) {
         this.$chntek.statusPrimary(datas.toString()).then(res => {
+          this.statusList = [];
           datas.forEach(x => {
             this.getStatus(x, res)
           })
@@ -233,9 +240,9 @@ export default {
     onConfirm(date) {
       const [start, end] = date;
       this.dateRangeShow = false;
-      this.starTime = this.formatDate(start);
-      this.endTime = this.formatDate(end);
-      this.date = `${this.formatDate(start)}/${this.formatDate(end)}`;
+      this.starTime = getNowFormatDate(start);
+      this.endTime = getNowFormatDate(end);
+      this.date = `${this.starTime}/${this.endTime}`;
     },
     getStatusDetail: function ($activeNames) {
       const data = this.statusList[$activeNames];
