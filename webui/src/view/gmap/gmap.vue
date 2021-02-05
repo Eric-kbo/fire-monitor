@@ -7,7 +7,7 @@
       <!-- 缩放组件 -->
       <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
       <!-- 标记组件 -->
-      <bml-marker-clusterer>
+      <bml-marker-clusterer :averageCenter="true" :maxZoom="11">
         <bm-marker
             v-for="(item,index) in list"
             :key="index+'-'"
