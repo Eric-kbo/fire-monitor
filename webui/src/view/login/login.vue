@@ -4,7 +4,7 @@
     <!-- vant导航栏 -->
     <van-nav-bar style="background-color: #3090EC;">
       <template #title>
-        <span style="color: white;">登录</span>
+        <span style="color: white;">启泰传感</span>
       </template>
     </van-nav-bar>
 

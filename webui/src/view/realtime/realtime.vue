@@ -25,7 +25,7 @@
         <template v-for="(list,key) in statusList">
           <van-collapse-item :name="key" :key="key">
             <template #title>
-              <van-row :class="nowStatus(list)?'nowStatus':''">
+              <van-row>
                 <van-col span="12">
                   {{ list.title.id }}
                 </van-col>
@@ -36,17 +36,17 @@
                   {{ list.title.county }}
                 </van-col>
               </van-row>
-              <van-row :class="nowStatus(list)?'nowStatus':''">
+              <van-row>
                 <van-col span="24">
                   {{ list.title.location }}
                 </van-col>
               </van-row>
-              <van-row :class="nowStatus(list)?'nowStatus':''">
+              <van-row>
                 <van-col span="24">
                   {{ list.data.type }}
                 </van-col>
               </van-row>
-              <van-row :class="nowStatus(list)?'nowStatus':''">
+              <van-row>
                 <van-col span="24">
                   {{ list.data.time }}
                 </van-col>
@@ -102,7 +102,7 @@ import {
   Divider,
   Card,
   Search, Button,
-  Picker, Calendar, Loading, Overlay, Grid, GridItem, List
+  Picker, Calendar, Loading, Overlay, Grid, GridItem, List, Tab, Tabs
 } from 'vant';
 import {formatDate, getNowFormatDate, formatDateBeforDay, getAllDeviceslist} from "../../utils";
 
@@ -130,6 +130,8 @@ export default {
     [GridItem.name]: GridItem,
     [Grid.name]: Grid,
     [List.name]: List,
+    [Tabs.name]: Tabs,
+    [Tab.name]: Tab,
   },
   data() {
     return {
@@ -243,12 +245,6 @@ export default {
       }
       return '';
     },
-    nowStatus(data) {
-      if (data.data.time.substring(0, 10) !== getNowFormatDate(new Date())) {
-        return true
-      }
-      return false
-    }
   },
 };
 </script>

@@ -57,7 +57,7 @@ const routes = [
             {
                 name: 'realtime',
                 path: '/realtime',
-                component: () => import('../view/realtime/realtime'),
+                component: () => import('../view/realtime/newrealtime'),
                 meta: {
                     title: '实时告警'
                 }
