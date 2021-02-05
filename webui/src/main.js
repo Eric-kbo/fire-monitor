@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import {router} from './router';
-import {Tabbar, TabbarItem, NavBar, Icon, Popover} from 'vant';
+import {Tabbar, TabbarItem, NavBar, Icon, Popover, Col, Row} from 'vant';
 // 引入转换接口
 import chntek from "./request/chntek";
 import BaiduMap from 'vue-baidu-map';
@@ -14,6 +14,8 @@ Vue.use(TabbarItem);
 Vue.use(NavBar);
 Vue.use(Icon);
 Vue.use(Popover);
+Vue.use(Col);
+Vue.use(Row);
 
 
 Vue.prototype.$chntek = chntek;
