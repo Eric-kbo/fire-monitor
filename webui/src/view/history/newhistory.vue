@@ -283,6 +283,7 @@ export default {
               title: res.find(a => a.id === x),
             })
           })
+          this.checkList = this.devicesValue ? this.devicesValue.split(',') : [];
           this.getRegion();
         })
       })
@@ -292,11 +293,13 @@ export default {
       this.show = false;
       this.fieldValue = selectedOptions.map((option) => option.text).join('-');
       this.devicesValue = '';
+      this.checkList = [];
       this.contractDevice();
     },
     changeFinish({selectedOptions}) {
       this.fieldValue = selectedOptions.map((option) => option.text).join('-');
       this.devicesValue = '';
+      this.checkList = [];
       this.contractDevice();
     },
     onConfirm(date) {
@@ -326,6 +329,7 @@ export default {
     },
     checkDevice() {
       this.devicesValue = this.checkList.toString();
+      this.getRegion();
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
