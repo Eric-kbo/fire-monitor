@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import {router} from './router';
-import {Tabbar, TabbarItem, NavBar, Icon, Popover, Col, Row} from 'vant';
+import {Tabbar, TabbarItem, NavBar, Icon, Popover, Col, Row, Dialog} from 'vant';
 // 引入转换接口
 import chntek from "./request/chntek";
 import BaiduMap from 'vue-baidu-map';
@@ -9,6 +9,8 @@ import BaiduMap from 'vue-baidu-map';
 Vue.use(BaiduMap, {
     ak: 'aczIoSxQtHDKl7gLRKWxySCwKOvzXq3u'
 });
+// 全局注册
+Vue.use(Dialog);
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
 Vue.use(NavBar);

@@ -33,7 +33,7 @@ const routes = [
             {
                 name: 'history',
                 path: '/history',
-                component: () => import('../view/history/history'),
+                component: () => import('../view/history/newhistory'),
                 meta: {
                     title: '数据中心'
                 }
