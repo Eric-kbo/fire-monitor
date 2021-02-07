@@ -112,7 +112,7 @@ def gather(token,ids,today=datetime.datetime.now()):
                 'time': w['MonitorsTime'],
                 'location': w['Prefecturecity'] + w['Distriancounty'] + w['Customerunit']
             })
-        except KeyError as e:
+        except Exception as e:
             print(e)
             continue
 
