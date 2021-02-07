@@ -1,11 +1,13 @@
 <template>
   <div>
-    <van-nav-bar
-      title="启泰传感"
-      :left-arrow="getLeft()"
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    >
+    <van-nav-bar title="启泰传感" :left-arrow="getLeft()"
+                 @click-left="onClickLeft"
+                 @click-right="onClickRight">
+      <template #title>
+        <div>
+          <img style="height: 47px;display: inline-block;max-width: 100%" src="../assets/images/headerLogo.png"/>
+        </div>
+      </template>
       <template #right>
         <van-popover
           v-model="showPopover"

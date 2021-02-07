@@ -33,7 +33,7 @@ const routes = [
             {
                 name: 'history',
                 path: '/history',
-                component: () => import('../view/history/history'),
+                component: () => import('../view/history/newhistory'),
                 meta: {
                     title: '数据中心'
                 }
@@ -57,7 +57,7 @@ const routes = [
             {
                 name: 'realtime',
                 path: '/realtime',
-                component: () => import('../view/realtime/realtime'),
+                component: () => import('../view/realtime/newrealtime'),
                 meta: {
                     title: '实时告警'
                 }

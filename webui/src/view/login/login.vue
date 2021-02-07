@@ -4,39 +4,47 @@
     <!-- vant导航栏 -->
     <van-nav-bar style="background-color: #3090EC;">
       <template #title>
-        <span style="color: white;">登录</span>
+        <span style="color: white;">启泰传感</span>
       </template>
     </van-nav-bar>
 
     <!-- vant表单 -->
     <van-form>
-      <van-field
-          v-model="username"
-          name="账号"
-          label="账号"
-          placeholder="账号名"
-          :rules="[{ required: true, message: '请填写账号' }]"
-      />
-      <van-field
-          v-model="password"
-          :type="isPassword"
-          name="密码"
-          label="密码"
-          placeholder="密码"
-          :rules="[{ required: true, message: '请填写密码' },{pattern: /^\w{3,}$/,message:'密码不少于3位'}]"
-      >
-        <template #right-icon>
+      <van-row>
+        <div style="text-align: center">
+          <img src="../../assets/images/headerLogo.png"/>
+        </div>
+      </van-row>
+      <van-row>
+        <van-field
+            v-model="username"
+            name="账号"
+            label="账号"
+            placeholder="账号名"
+            :rules="[{ required: true, message: '请填写账号' }]"
+        />
+        <van-field
+            v-model="password"
+            :type="isPassword"
+            name="密码"
+            label="密码"
+            placeholder="密码"
+            :rules="[{ required: true, message: '请填写密码' },{pattern: /^\w{3,}$/,message:'密码不少于3位'}]"
+        >
+          <template #right-icon>
           <span @click="onPassword" style="font-size: 20px;" class="iconfont icon-view">
             <van-icon :name="isText?'closed-eye':'eye-o'" color="#ee0a24"/>
           </span>
-        </template>
-      </van-field>
-
-      <div style="margin: 16px;">
-        <van-button @click="onSubmit" round block type="info" native-type="submit">
-          登录
-        </van-button>
-      </div>
+          </template>
+        </van-field>
+      </van-row>
+      <van-row>
+        <div style="margin: 16px;">
+          <van-button @click="onSubmit" round block type="info" native-type="submit">
+            登录
+          </van-button>
+        </div>
+      </van-row>
     </van-form>
   </div>
 </template>
@@ -46,11 +54,14 @@ import {
   Form,
   Icon,
   Field,
-  Button, Dialog,
+  Button, Dialog, Row, Col, Cell,
 } from 'vant';
 
 export default {
   components: {
+    [Row.name]: Row,
+    [Col.name]: Col,
+    [Cell.name]: Cell,
     [Form.name]: Form,
     [Icon.name]: Icon,
     [Field.name]: Field,
