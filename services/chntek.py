@@ -39,10 +39,11 @@ def regions():
                 primary = json.loads(f.read())
                 city = primary['city']
                 county = primary['county']
-                if not city: print(i) 
-                
-                if city not in regions or county not in regions[city]: 
+                if not city: continue
+                if city not in regions: 
                     regions[city] = {}
+
+                if county not in regions[city]:
                     regions[city][county] = []
                 regions[city][county].append(i)
         except FileNotFoundError as e:
