@@ -11,7 +11,7 @@ const routes = [
     {
         name: 'login',
         path: '/login',
-        component: () => import('../view/login/login'),
+        component: () => import('../view/login/newlogin'),
         meta: {
             title: '登陆'
         }

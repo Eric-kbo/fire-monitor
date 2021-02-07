@@ -1,42 +1,50 @@
 <template>
   <div class="bg">
-
-    <!-- vant导航栏 -->
-    <van-nav-bar style="background-color: #3090EC;">
-      <template #title>
-        <span style="color: white;">启泰传感</span>
-      </template>
-    </van-nav-bar>
-
     <!-- vant表单 -->
     <van-form>
       <van-row>
+      </van-row>
+      <van-row style="margin-top: 15vh">
         <div style="text-align: center">
-          <img src="../../assets/images/headerLogo.png"/>
+          <img src="../../assets/images/logo.png"/>
         </div>
       </van-row>
       <van-row>
-        <van-field
-            v-model="username"
-            name="账号"
-            label="账号"
-            placeholder="账号名"
-            :rules="[{ required: true, message: '请填写账号' }]"
-        />
-        <van-field
-            v-model="password"
-            :type="isPassword"
-            name="密码"
-            label="密码"
-            placeholder="密码"
-            :rules="[{ required: true, message: '请填写密码' },{pattern: /^\w{3,}$/,message:'密码不少于3位'}]"
-        >
-          <template #right-icon>
+        <div style="text-align: center">
+          <van-divider>启泰传感</van-divider>
+        </div>
+      </van-row>
+      <van-row>
+
+      </van-row>
+      <van-row>
+        <div style="margin: 4px 16px 4px 16px;">
+          <van-field
+              style="border-radius: 25px;"
+              v-model="username"
+              name="账号"
+              placeholder="账号名"
+              :rules="[{ required: true, message: '请填写账号' }]"
+          />
+        </div>
+      </van-row>
+      <van-row>
+        <div style="margin: 4px 16px 4px 16px;">
+          <van-field
+              style="border-radius: 25px;"
+              v-model="password"
+              :type="isPassword"
+              name="密码"
+              placeholder="密码"
+              :rules="[{ required: true, message: '请填写密码' },{pattern: /^\w{3,}$/,message:'密码不少于3位'}]"
+          >
+            <template #right-icon>
           <span @click="onPassword" style="font-size: 20px;" class="iconfont icon-view">
             <van-icon :name="isText?'closed-eye':'eye-o'" color="#ee0a24"/>
           </span>
-          </template>
-        </van-field>
+            </template>
+          </van-field>
+        </div>
       </van-row>
       <van-row>
         <div style="margin: 16px;">
@@ -54,7 +62,7 @@ import {
   Form,
   Icon,
   Field,
-  Button, Dialog, Row, Col, Cell,
+  Button, Dialog, Row, Col, Cell, Divider,
 } from 'vant';
 
 export default {
@@ -67,6 +75,7 @@ export default {
     [Field.name]: Field,
     [Button.name]: Button,
     [Dialog.name]: Dialog,
+    [Divider.name]: Divider,
   },
   data() {
     return {
@@ -116,8 +125,14 @@ export default {
 
 <style>
 .bg {
-  width: 100%;
-  height: 100%;
-  background-color: red;
+  height: 100vh;
+  background-color: white;
+  background-image: url("../../assets/images/bg02.jpg");
+  background-size: 100vw 100vh;
+}
+
+.form {
+  /*line-height: 10vh;*/
+  margin-top: 15vh;
 }
 </style>
