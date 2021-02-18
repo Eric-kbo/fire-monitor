@@ -64,22 +64,16 @@ def gather(token,ids,today=datetime.datetime.now()):
 
     for w in r['val']:
         tid = w['ProductTerId']
-        os.makedirs(f'db/devices/{tid}',exist_ok=True)
-        os.makedirs(f'db/devices/{tid}/status',exist_ok=True)
-        os.makedirs(f'db/devices/{tid}/warnings',exist_ok=True)
-
         try:   
             if tid not in primaries:
                 with open(f'db/devices/{tid}/primary.json','r') as f:
                     primaries[tid] = json.load(f)
-                    print(primaries[tid])
             if tid not in statues:
                 statues[tid] = {}
                 with open(f'db/devices/{tid}/status/{today.date()}.json','r') as f:
                     for status in json.load(f):
                         statues[tid][status['time']] = status
         except FileNotFoundError as e:
-            print(e)
             continue
 
         if tid not in warnings:
@@ -113,7 +107,6 @@ def gather(token,ids,today=datetime.datetime.now()):
                 'location': w['Prefecturecity'] + w['Distriancounty'] + w['Customerunit']
             })
         except Exception as e:
-            print(e)
             continue
 
     for tid in primaries:
@@ -124,7 +117,7 @@ def gather(token,ids,today=datetime.datetime.now()):
 
     for tid in warnings:
         w = warnings[tid]
-        
+        os.makedirs(f'db/devices/{tid}/warnings',exist_ok=True)
         print(f'gather db/devices/{tid}/warnings/{today.date()}.json')
         with open(f'db/devices/{tid}/warnings/{today.date()}.json','w') as f:
             f.write(json.dumps(w,indent=4,ensure_ascii=False))
