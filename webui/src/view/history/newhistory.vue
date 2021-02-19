@@ -225,7 +225,7 @@ export default {
             datas.forEach(x => {
               this.getStatus(x, res)
             })
-          })
+          }).finally(this.getDetail(this.nowCheck));
         }
       }
     },
@@ -243,7 +243,7 @@ export default {
           title: data.title,
           data: res
         });
-      })
+      }).finally(this.getDetail(this.nowCheck));
     },
     contractArea() {
       this.$chntek.regions(this.account).then(res => {
@@ -310,20 +310,23 @@ export default {
       this.date = `${this.starTime}/${this.endTime}`;
     },
     getStatusDetail: function ($activeNames) {
-      const data = this.statusList[$activeNames];
+      this.getDetail($activeNames)
+    },
+    getDetail(val) {
+      const data = this.statusList[val];
       this.statusList.forEach(x => {
         if (x === data) {
-          if (this.nowCheck !== $activeNames) {
-            this.detailList = [];
-            this.nowCheck = $activeNames;
-            this.overlayShow = true;
-            this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
-              this.detailList = res;
-              this.overlayShow = false;
-            }).catch(() => {
-              this.overlayShow = false;
-            })
-          }
+          // if (this.nowCheck !== val) {
+          this.detailList = [];
+          this.nowCheck = val;
+          this.overlayShow = true;
+          this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
+            this.detailList = res;
+            this.overlayShow = false;
+          }).catch(() => {
+            this.overlayShow = false;
+          })
+          // }
         }
       });
     },
