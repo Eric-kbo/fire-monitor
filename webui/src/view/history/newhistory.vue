@@ -39,7 +39,7 @@
     </van-row>
     <van-row>
       <van-col span="24">
-        <van-button type="info" @click="getRegion" block>查询</van-button>
+        <van-button type="info" @click="getRegion" loading-text="查询" :loading="searchBtnOn!==0" block>查询</van-button>
       </van-col>
     </van-row>
     <van-collapse v-model="activeNames" accordion @change="getStatusDetail">
@@ -97,7 +97,6 @@
           :options="options"
           @close="show = false"
           @finish="onFinish"
-          @change="changeFinish"
       />
     </van-popup>
 
@@ -108,7 +107,7 @@
             <van-cell
                 v-for="(item, index) in devicesList"
                 clickable
-                :key="item"
+                :key="index"
                 :title="`${item.id} - ${item.title.location}`"
                 @click="toggle(index)"
             >
@@ -192,6 +191,7 @@ export default {
       // 选项列表，children 代表子选项，支持多级嵌套
       options: [],
       optionList: {},
+      searchBtnOn: 0,
     };
   },
   created() {
@@ -213,6 +213,7 @@ export default {
       localStorage.setItem('chntek-history-devicesValue', this.devicesValue);
       const devices = this.devicesValue ? this.devicesValue.split(',') : [];
       if (devices.length > 0) {
+        this.searchBtnOn = devices.length;
         devices.forEach(x => {
           this.getNewStatus(this.devicesList.find(a => a.id === x));
         })
@@ -222,6 +223,7 @@ export default {
         const datas = this.optionList[val]
         if (datas && datas.length > 0) {
           this.$chntek.statusPrimary(datas.toString()).then(res => {
+            this.searchBtnOn = datas.length;
             datas.forEach(x => {
               this.getStatus(x, res)
             })
@@ -231,6 +233,7 @@ export default {
     },
     getStatus(val, list) {
       this.$chntek.statusHistory(val, this.starTime, this.endTime, 1).then(res => {
+        this.searchBtnOn = this.searchBtnOn - 1;
         this.statusList.push({
           title: list.find(a => a.id === val),
           data: res
@@ -239,6 +242,7 @@ export default {
     },
     getNewStatus(data) {
       this.$chntek.statusHistory(data.id, this.starTime, this.endTime, 1).then(res => {
+        this.searchBtnOn = this.searchBtnOn - 1;
         this.statusList.push({
           title: data.title,
           data: res
@@ -272,6 +276,9 @@ export default {
       })
     },
     contractDevice() {
+      if (!this.fieldValue) {
+        return
+      }
       const areaList = this.fieldValue.split('-');
       this.$chntek.regions(this.account).then(res => {
         const param = areaList.length > 0 ? res[areaList[0]][areaList[1]] : getAllDeviceslist(res, []);
@@ -300,7 +307,6 @@ export default {
       this.fieldValue = selectedOptions.map((option) => option.text).join('-');
       this.devicesValue = '';
       this.checkList = [];
-      this.contractDevice();
     },
     onConfirm(date) {
       const [start, end] = date;
