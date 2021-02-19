@@ -147,7 +147,6 @@ export default {
               addComp.district +
               addComp.street +
               addComp.streetNumber; //获取地址
-          console.log(address);//打印地址
           _this.center = address
         });
       });

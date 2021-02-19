@@ -31,6 +31,7 @@
       <van-col span="24">
         <van-cell title="选择日期区间" :value="date" @click="dateRangeShow = true"/>
         <van-calendar v-model="dateRangeShow"
+                      allow-same-day
                       :default-date="defaultDate"
                       :min-date="new Date(2010, 0, 1)"
                       type="range"
