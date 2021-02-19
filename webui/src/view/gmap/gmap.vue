@@ -132,18 +132,25 @@ export default {
     // eslint-disable-next-line no-unused-vars
     onReady({BMap, map}) {
       this.getData();
-      var geolocation = new BMap.Geolocation()// 获取逆解析方法实例
-      this.myGeo = new BMap.Geocoder()
-      // 获取自动定位获取的坐标信息
-      geolocation.getCurrentPosition(
-          function (r) {
-            this.center = {
-              lng: r.point.lng,
-              lat: r.point.lat
-            }
-          },
-          {enableHighAccuracy: true}
-      )
+      const geolocation = new BMap.Geolocation()// 获取逆解析方法实例
+      const _this = this
+      var address = null;
+      geolocation.getCurrentPosition(function (r) {
+        //获取地址信息，设置地址label
+        var gc = new BMap.Geocoder();
+        gc.getLocation(r.point, function (rs) {
+          //   debugger
+          var addComp = rs.addressComponents;
+          address =
+              addComp.province +
+              addComp.city +
+              addComp.district +
+              addComp.street +
+              addComp.streetNumber; //获取地址
+          console.log(address);//打印地址
+          _this.center = address
+        });
+      });
     },
     getStatus(val, datas) {
       this.$chntek.statusRecent(val).then(res => {
