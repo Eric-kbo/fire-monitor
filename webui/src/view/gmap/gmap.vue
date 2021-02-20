@@ -113,7 +113,7 @@ export default {
       showTag: {},
       current: 0,
       currentMark: 0,
-      center: '长沙',
+      center: '北京',
       account: '',
     };
   },
@@ -132,6 +132,24 @@ export default {
     // eslint-disable-next-line no-unused-vars
     onReady({BMap, map}) {
       this.getData();
+      const geolocation = new BMap.Geolocation()// 获取逆解析方法实例
+      const _this = this
+      var address = null;
+      geolocation.getCurrentPosition(function (r) {
+        //获取地址信息，设置地址label
+        var gc = new BMap.Geocoder();
+        gc.getLocation(r.point, function (rs) {
+          //   debugger
+          var addComp = rs.addressComponents;
+          address =
+              addComp.province +
+              addComp.city +
+              addComp.district +
+              addComp.street +
+              addComp.streetNumber; //获取地址
+          _this.center = address
+        });
+      });
     },
     getStatus(val, datas) {
       this.$chntek.statusRecent(val).then(res => {
@@ -154,7 +172,7 @@ export default {
           signal_intensity: data.signal_intensity,
           time: data.time,
         });
-        this.center = this.list[0];
+        // this.center = this.list[0];
       }
     },
     getPosition() {
