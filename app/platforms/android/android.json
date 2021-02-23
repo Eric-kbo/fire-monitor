@@ -86,15 +86,15 @@
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />",
-              "count": 105
+              "count": 117
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.CHANGE_BADGE\" />",
-              "count": 105
+              "count": 117
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 105
+              "count": 117
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
@@ -106,6 +106,18 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.REQUEST_INSTALL_PACKAGES\" />",
+              "count": 1
+            },
+            {
+              "xml": "<user-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<user-permission android:name=\"android.permission.ACCESS_GPS_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<user-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
               "count": 1
             }
           ],
