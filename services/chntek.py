@@ -150,4 +150,4 @@ def latest():
     return { 'val': request.host_url + 'app/' + dirs[-1] , 'err': None }
 
 print('http://localhost:3410/')
-app.run(port=3410)
+app.run(host='0.0.0.0',port=3410)
