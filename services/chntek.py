@@ -6,7 +6,6 @@ import datetime
 from pandas import date_range
 
 from flask import Flask, flash,abort, redirect, request, url_for
-from gevent import pywsgi
 from flask_cors import CORS
 
 import chntek_db as db
@@ -151,5 +150,4 @@ def latest():
     return { 'val': request.host_url + 'app/' + dirs[-1] , 'err': None }
 
 print('http://localhost:3410/')
-http_server = pywsgi.WSGIServer(('0.0.0.0', 3410), app)
-http_server.serve_forever()
+app.run(port=3410)
