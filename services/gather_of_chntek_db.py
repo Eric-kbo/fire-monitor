@@ -38,8 +38,8 @@ def gather(token,ids,today=datetime.datetime.now()):
 
         for s in status_list:
             status.append({
-                'hydraulic_pressure': s['pressure'] + 'MPa',
-                'temperature':        s['temper'] + '°C',
+                'hydraulic_pressure': s['pressure'],
+                'temperature':        s['temper'],
                 'energy':             s['electricity'],
                 'time':               s['MonitorsTime'],
                 'signal_intensity':   s['rssi'],          
