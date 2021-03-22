@@ -32,6 +32,7 @@ def gather(token,ids,today=datetime.datetime.now()):
             'county':primary_later['county'] if 'county' in primary_later else '', 
             'location': status_list[0]['Customerunit'] if status_list[0]['Customerunit'] else '',
             'type': status_list[0]['TerminalType'] if status_list[0]['TerminalType'] else 'firehydrant',  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+            'sluice':'关'
         }
         
         status = []
@@ -100,7 +101,7 @@ def gather(token,ids,today=datetime.datetime.now()):
         primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
         primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else p['location']
         primaries[tid]['type'] = p['type'] if 'type' in p else 'firehydrant'  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-        primaries[tid]['sluice'] = '开' if -1 != w['WarnName'].find('取水漏水报警') else '关'
+        primaries[tid]['sluice'] = '开' if -1 != w['WarnName'].find('漏水/取水') else '关'
 
         if not w['WarnName']: continue
         # w['WarnName'] = w['WarnName'].replace('、水质报警','')
