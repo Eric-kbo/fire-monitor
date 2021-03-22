@@ -36,15 +36,28 @@ def gather(token,ids,today=datetime.datetime.now()):
         
         status = []
 
+        last = None
         for s in status_list:
-            status.append({
+            flow = float(s['flow'])
+            info = {
+                'flow': flow,
+                'flow_difference': 0.0,
                 'hydraulic_pressure': s['pressure'],
                 'temperature':        s['temper'],
                 'energy':             s['electricity'],
                 'time':               s['MonitorsTime'],
                 'signal_intensity':   s['rssi'],          
                 'conductivity':       s['conductivity']
-            })
+            }
+
+            status.append(info)
+
+
+            if last:
+                flow_difference = last['flow'] - flow
+                if flow_difference < 0: flow_difference = 0
+                last['flow_difference'] = round(flow_difference,1)
+            last = info
 
         print(f'gather db/devices/{tid}/primary.json')
         with open(f'db/devices/{tid}/primary.json','w') as f:
@@ -87,10 +100,11 @@ def gather(token,ids,today=datetime.datetime.now()):
         primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
         primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else p['location']
         primaries[tid]['type'] = p['type'] if 'type' in p else 'firehydrant'  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+        primaries[tid]['sluice'] = '开' if -1 != w['WarnName'].find('取水漏水报警') else '关'
 
         if not w['WarnName']: continue
-        w['WarnName'] = w['WarnName'].replace('、水质报警','')
-        w['WarnName'] = w['WarnName'].replace('水质报警','')
+        # w['WarnName'] = w['WarnName'].replace('、水质报警','')
+        # w['WarnName'] = w['WarnName'].replace('水质报警','')
         s = statues[tid]
         t = w['MonitorsTime']
 
