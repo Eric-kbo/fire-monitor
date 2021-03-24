@@ -55,7 +55,7 @@
         "parents": {
           "/manifest/application": [
             {
-              "xml": "<activity android:windowSoftInputMode=\"adjustPan\" />",
+              "xml": "<activity android:usesCleartextTraffic=\"true\" />",
               "count": 2,
               "mode": "merge",
               "id": "config.xml",
@@ -69,7 +69,7 @@
               }
             },
             {
-              "xml": "<activity android:usesCleartextTraffic=\"true\" />",
+              "xml": "<activity android:windowSoftInputMode=\"adjustPan\" />",
               "count": 1,
               "mode": "merge",
               "id": "config.xml",
@@ -86,15 +86,15 @@
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />",
-              "count": 117
+              "count": 130
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.CHANGE_BADGE\" />",
-              "count": 117
+              "count": 130
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 117
+              "count": 129
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
@@ -109,15 +109,15 @@
               "count": 1
             },
             {
-              "xml": "<user-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
               "count": 1
             },
             {
-              "xml": "<user-permission android:name=\"android.permission.ACCESS_GPS_LOCATION\" />",
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_GPS_LOCATION\" />",
               "count": 1
             },
             {
-              "xml": "<user-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
               "count": 1
             }
           ],

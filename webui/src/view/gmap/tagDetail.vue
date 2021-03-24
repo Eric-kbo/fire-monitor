@@ -26,7 +26,9 @@
             <van-cell title="当前温度" :value="item.temperature+'°C'"/>
             <van-cell title="当前电量" :value="item.energy+'%'"/>
             <van-cell title="信号强度" :value="item.signal_intensity"/>
-            <van-cell title="经纬坐标" :value="getPosition(item)"/>
+            <van-cell title="流量总" :value="item.flow"/>
+            <van-cell title="流量差" :value="item.flow_difference"/>
+            <van-cell title="阀门状态" :value="item.sluice"/>
           </template>
         </van-collapse-item>
       </van-collapse>

@@ -61,8 +61,12 @@
             <span class="flex_1">{{ showTag.time }}</span>
           </p>
           <p class="display-flex message">
-            经纬坐标:
-            <span class="flex_1">{{ getPosition() }}</span>
+            流量总/差:
+            <span class="flex_1">{{ showTag.flow }}/{{ showTag.flow_difference }}</span>
+          </p>
+          <p class="display-flex message">
+            阀门状态:
+            <span class="flex_1">{{ showTag.sluice}}</span>
           </p>
         </div>
         <div style="text-align: center;margin-top: 1rem" v-if="currentList.length>1">
@@ -158,6 +162,7 @@ export default {
     },
     getData(title, data) {
       if (title && data) {
+        console.log(data)
         this.list.push({
           unit: title.location,
           id: title.id,
@@ -171,6 +176,9 @@ export default {
           energy: data.energy,
           signal_intensity: data.signal_intensity,
           time: data.time,
+          sluice: title.sluice,
+          flow: data.flow,
+          flow_difference: data.flow_difference
         });
         // this.center = this.list[0];
       }

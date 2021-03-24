@@ -3,48 +3,63 @@
     <!--遮罩层-->
     <van-overlay style="z-index: 999999" :show="overlayShow">
       <div class="wrapper">
-        <van-loading size="24px" color="#0094ff" vertical>数据量太大,正在加载中...</van-loading>
+        <van-loading size="24px" color="#0094ff" vertical
+          >数据量太大,正在加载中...</van-loading
+        >
       </div>
     </van-overlay>
     <!--    <van-search v-model="value" placeholder="请输入搜索关键词"/>-->
 
     <van-row>
       <van-field
-          v-model="fieldValue"
-          is-link
-          readonly
-          placeholder="请选择地区"
-          @click="show = true"
+        v-model="fieldValue"
+        is-link
+        readonly
+        placeholder="请选择地区"
+        @click="show = true"
       />
     </van-row>
     <van-row>
       <van-col span="24">
         <van-field
-            v-model="devicesValue"
-            readonly
-            placeholder="请选择设备"
-            @click="checkShow = true"
+          v-model="devicesValue"
+          readonly
+          placeholder="请选择设备"
+          @click="checkShow = true"
         />
       </van-col>
     </van-row>
     <van-row>
       <van-col span="24">
-        <van-cell title="选择日期区间" :value="date" @click="dateRangeShow = true"/>
-        <van-calendar v-model="dateRangeShow"
-                      allow-same-day
-                      :default-date="defaultDate"
-                      :min-date="new Date(2010, 0, 1)"
-                      type="range"
-                      @confirm="onConfirm"/>
+        <van-cell
+          title="选择日期区间"
+          :value="date"
+          @click="dateRangeShow = true"
+        />
+        <van-calendar
+          v-model="dateRangeShow"
+          allow-same-day
+          :default-date="defaultDate"
+          :min-date="new Date(2010, 0, 1)"
+          type="range"
+          @confirm="onConfirm"
+        />
       </van-col>
     </van-row>
     <van-row>
       <van-col span="24">
-        <van-button type="info" @click="getRegion" loading-text="查询" :loading="searchBtnOn!==0" block>查询</van-button>
+        <van-button
+          type="info"
+          @click="getRegion"
+          loading-text="查询"
+          :loading="searchBtnOn !== 0"
+          block
+          >查询</van-button
+        >
       </van-col>
     </van-row>
     <van-collapse v-model="activeNames" accordion @change="getStatusDetail">
-      <template v-for="(list,key) in statusList">
+      <template v-for="(list, key) in statusList">
         <van-collapse-item :name="key" :key="key">
           <template #title>
             <van-row>
@@ -64,24 +79,40 @@
               </van-col>
             </van-row>
           </template>
-          <template v-for="(item,key) in detailList">
-            <van-cell-group
-                :key="key">
-              <van-row>
-                <van-col span="6">
-                  温度:
-                  <van-tag plain type="primary">{{ item.temperature }}</van-tag>
+          <template v-for="(item, key) in detailList">
+            <van-cell-group :key="key">
+              <van-row type="flex" justify="end" gutter="10">
+                <van-col>
+                  温度
+                  <van-tag plain type="primary"
+                    >{{ item.temperature }}°C</van-tag
+                  >
                 </van-col>
-                <van-col span="6">
-                  压力:
-                  <van-tag plain type="success">{{ item.hydraulic_pressure }}</van-tag>
+                <van-col>
+                  压力
+                  <van-tag plain type="success"
+                    >{{ item.hydraulic_pressure }}MPa</van-tag
+                  >
                 </van-col>
-                <van-col span="6">
-                  电量:
+                <van-col>
+                  电量
                   <van-tag plain type="danger">{{ item.energy }}%</van-tag>
                 </van-col>
-                <van-col span="12">
-                  时间:
+              </van-row>
+
+              <van-row type="flex" justify="end" gutter="10">
+                <van-col>
+                  流量总
+                  <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
+                </van-col>
+                  <van-col>
+                  流量差
+                  <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
+                </van-col>
+              </van-row>
+
+              <van-row type="flex" justify="end">
+                <van-col>
                   <van-tag plain type="warning">{{ item.time }}</van-tag>
                 </van-col>
               </van-row>
@@ -93,11 +124,11 @@
 
     <van-popup v-model="show" round position="bottom">
       <van-cascader
-          v-model="cascaderValue"
-          title="请选择所在地区"
-          :options="options"
-          @close="show = false"
-          @finish="onFinish"
+        v-model="cascaderValue"
+        title="请选择所在地区"
+        :options="options"
+        @close="show = false"
+        @finish="onFinish"
       />
     </van-popup>
 
@@ -106,14 +137,14 @@
         <van-checkbox-group v-model="checkList">
           <van-cell-group style="height: 500px; overflow: scroll">
             <van-cell
-                v-for="(item, index) in devicesList"
-                clickable
-                :key="index"
-                :title="`${item.id} - ${item.title.location}`"
-                @click="toggle(index)"
+              v-for="(item, index) in devicesList"
+              clickable
+              :key="index"
+              :title="`${item.id} - ${item.title.location}`"
+              @click="toggle(index)"
             >
               <template #right-icon>
-                <van-checkbox :name="item.id" ref="checkboxes"/>
+                <van-checkbox :name="item.id" ref="checkboxes" />
               </template>
             </van-cell>
           </van-cell-group>
@@ -138,10 +169,21 @@ import {
   Tag,
   Divider,
   Card,
-  Search, Button,
-  Picker, Calendar, Loading, Overlay, Checkbox, CheckboxGroup
-} from 'vant';
-import {formatDate, formatDateBeforDay, getAllDeviceslist, getNowFormatDate} from "../../utils";
+  Search,
+  Button,
+  Picker,
+  Calendar,
+  Loading,
+  Overlay,
+  Checkbox,
+  CheckboxGroup,
+} from "vant";
+import {
+  formatDate,
+  formatDateBeforDay,
+  getAllDeviceslist,
+  getNowFormatDate,
+} from "../../utils";
 
 export default {
   components: {
@@ -166,29 +208,28 @@ export default {
     [Overlay.name]: Overlay,
     [CheckboxGroup.name]: CheckboxGroup,
     [Checkbox.name]: Checkbox,
-
   },
   data() {
     return {
       Arealoading: true,
-      activeNames: ['1', '2'],
+      activeNames: ["1", "2"],
       overlayShow: false,
-      value: '',
-      date: '',
-      starTime: '',
-      endTime: '',
+      value: "",
+      date: "",
+      starTime: "",
+      endTime: "",
       show: false,
       dateRangeShow: false,
       checkShow: false,
-      fieldValue: '',
-      devicesValue: '',
+      fieldValue: "",
+      devicesValue: "",
       devicesList: [],
       checkList: [],
       defaultDate: [],
       statusList: [],
       detailList: [],
       nowCheck: -1,
-      cascaderValue: '',
+      cascaderValue: "",
       // 选项列表，children 代表子选项，支持多级嵌套
       options: [],
       optionList: {},
@@ -196,9 +237,13 @@ export default {
     };
   },
   created() {
-    this.account = localStorage.getItem('chntek-account');
-    this.fieldValue = localStorage.getItem('chntek-history-search') ? localStorage.getItem('chntek-history-search') : '';
-    this.devicesValue = localStorage.getItem('chntek-history-devicesValue') ? localStorage.getItem('chntek-history-devicesValue') : [];
+    this.account = localStorage.getItem("chntek-account");
+    this.fieldValue = localStorage.getItem("chntek-history-search")
+      ? localStorage.getItem("chntek-history-search")
+      : "";
+    this.devicesValue = localStorage.getItem("chntek-history-devicesValue")
+      ? localStorage.getItem("chntek-history-devicesValue")
+      : [];
     this.contractArea();
     this.contractDevice();
     const nowDate = new Date();
@@ -210,103 +255,116 @@ export default {
   methods: {
     getRegion() {
       this.statusList = [];
-      localStorage.setItem('chntek-history-search', this.fieldValue);
-      localStorage.setItem('chntek-history-devicesValue', this.devicesValue);
-      const devices = this.devicesValue ? this.devicesValue.split(',') : [];
+      localStorage.setItem("chntek-history-search", this.fieldValue);
+      localStorage.setItem("chntek-history-devicesValue", this.devicesValue);
+      const devices = this.devicesValue ? this.devicesValue.split(",") : [];
       if (devices.length > 0) {
         this.searchBtnOn = devices.length;
-        devices.forEach(x => {
-          this.getNewStatus(this.devicesList.find(a => a.id === x));
-        })
+        devices.forEach((x) => {
+          this.getNewStatus(this.devicesList.find((a) => a.id === x));
+        });
       } else {
-        const list = this.fieldValue.split('-');
-        const val = list[list.length - 1]
-        const datas = this.optionList[val]
+        const list = this.fieldValue.split("-");
+        const val = list[list.length - 1];
+        const datas = this.optionList[val];
         if (datas && datas.length > 0) {
-          this.$chntek.statusPrimary(datas.toString()).then(res => {
-            this.searchBtnOn = datas.length;
-            datas.forEach(x => {
-              this.getStatus(x, res)
+          this.$chntek
+            .statusPrimary(datas.toString())
+            .then((res) => {
+              this.searchBtnOn = datas.length;
+              datas.forEach((x) => {
+                this.getStatus(x, res);
+              });
             })
-          }).finally(this.getDetail(this.nowCheck));
+            .finally(this.getDetail(this.nowCheck));
         }
       }
     },
     getStatus(val, list) {
-      this.$chntek.statusHistory(val, this.starTime, this.endTime, 1).then(res => {
-        this.searchBtnOn = this.searchBtnOn - 1;
-        this.statusList.push({
-          title: list.find(a => a.id === val),
-          data: res
+      this.$chntek
+        .statusHistory(val, this.starTime, this.endTime, 1)
+        .then((res) => {
+          this.searchBtnOn = this.searchBtnOn - 1;
+          this.statusList.push({
+            title: list.find((a) => a.id === val),
+            data: res,
+          });
         });
-      })
     },
     getNewStatus(data) {
-      this.$chntek.statusHistory(data.id, this.starTime, this.endTime, 1).then(res => {
-        this.searchBtnOn = this.searchBtnOn - 1;
-        this.statusList.push({
-          title: data.title,
-          data: res
-        });
-      }).finally(this.getDetail(this.nowCheck));
+      this.$chntek
+        .statusHistory(data.id, this.starTime, this.endTime, 1)
+        .then((res) => {
+          this.searchBtnOn = this.searchBtnOn - 1;
+          this.statusList.push({
+            title: data.title,
+            data: res,
+          });
+        })
+        .finally(this.getDetail(this.nowCheck));
     },
     contractArea() {
-      this.$chntek.regions(this.account).then(res => {
+      this.$chntek.regions(this.account).then((res) => {
         const keys = Object.keys(res);
-        keys.forEach(x => {
+        keys.forEach((x) => {
           const opt = {
             text: x,
             value: x,
-          }
-          opt.children = []
+          };
+          opt.children = [];
           const areaKeys = Object.keys(res[x]);
-          areaKeys.forEach(a => {
+          areaKeys.forEach((a) => {
             opt.children.push({
               text: a,
               value: a,
-              list: []
-            })
-            this.optionList[a] = res[x][a]
-            res[x][a].forEach(b => {
-              const i = opt.children.findIndex(i => i.text === a)
-              opt.children[i].list.push(b)
+              list: [],
             });
-          })
-          this.options.push(opt)
-        })
-      })
+            this.optionList[a] = res[x][a];
+            res[x][a].forEach((b) => {
+              const i = opt.children.findIndex((i) => i.text === a);
+              opt.children[i].list.push(b);
+            });
+          });
+          this.options.push(opt);
+        });
+      });
     },
     contractDevice() {
       if (!this.fieldValue) {
-        return
+        return;
       }
-      const areaList = this.fieldValue.split('-');
-      this.$chntek.regions(this.account).then(res => {
-        const param = areaList.length > 0 ? res[areaList[0]][areaList[1]] : getAllDeviceslist(res, []);
+      const areaList = this.fieldValue.split("-");
+      this.$chntek.regions(this.account).then((res) => {
+        const param =
+          areaList.length > 0
+            ? res[areaList[0]][areaList[1]]
+            : getAllDeviceslist(res, []);
         this.devicesList = [];
-        this.$chntek.statusPrimary(param.toString()).then(res => {
-          param.forEach(x => {
+        this.$chntek.statusPrimary(param.toString()).then((res) => {
+          param.forEach((x) => {
             this.devicesList.push({
               id: x,
-              title: res.find(a => a.id === x),
-            })
-          })
-          this.checkList = this.devicesValue ? this.devicesValue.split(',') : [];
+              title: res.find((a) => a.id === x),
+            });
+          });
+          this.checkList = this.devicesValue
+            ? this.devicesValue.split(",")
+            : [];
           this.getRegion();
-        })
-      })
+        });
+      });
     },
     // 全部选项选择完毕后，会触发 finish 事件
-    onFinish({selectedOptions}) {
+    onFinish({ selectedOptions }) {
       this.show = false;
-      this.fieldValue = selectedOptions.map((option) => option.text).join('-');
-      this.devicesValue = '';
+      this.fieldValue = selectedOptions.map((option) => option.text).join("-");
+      this.devicesValue = "";
       this.checkList = [];
       this.contractDevice();
     },
-    changeFinish({selectedOptions}) {
-      this.fieldValue = selectedOptions.map((option) => option.text).join('-');
-      this.devicesValue = '';
+    changeFinish({ selectedOptions }) {
+      this.fieldValue = selectedOptions.map((option) => option.text).join("-");
+      this.devicesValue = "";
       this.checkList = [];
     },
     onConfirm(date) {
@@ -317,22 +375,25 @@ export default {
       this.date = `${this.starTime}/${this.endTime}`;
     },
     getStatusDetail: function ($activeNames) {
-      this.getDetail($activeNames)
+      this.getDetail($activeNames);
     },
     getDetail(val) {
       const data = this.statusList[val];
-      this.statusList.forEach(x => {
+      this.statusList.forEach((x) => {
         if (x === data) {
           // if (this.nowCheck !== val) {
           this.detailList = [];
           this.nowCheck = val;
           this.overlayShow = true;
-          this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
-            this.detailList = res;
-            this.overlayShow = false;
-          }).catch(() => {
-            this.overlayShow = false;
-          })
+          this.$chntek
+            .statusHistory(x.title.id, this.starTime, this.endTime, 10000)
+            .then((res) => {
+              this.detailList = res;
+              this.overlayShow = false;
+            })
+            .catch(() => {
+              this.overlayShow = false;
+            });
           // }
         }
       });
