@@ -3,7 +3,7 @@ import App from './App';
 import {router} from './router';
 import {Tabbar, TabbarItem, NavBar, Icon, Popover, Col, Row, Dialog} from 'vant';
 // 引入转换接口
-import chntek from "./request/chntek";
+import chntek from "./utils/chntek";
 import BaiduMap from 'vue-baidu-map';
 
 Vue.use(BaiduMap, {

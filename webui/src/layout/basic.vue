@@ -26,7 +26,7 @@
     <van-tabbar v-model="active">
       <!--      <van-tabbar-item replace to="/home" icon="wap-home">综合展示</van-tabbar-item>-->
       <van-tabbar-item replace to="/gmap" icon="map-marked">GIS模块</van-tabbar-item>
-      <van-tabbar-item replace to="/realtime" icon="underway">实时告警</van-tabbar-item>
+      <van-tabbar-item replace to="/warnings" icon="underway">实时告警</van-tabbar-item>
       <van-tabbar-item replace to="/history" icon="browsing-history">数据中心</van-tabbar-item>
     </van-tabbar>
   </div>
@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: "BasicLayout",
+  name: "basic",
   created() {
     const token = localStorage.getItem("chntek-token");
     if (!token) {
@@ -69,7 +69,7 @@ export default {
         case "home":
         case "gmap":
         case "history":
-        case "realtime":
+        case "warnings":
           return false;
         default:
           return true;

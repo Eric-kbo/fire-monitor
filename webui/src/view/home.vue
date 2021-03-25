@@ -1,11 +1,5 @@
 <template>
   <div style="margin-bottom: 15%">
-    <!--遮罩层-->
-    <van-overlay style="z-index: 999999" :show="overlayShow">
-      <div class="wrapper">
-        <van-loading size="24px" color="#0094ff" vertical>数据量太大,正在加载中...</van-loading>
-      </div>
-    </van-overlay>
     <!--    <van-search v-model="value" placeholder="请输入搜索关键词"/>-->
 
     <van-row>
@@ -25,16 +19,6 @@
         <van-button type="info" @click="getRegion" block>查询</van-button>
       </van-col>
     </van-row>
-    <van-row>
-      <van-col span="24">
-        <van-cell title="选择日期区间" :value="date" @click="dateRangeShow = true"/>
-        <van-calendar v-model="dateRangeShow"
-                      :default-date="defaultDate"
-                      :min-date="new Date(2010, 0, 1)"
-                      type="range"
-                      @confirm="onConfirm"/>
-      </van-col>
-    </van-row>
     <van-popup v-model="show" round position="bottom">
       <van-cascader
           v-model="cascaderValue"
@@ -47,7 +31,9 @@
     </van-popup>
 
 
-    <van-collapse v-model="activeNames" accordion @change="getStatusDetail">
+    <home-chart style="margin-top: 15px; "></home-chart>
+
+    <van-collapse v-model="activeNames">
       <template v-for="(list,key) in statusList">
         <van-collapse-item :name="key" :key="key">
           <template #title>
@@ -68,7 +54,7 @@
               </van-col>
             </van-row>
           </template>
-          <template v-for="(item,key) in detailList">
+          <template v-for="(item,key) in list.data">
             <van-cell-group
                 :key="key">
               <van-row>
@@ -113,9 +99,8 @@ import {
   Divider,
   Card,
   Search, Button,
-  Picker, Calendar, Loading, Overlay
+  Picker
 } from 'vant';
-import {formatDate, formatDateBeforDay, getAllDeviceslist, getNowFormatDate} from "../../utils";
 
 export default {
   components: {
@@ -135,9 +120,6 @@ export default {
     [Button.name]: Button,
     [Card.name]: Card,
     [Picker.name]: Picker,
-    [Calendar.name]: Calendar,
-    [Loading.name]: Loading,
-    [Overlay.name]: Overlay,
   },
   data() {
     return {
@@ -145,42 +127,19 @@ export default {
       activeNames: ['1', '2'],
       overlayShow: false,
       value: '',
-      date: '',
-      starTime: '',
-      endTime: '',
       show: false,
-      dateRangeShow: false,
       fieldValue: '',
-      defaultDate: [],
       statusList: [],
-      detailList: [],
-      nowCheck: -1,
       cascaderValue: '',
       // 选项列表，children 代表子选项，支持多级嵌套
       options: [],
       optionList: {},
+
+      account: '',
     };
   },
   created() {
-    // 初始化加载所有历史数据
     this.account = localStorage.getItem('chntek-account');
-    const searchStr = localStorage.getItem('chntek-history-search');
-    if (searchStr) {
-      this.fieldValue = searchStr;
-    }
-    this.$chntek.regions(this.account).then(res => {
-      const param = getAllDeviceslist(res, []);
-      this.$chntek.statusPrimary(param.toString()).then(res => {
-        param.forEach(x => {
-          this.getStatus(x, res)
-        })
-      })
-    })
-    const nowDate = new Date();
-    this.starTime = formatDateBeforDay(nowDate, -1);
-    this.endTime = formatDate(nowDate);
-    this.date = `${this.starTime}/${this.endTime}`;
-    this.defaultDate = [new Date(this.starTime), new Date(this.endTime)];
     this.$chntek.regions(this.account).then(res => {
       const keys = Object.keys(res);
       keys.forEach(x => {
@@ -203,18 +162,17 @@ export default {
           });
         })
         this.options.push(opt)
+        console.log(JSON.stringify(this.options))
       })
     })
   },
   methods: {
     getRegion() {
-      localStorage.setItem('chntek-history-search', this.fieldValue);
       const list = this.fieldValue.split('-');
       const val = list[list.length - 1]
       const datas = this.optionList[val]
       if (datas && datas.length > 0) {
         this.$chntek.statusPrimary(datas.toString()).then(res => {
-          this.statusList = [];
           datas.forEach(x => {
             this.getStatus(x, res)
           })
@@ -222,7 +180,7 @@ export default {
       }
     },
     getStatus(val, list) {
-      this.$chntek.statusHistory(val, this.starTime, this.endTime, 1).then(res => {
+      this.$chntek.statusRecent(val).then(res => {
         this.statusList.push({
           title: list.find(a => a.id === val),
           data: res
@@ -237,46 +195,9 @@ export default {
     changeFinish({selectedOptions}) {
       this.fieldValue = selectedOptions.map((option) => option.text).join('-');
     },
-    onConfirm(date) {
-      const [start, end] = date;
-      this.dateRangeShow = false;
-      this.starTime = getNowFormatDate(start);
-      this.endTime = getNowFormatDate(end);
-      this.date = `${this.starTime}/${this.endTime}`;
-    },
-    getStatusDetail: function ($activeNames) {
-      const data = this.statusList[$activeNames];
-      this.statusList.forEach(x => {
-        if (x === data) {
-          if (this.nowCheck !== $activeNames) {
-            this.detailList = [];
-            this.nowCheck = $activeNames;
-            this.overlayShow = true;
-            this.$chntek.statusHistory(x.title.id, this.starTime, this.endTime, 10000).then(res => {
-              this.detailList = res;
-              this.overlayShow = false;
-            }).catch(() => {
-              this.overlayShow = false;
-            })
-          }
-        }
-      });
-    },
   },
 };
 </script>
 
 <style lang="less">
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.block {
-  width: 100%;
-  align-content: center;
-  background-color: #fff;
-}
 </style>

@@ -11,7 +11,7 @@ const routes = [
     {
         name: 'login',
         path: '/login',
-        component: () => import('../view/login/newlogin'),
+        component: () => import('../view/login'),
         meta: {
             title: '登陆'
         }
@@ -19,13 +19,13 @@ const routes = [
     {
         name: 'home',
         redirect: '/home',
-        component: () => import('../layout/BasicLayout'),
+        component: () => import('../layout/basic'),
         children: [
             {
                 name: 'home',
                 path: '/home',
                 redirect: '/gmap',
-                component: () => import('../view/home/home'),
+                component: () => import('../view/home'),
                 meta: {
                     title: '综合显示'
                 }
@@ -33,7 +33,7 @@ const routes = [
             {
                 name: 'history',
                 path: '/history',
-                component: () => import('../view/history/newhistory'),
+                component: () => import('../view/history'),
                 meta: {
                     title: '数据中心'
                 }
@@ -55,19 +55,11 @@ const routes = [
                 }
             },
             {
-                name: 'realtime',
-                path: '/realtime',
-                component: () => import('../view/realtime/newrealtime'),
+                name: 'warnings',
+                path: '/warnings',
+                component: () => import('../view/warnings'),
                 meta: {
                     title: '实时告警'
-                }
-            },
-            {
-                name: 'test',
-                path: '/test',
-                component: () => import('../view/test/test'),
-                meta: {
-                    title: '测试'
                 }
             }
         ]

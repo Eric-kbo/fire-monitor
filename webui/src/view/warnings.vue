@@ -209,7 +209,7 @@ import {
   getNowFormatDate,
   formatDateBeforDay,
   getAllDeviceslist,
-} from "../../utils";
+} from "../utils";
 
 export default {
   components: {

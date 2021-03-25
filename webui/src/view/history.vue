@@ -178,12 +178,13 @@ import {
   Checkbox,
   CheckboxGroup,
 } from "vant";
+
 import {
   formatDate,
   formatDateBeforDay,
   getAllDeviceslist,
   getNowFormatDate,
-} from "../../utils";
+} from "../utils";
 
 export default {
   components: {

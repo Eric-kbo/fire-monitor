@@ -6,7 +6,7 @@
       </van-row>
       <van-row style="margin-top: 15vh">
         <div style="text-align: center">
-          <img src="../../assets/images/logo.png"/>
+          <img src="../assets/images/logo.png"/>
         </div>
       </van-row>
       <van-row>
@@ -127,7 +127,7 @@ export default {
 .bg {
   height: 100vh;
   background-color: white;
-  background-image: url("../../assets/images/bg02.jpg");
+  background-image: url("../assets/images/bg02.jpg");
   background-size: 100vw 100vh;
 }
 
