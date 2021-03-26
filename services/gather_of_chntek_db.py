@@ -143,9 +143,7 @@ import sys
 r = requests.get(f'http://iot.chntek.com:3410/api/user/login?account=test&password=123')
 token = r.json()['val']['token']
 for account in db.ids:
-    ids = ''    
-    for i in db.ids[account]:
-        ids += f'{i},'
-
-    for i in range(0 if len(sys.argv) == 1 else int(sys.argv[1]),-1,-1):
-        gather(token,ids,datetime.datetime.now() - datetime.timedelta(days=i))
+    
+    for id in db.ids[account]:
+        for i in range(0 if len(sys.argv) == 1 else int(sys.argv[1]),-1,-1):
+            gather(token,id,datetime.datetime.now() - datetime.timedelta(days=i))
