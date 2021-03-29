@@ -16,11 +16,10 @@
 * 4天，增加登陆界面，功能操作优化。
 * 11天，美化UI，兼容平板布局，重构后端接口。
 
-### 启泰智慧消防APP1.1.2（工期7天，费用3天）
+### 启泰智慧消防APP1.1.2（工期7天，费用3+4天）
 
 - 3天，增加流量总/差，GIS阀门状态。
-
-
+- 4天，不同设备显示不同字段。
 
 ## 人员
 
@@ -53,8 +52,8 @@
 |                              | 应用商店   | 腾讯应用宝<br />百度应用商店                                 | 不定 | 刘楚门               |
 | 启泰智慧消防APP-1.1.2        | 界面       | ~~综合显示-流量总/差~~<br />~~GIS模块-阀门状态~~<br />~~GIS模块-流量总/差~~ | 2天  | 刘楚门               |
 |                              | 接口实现   | ~~后端-流量总/差~~<br />~~后端-阀门状态~~                    | 1天  | 刘楚门               |
-| 启泰智慧消防APP-1.1.3        | 界面       |                                                              |      | 周兴邦               |
-|                              | 接口实现   |                                                              |      | 刘楚门               |
+| 启泰智慧消防APP-1.1.3        | 界面       | GIS-动态显示字段<br />历史数据-动态显示字段                  | 2天  | 周兴邦               |
+|                              | 接口实现   | 后端-压力表<br />后端-上法兰消防栓<br />后端-下法兰流量终端  | 2天  | 刘楚门               |
 
 # 前端
 
@@ -128,7 +127,7 @@ ids: '设备A,设备B' #被查询的设备编号，多个用逗号分隔
             "city": "长沙市",
             "county": "浏阳",
             "location": "长沙银行古港支行1F现金区卫生间",
-            "type": "firehydrant", #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+            "type": "firehydrant", #设备类型 firehydrant：上法兰消防栓，pressure：无线压力表，cylinders：消防气瓶，LowerFlange：下法兰消防栓
 		},
         {
             "id": "设备B",#设备编号
@@ -156,18 +155,35 @@ size: 2 #限制查询数据量为2条
     "err": null,		
     "val": [
         {
+            # pressure：无线压力表
             "hydraulic_pressure":0.257, 		 #水压 MPa
             "temperature":15.8,				 #温度  °C
             "energy":70,    	 			 #电量  %
             "signal_intensity":3,  		 #信号强度 db       
+            "time": "2010-12-10 14:20:00"		#检测时间
+        },
+        { 
+            # firehydrant：上法兰消防栓
+            "hydraulic_pressure":0.257, 		 #水压 MPa
+            "temperature":15.8,				 #温度  °C
+            "energy":70,    	 			 #电量  %
+            "signal_intensity":3,  		 #信号强度 db
+            "sluice":"关",			#阀门状态
             "time": "2010-12-10 14:20:00"		#检测时间
 		},
 		{
+            # LowerFlange：下法兰消防栓
             "hydraulic_pressure":0.257, 		 #水压 MPa
             "temperature":15.8,				 #温度  °C
             "energy":70,    	 			 #电量  %
-            "signal_intensity":3,  		 #信号强度 db       
+            "signal_intensity":3,  		 #信号强度 db    
+            "sluice":"关",			#阀门状态
+            "flow":0.0,				#单位m³
+            "flow_difference":0.0,	 #单位m³
             "time": "2010-12-10 14:20:00"		#检测时间
+		},
+		{
+            # cylinders：消防气瓶
 		}
     ]
 }
@@ -188,19 +204,33 @@ date_end: '2010-12-24' #指定日期的状态
     "err": null,		
     "val": [
         {
+            # pressure：无线压力表
             "hydraulic_pressure":0.257, 		 #水压 MPa
             "temperature":15.8,				 #温度  °C
             "energy":70,    	 			 #电量  %
             "signal_intensity":3,  		 #信号强度 db       
             "time": "2010-12-10 14:20:00"		#检测时间
-    	},
+        },
+        { 
+            # firehydrant：上法兰消防栓
+            "hydraulic_pressure":0.257, 		 #水压 MPa
+            "temperature":15.8,				 #温度  °C
+            "energy":70,    	 			 #电量  %
+            "signal_intensity":3,  		 #信号强度 db
+            "sluice":"关",			#阀门状态
+            "time": "2010-12-10 14:20:00"		#检测时间
+		},
 		{
+            # LowerFlange：下法兰消防栓
             "hydraulic_pressure":0.257, 		 #水压 MPa
             "temperature":15.8,				 #温度  °C
             "energy":70,    	 			 #电量  %
-            "signal_intensity":3,  		 #信号强度 db       
+            "signal_intensity":3,  		 #信号强度 db    
+            "sluice":"关",			#阀门状态
+            "flow":0.0,				#单位m³
+            "flow_difference":0.0,	 #单位m³
             "time": "2010-12-10 14:20:00"		#检测时间
-    	}
+		}
     ]
 }
 ```
