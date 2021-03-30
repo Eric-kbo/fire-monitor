@@ -150,12 +150,25 @@ def gather(token,ids,today=datetime.datetime.now()):
         with open(f'db/devices/{tid}/warnings/{today.date()}.json','w') as f:
             f.write(json.dumps(w,indent=4,ensure_ascii=False))
 
-print('program [recent days]')
 import sys
+import multiprocessing as mp
 
-r = requests.get(f'http://iot.chntek.com:3410/api/user/login?account=test&password=123')
-token = r.json()['val']['token']
-for account in db.ids:
-    for id in db.ids[account]:
+def gather_of_account(ids):
+    r = requests.get(f'http://iot.chntek.com:3410/api/user/login?account=test&password=123')
+    token = r.json()['val']['token']
+
+    for id in ids:
         for i in range(0 if len(sys.argv) == 1 else int(sys.argv[1]),-1,-1):
             gather(token,id,datetime.datetime.now() - datetime.timedelta(days=i))
+
+if __name__ == '__main__':
+    print('program [recent days]')
+    ps = {}
+    for account in db.ids:
+        print('start '+account)
+        ps[account] = mp.Process(target=gather_of_account,args=(db.ids[account],))
+        ps[account].start()
+        
+    for account in ps:
+        print('join '+account)
+        ps[account].join()
