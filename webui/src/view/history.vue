@@ -4,7 +4,8 @@
     <van-overlay style="z-index: 999999" :show="overlayShow">
       <div class="wrapper">
         <van-loading size="24px" color="#0094ff" vertical
-          >数据量太大,正在加载中...</van-loading
+        >数据量太大,正在加载中...
+        </van-loading
         >
       </div>
     </van-overlay>
@@ -12,49 +13,50 @@
 
     <van-row>
       <van-field
-        v-model="fieldValue"
-        is-link
-        readonly
-        placeholder="请选择地区"
-        @click="show = true"
+          v-model="fieldValue"
+          is-link
+          readonly
+          placeholder="请选择地区"
+          @click="show = true"
       />
     </van-row>
     <van-row>
       <van-col span="24">
         <van-field
-          v-model="devicesValue"
-          readonly
-          placeholder="请选择设备"
-          @click="checkShow = true"
+            v-model="devicesValue"
+            readonly
+            placeholder="请选择设备"
+            @click="checkShow = true"
         />
       </van-col>
     </van-row>
     <van-row>
       <van-col span="24">
         <van-cell
-          title="选择日期区间"
-          :value="date"
-          @click="dateRangeShow = true"
+            title="选择日期区间"
+            :value="date"
+            @click="dateRangeShow = true"
         />
         <van-calendar
-          v-model="dateRangeShow"
-          allow-same-day
-          :default-date="defaultDate"
-          :min-date="new Date(2010, 0, 1)"
-          type="range"
-          @confirm="onConfirm"
+            v-model="dateRangeShow"
+            allow-same-day
+            :default-date="defaultDate"
+            :min-date="new Date(2010, 0, 1)"
+            type="range"
+            @confirm="onConfirm"
         />
       </van-col>
     </van-row>
     <van-row>
       <van-col span="24">
         <van-button
-          type="info"
-          @click="getRegion"
-          loading-text="查询"
-          :loading="searchBtnOn !== 0"
-          block
-          >查询</van-button
+            type="info"
+            @click="getRegion"
+            loading-text="查询"
+            :loading="searchBtnOn !== 0"
+            block
+        >查询
+        </van-button
         >
       </van-col>
     </van-row>
@@ -83,15 +85,17 @@
             <van-cell-group :key="key">
               <van-row type="flex" justify="end" gutter="10">
                 <van-col>
-                  温度
-                  <van-tag plain type="primary"
-                    >{{ item.temperature }}°C</van-tag
+                  水压
+                  <van-tag plain type="success"
+                  >{{ item.hydraulic_pressure }}MPa
+                  </van-tag
                   >
                 </van-col>
                 <van-col>
-                  压力
-                  <van-tag plain type="success"
-                    >{{ item.hydraulic_pressure }}MPa</van-tag
+                  温度
+                  <van-tag plain type="primary"
+                  >{{ item.temperature }}°C
+                  </van-tag
                   >
                 </van-col>
                 <van-col>
@@ -101,14 +105,24 @@
               </van-row>
 
               <van-row type="flex" justify="end" gutter="10">
-                <van-col>
-                  流量总
-                  <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
-                </van-col>
+                <template v-if="item.sluice=='开'">
                   <van-col>
-                  流量差
-                  <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
-                </van-col>
+                    累计流量
+                    <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
+                  </van-col>
+                  <van-col>
+                    本次流量
+                    <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
+                  </van-col>
+                  <van-col>
+                    <van-tag plain type="danger">闸门开</van-tag>
+                  </van-col>
+                </template>
+                <template v-if="item.sluice=='关'">
+                  <van-col>
+                    <van-tag plain type="danger">闸门关</van-tag>
+                  </van-col>
+                </template>
               </van-row>
 
               <van-row type="flex" justify="end">
@@ -124,11 +138,11 @@
 
     <van-popup v-model="show" round position="bottom">
       <van-cascader
-        v-model="cascaderValue"
-        title="请选择所在地区"
-        :options="options"
-        @close="show = false"
-        @finish="onFinish"
+          v-model="cascaderValue"
+          title="请选择所在地区"
+          :options="options"
+          @close="show = false"
+          @finish="onFinish"
       />
     </van-popup>
 
@@ -137,14 +151,14 @@
         <van-checkbox-group v-model="checkList">
           <van-cell-group style="height: 500px; overflow: scroll">
             <van-cell
-              v-for="(item, index) in devicesList"
-              clickable
-              :key="index"
-              :title="`${item.id} - ${item.title.location}`"
-              @click="toggle(index)"
+                v-for="(item, index) in devicesList"
+                clickable
+                :key="index"
+                :title="`${item.id} - ${item.title.location}`"
+                @click="toggle(index)"
             >
               <template #right-icon>
-                <van-checkbox :name="item.id" ref="checkboxes" />
+                <van-checkbox :name="item.id" ref="checkboxes"/>
               </template>
             </van-cell>
           </van-cell-group>
@@ -240,11 +254,11 @@ export default {
   created() {
     this.account = localStorage.getItem("chntek-account");
     this.fieldValue = localStorage.getItem("chntek-history-search")
-      ? localStorage.getItem("chntek-history-search")
-      : "";
+        ? localStorage.getItem("chntek-history-search")
+        : "";
     this.devicesValue = localStorage.getItem("chntek-history-devicesValue")
-      ? localStorage.getItem("chntek-history-devicesValue")
-      : [];
+        ? localStorage.getItem("chntek-history-devicesValue")
+        : [];
     this.contractArea();
     this.contractDevice();
     const nowDate = new Date();
@@ -270,39 +284,39 @@ export default {
         const datas = this.optionList[val];
         if (datas && datas.length > 0) {
           this.$chntek
-            .statusPrimary(datas.toString())
-            .then((res) => {
-              this.searchBtnOn = datas.length;
-              datas.forEach((x) => {
-                this.getStatus(x, res);
-              });
-            })
-            .finally(this.getDetail(this.nowCheck));
+              .statusPrimary(datas.toString())
+              .then((res) => {
+                this.searchBtnOn = datas.length;
+                datas.forEach((x) => {
+                  this.getStatus(x, res);
+                });
+              })
+              .finally(this.getDetail(this.nowCheck));
         }
       }
     },
     getStatus(val, list) {
       this.$chntek
-        .statusHistory(val, this.starTime, this.endTime, 1)
-        .then((res) => {
-          this.searchBtnOn = this.searchBtnOn - 1;
-          this.statusList.push({
-            title: list.find((a) => a.id === val),
-            data: res,
+          .statusHistory(val, this.starTime, this.endTime, 1)
+          .then((res) => {
+            this.searchBtnOn = this.searchBtnOn - 1;
+            this.statusList.push({
+              title: list.find((a) => a.id === val),
+              data: res,
+            });
           });
-        });
     },
     getNewStatus(data) {
       this.$chntek
-        .statusHistory(data.id, this.starTime, this.endTime, 1)
-        .then((res) => {
-          this.searchBtnOn = this.searchBtnOn - 1;
-          this.statusList.push({
-            title: data.title,
-            data: res,
-          });
-        })
-        .finally(this.getDetail(this.nowCheck));
+          .statusHistory(data.id, this.starTime, this.endTime, 1)
+          .then((res) => {
+            this.searchBtnOn = this.searchBtnOn - 1;
+            this.statusList.push({
+              title: data.title,
+              data: res,
+            });
+          })
+          .finally(this.getDetail(this.nowCheck));
     },
     contractArea() {
       this.$chntek.regions(this.account).then((res) => {
@@ -337,9 +351,9 @@ export default {
       const areaList = this.fieldValue.split("-");
       this.$chntek.regions(this.account).then((res) => {
         const param =
-          areaList.length > 0
-            ? res[areaList[0]][areaList[1]]
-            : getAllDeviceslist(res, []);
+            areaList.length > 0
+                ? res[areaList[0]][areaList[1]]
+                : getAllDeviceslist(res, []);
         this.devicesList = [];
         this.$chntek.statusPrimary(param.toString()).then((res) => {
           param.forEach((x) => {
@@ -349,21 +363,21 @@ export default {
             });
           });
           this.checkList = this.devicesValue
-            ? this.devicesValue.split(",")
-            : [];
+              ? this.devicesValue.split(",")
+              : [];
           this.getRegion();
         });
       });
     },
     // 全部选项选择完毕后，会触发 finish 事件
-    onFinish({ selectedOptions }) {
+    onFinish({selectedOptions}) {
       this.show = false;
       this.fieldValue = selectedOptions.map((option) => option.text).join("-");
       this.devicesValue = "";
       this.checkList = [];
       this.contractDevice();
     },
-    changeFinish({ selectedOptions }) {
+    changeFinish({selectedOptions}) {
       this.fieldValue = selectedOptions.map((option) => option.text).join("-");
       this.devicesValue = "";
       this.checkList = [];
@@ -387,14 +401,14 @@ export default {
           this.nowCheck = val;
           this.overlayShow = true;
           this.$chntek
-            .statusHistory(x.title.id, this.starTime, this.endTime, 10000)
-            .then((res) => {
-              this.detailList = res;
-              this.overlayShow = false;
-            })
-            .catch(() => {
-              this.overlayShow = false;
-            });
+              .statusHistory(x.title.id, this.starTime, this.endTime, 10000)
+              .then((res) => {
+                this.detailList = res;
+                this.overlayShow = false;
+              })
+              .catch(() => {
+                this.overlayShow = false;
+              });
           // }
         }
       });

@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const host = 'http://iot.chntek.com:3410';
-const proxyHost = 'http://dungbeetles.xyz:3410';
+const proxyHost = 'http://47.241.170.143:3410';
 
 function Chntek() {
     this.timer = null;
