@@ -107,6 +107,7 @@ def gather(token,ids,today=datetime.datetime.now()):
     
         if not w['WarnName']: continue
         monitor_time = w['MonitorsTime']
+        if monitor_time not in statues[tid]: continue
         status_of_time = statues[tid][monitor_time]
         if 'sluice' in status_of_time:
             status_of_time['sluice'] = '开' if -1 != w['WarnName'].find('漏水/取水') else '关'
