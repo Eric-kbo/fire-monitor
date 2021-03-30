@@ -31,8 +31,7 @@ def gather(token,ids,today=datetime.datetime.now()):
             'city':primary_later['city'] if 'city' in primary_later else '',
             'county':primary_later['county'] if 'county' in primary_later else '', 
             'location': status_list[0]['Customerunit'] if status_list[0]['Customerunit'] else '',
-            'type': status_list[0]['TerminalType'] if status_list[0]['TerminalType'] else 'firehydrant',  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-            'sluice':'关'
+            'type': status_list[0]['TerminalType'] if status_list[0]['TerminalType'] else None,  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
         }
         
         status = []
@@ -41,24 +40,28 @@ def gather(token,ids,today=datetime.datetime.now()):
         for s in status_list:
             flow = float(s['flow'])
             info = {
-                'flow': flow,
-                'flow_difference': 0.0,
                 'hydraulic_pressure': s['pressure'],
                 'temperature':        s['temper'],
                 'energy':             s['electricity'],
                 'time':               s['MonitorsTime'],
-                'signal_intensity':   s['rssi'],          
-                'conductivity':       s['conductivity']
+                'signal_intensity':   s['rssi'],
+                'conductivity':       s['conductivity'],
             }
 
+            if primary['type'] == 'firehydrant' or primary['type'] == 'LowerFlange': 
+                info['sluice'] = '关'
+
+            if primary['type'] == 'LowerFlange':
+                info['flow'] = flow
+                info['flow_difference'] = 0.0
+                
+                if last:
+                    flow_difference = last['flow'] - flow
+                    if flow_difference < 0: flow_difference = 0
+                    last['flow_difference'] = round(flow_difference,1)
+                last = info
+
             status.append(info)
-
-
-            if last:
-                flow_difference = last['flow'] - flow
-                if flow_difference < 0: flow_difference = 0
-                last['flow_difference'] = round(flow_difference,1)
-            last = info
 
         print(f'gather db/devices/{tid}/primary.json')
         with open(f'db/devices/{tid}/primary.json','w') as f:
@@ -100,23 +103,22 @@ def gather(token,ids,today=datetime.datetime.now()):
         primaries[tid]['city'] = w['Prefecturecity'] if w['Prefecturecity'] else p['city']
         primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
         primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else p['location']
-        primaries[tid]['type'] = p['type'] if 'type' in p else 'firehydrant'  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
-        primaries[tid]['sluice'] = '开' if -1 != w['WarnName'].find('漏水/取水') else '关'
-
+        primaries[tid]['type'] = p['type'] if 'type' in p else None  
+    
         if not w['WarnName']: continue
-        # w['WarnName'] = w['WarnName'].replace('、水质报警','')
-        # w['WarnName'] = w['WarnName'].replace('水质报警','')
-        s = statues[tid]
-        t = w['MonitorsTime']
+        monitor_time = w['MonitorsTime']
+        status_of_time = statues[tid][monitor_time]
+        if 'sluice' in status_of_time:
+            status_of_time['sluice'] = '开' if -1 != w['WarnName'].find('漏水/取水') else '关'
 
         try:
             warnings[tid].append({
-                'hydraulic_pressure': s[t]['hydraulic_pressure'],
-                'temperature':        s[t]['temperature'],
-                'energy':             s[t]['energy'],
-                'time':               t,
-                'signal_intensity':   s[t]['signal_intensity'],          
-                'conductivity':       s[t]['conductivity'],
+                'hydraulic_pressure': status_of_time['hydraulic_pressure'],
+                'temperature':        status_of_time['temperature'],
+                'energy':             status_of_time['energy'],
+                'time':               monitor_time,
+                'signal_intensity':   status_of_time['signal_intensity'],          
+                'conductivity':       status_of_time['conductivity'],
                 'type': w['WarnName'],
                 'time': w['MonitorsTime'],
                 'location': w['Prefecturecity'] + w['Distriancounty'] + w['Customerunit']
@@ -129,6 +131,16 @@ def gather(token,ids,today=datetime.datetime.now()):
         print(f'update db/devices/{tid}/primary.json')
         with open(f'db/devices/{tid}/primary.json','w') as f:
             f.write(json.dumps(p,indent=4,ensure_ascii=False))
+
+    for tid in statues:
+        s = statues[tid]
+        status = []
+        for t in s:
+            status.append(s[t])
+
+        print(f'update db/devices/{tid}/status/{today.date()}.json')
+        with open(f'db/devices/{tid}/status/{today.date()}.json','w') as f:
+            f.write(json.dumps(status,indent=4,ensure_ascii=False))
 
     for tid in warnings:
         w = warnings[tid]
@@ -143,7 +155,6 @@ import sys
 r = requests.get(f'http://iot.chntek.com:3410/api/user/login?account=test&password=123')
 token = r.json()['val']['token']
 for account in db.ids:
-    
     for id in db.ids[account]:
         for i in range(0 if len(sys.argv) == 1 else int(sys.argv[1]),-1,-1):
             gather(token,id,datetime.datetime.now() - datetime.timedelta(days=i))
