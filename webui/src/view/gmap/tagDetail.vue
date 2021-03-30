@@ -22,13 +22,13 @@
             </van-row>
           </template>
           <template>
-            <van-cell title="当前水压" :value="item.hydraulic_pressure+'Mpa'"/>
-            <van-cell title="当前温度" :value="item.temperature+'°C'"/>
-            <van-cell title="当前电量" :value="item.energy+'%'"/>
-            <van-cell title="信号强度" :value="item.signal_intensity"/>
-            <van-cell title="累计流量" :value="item.flow"/>
-            <van-cell title="本次流量" :value="item.flow_difference"/>
-            <van-cell title="阀门状态" :value="item.sluice"/>
+            <van-cell v-if="item.hydraulic_pressure" title="当前水压" :value="item.hydraulic_pressure+'Mpa'"/>
+            <van-cell v-if="item.temperature!=undefined" title="当前温度" :value="item.temperature+'°C'"/>
+            <van-cell v-if="item.energy!=undefined" title="当前电量" :value="item.energy+'%'"/>
+            <van-cell v-if="item.signal_intensity!=undefined" title="信号强度" :value="item.signal_intensity"/>
+            <van-cell v-if="item.flow!=undefined" title="累计流量" :value="item.flow"/>
+            <van-cell v-if="item.flow_difference!=undefined" title="本次流量" :value="item.flow_difference"/>
+            <van-cell v-if="item.sluice" title="阀门状态" :value="item.sluice"/>
           </template>
         </van-collapse-item>
       </van-collapse>

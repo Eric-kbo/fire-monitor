@@ -269,6 +269,7 @@ export default {
   },
   methods: {
     getRegion() {
+      this.searchBtnOn = -1; // 防止误触
       this.statusList = [];
       localStorage.setItem("chntek-history-search", this.fieldValue);
       localStorage.setItem("chntek-history-devicesValue", this.devicesValue);

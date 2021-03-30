@@ -32,41 +32,41 @@
           class="message-box"
       >
         <div style="border-bottom: #999999 1px solid">
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.unit">
             单位地点:
             <span class="flex_1 overEllipsis">{{ showTag.unit }}</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.id">
             设备编号:
             <span class="flex_1">{{ showTag.id }}</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.hydraulic_pressure">
             当前水压:
             <span class="flex_1">{{ showTag.hydraulic_pressure }}Mpa</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.temperature">
             当前温度:
             <span class="flex_1">{{ showTag.temperature }}°C</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.energy">
             当前电量:
             <span class="flex_1">{{ showTag.energy }}%</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.signal_intensity">
             信号强度:
             <span class="flex_1">{{ showTag.signal_intensity }}db</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.time">
             监测时间:
             <span class="flex_1">{{ showTag.time }}</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.flow_difference||showTag.flow">
             流量总/差:
             <span class="flex_1">{{ showTag.flow }}/{{ showTag.flow_difference }}</span>
           </p>
-          <p class="display-flex message">
+          <p class="display-flex message" v-if="showTag.sluice">
             阀门状态:
-            <span class="flex_1">{{ showTag.sluice}}</span>
+            <span class="flex_1">{{ showTag.sluice }}</span>
           </p>
         </div>
         <div style="text-align: center;margin-top: 1rem" v-if="currentList.length>1">
@@ -135,7 +135,7 @@ export default {
   methods: {
     // eslint-disable-next-line no-unused-vars
     onReady({BMap, map}) {
-      this.getData();
+      // this.getData();
       const geolocation = new BMap.Geolocation()// 获取逆解析方法实例
       const _this = this
       var address = null;
@@ -143,7 +143,6 @@ export default {
         //获取地址信息，设置地址label
         var gc = new BMap.Geocoder();
         gc.getLocation(r.point, function (rs) {
-          //   debugger
           var addComp = rs.addressComponents;
           address =
               addComp.province +
@@ -162,7 +161,6 @@ export default {
     },
     getData(title, data) {
       if (title && data) {
-        console.log(data)
         this.list.push({
           unit: title.location,
           id: title.id,
@@ -176,11 +174,10 @@ export default {
           energy: data.energy,
           signal_intensity: data.signal_intensity,
           time: data.time,
-          sluice: title.sluice,
+          sluice: data.sluice,
           flow: data.flow,
           flow_difference: data.flow_difference
         });
-        // this.center = this.list[0];
       }
     },
     getPosition() {
