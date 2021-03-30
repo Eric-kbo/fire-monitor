@@ -90,7 +90,7 @@ def gather(token,ids,today=datetime.datetime.now()):
                 with open(f'db/devices/{tid}/status/{today.date()}.json','r') as f:
                     for status in json.load(f):
                         statues[tid][status['time']] = status
-        except FileNotFoundError as e:
+        except:
             continue
 
         if tid not in warnings:
