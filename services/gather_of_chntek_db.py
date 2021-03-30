@@ -21,7 +21,7 @@ def gather(token,ids,today=datetime.datetime.now()):
         try:
             with open(f'db/devices/{tid}/primary.json','r') as f:
                 primary_later = json.load(f)
-        except FileNotFoundError:
+        except:
             pass
 
         primary = {
@@ -124,7 +124,7 @@ def gather(token,ids,today=datetime.datetime.now()):
                 'time': w['MonitorsTime'],
                 'location': w['Prefecturecity'] + w['Distriancounty'] + w['Customerunit']
             })
-        except Exception as e:
+        except:
             continue
 
     for tid in primaries:
