@@ -201,6 +201,7 @@ export default {
         case 'pressure':
           return {url: require('@/assets/images/pressure_mini.png'), size: {width: 32, height: 32}};
         case 'firehydrant':
+        case 'LowerFlange':
           return {url: require('@/assets/images/firehydrant_mini.png'), size: {width: 32, height: 32}};
         case 'cylinders':
           return {url: require('@/assets/images/cylinders_mini.png'), size: {width: 32, height: 32}};
