@@ -199,12 +199,12 @@ export default {
     iconStyle(type) {
       switch (type) {
         case 'pressure':
-          return {url: require('@/assets/images/pressure_mini.png'), size: {width: 32, height: 32}};
+          return {url: require('@/assets/images/pressure_mini.png'), size: {width: 32, height: 32}, zIndex: 2};
         case 'firehydrant':
         case 'LowerFlange':
-          return {url: require('@/assets/images/firehydrant_mini.png'), size: {width: 32, height: 32}};
+          return {url: require('@/assets/images/firehydrant_mini.png'), size: {width: 32, height: 32}, zIndex: 3};
         case 'cylinders':
-          return {url: require('@/assets/images/cylinders_mini.png'), size: {width: 32, height: 32}};
+          return {url: require('@/assets/images/cylinders_mini.png'), size: {width: 32, height: 32}, zIndex: 1};
       }
     },
     showMoreDetail() {
