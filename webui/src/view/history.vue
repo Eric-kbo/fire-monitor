@@ -105,24 +105,17 @@
               </van-row>
 
               <van-row type="flex" justify="end" gutter="10">
-                <template v-if="item.sluice=='开'">
-                  <van-col>
-                    累计流量
-                    <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
-                  </van-col>
-                  <van-col>
-                    本次流量
-                    <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
-                  </van-col>
-                  <van-col>
-                    <van-tag plain type="danger">闸门开</van-tag>
-                  </van-col>
-                </template>
-                <template v-if="item.sluice=='关'">
-                  <van-col>
-                    <van-tag plain type="danger">闸门关</van-tag>
-                  </van-col>
-                </template>
+                <van-col v-if="item.flow!=undefined">
+                  累计流量
+                  <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
+                </van-col>
+                <van-col v-if="item.flow_difference!=undefined">
+                  本次流量
+                  <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
+                </van-col>
+                <van-col v-if="item.sluice!=undefined">
+                  <van-tag plain type="danger">闸门{{ item.sluice }}</van-tag>
+                </van-col>
               </van-row>
 
               <van-row type="flex" justify="end">
