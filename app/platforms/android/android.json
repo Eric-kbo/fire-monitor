@@ -55,7 +55,7 @@
         "parents": {
           "/manifest/application": [
             {
-              "xml": "<activity android:usesCleartextTraffic=\"true\" />",
+              "xml": "<activity android:windowSoftInputMode=\"adjustPan\" />",
               "count": 2,
               "mode": "merge",
               "id": "config.xml",
@@ -69,7 +69,7 @@
               }
             },
             {
-              "xml": "<activity android:windowSoftInputMode=\"adjustPan\" />",
+              "xml": "<activity android:usesCleartextTraffic=\"true\" />",
               "count": 1,
               "mode": "merge",
               "id": "config.xml",
@@ -86,15 +86,15 @@
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />",
-              "count": 130
+              "count": 131
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.CHANGE_BADGE\" />",
-              "count": 130
+              "count": 131
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 129
+              "count": 130
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",

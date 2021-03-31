@@ -44,7 +44,7 @@ export default {
     }
 
     this.actions = [
-      { text: "版本1.1.2", disabled: true },
+      { text: "版本1.1.3", disabled: true },
       { text: "更新" },
       { text: "注销" }
     ];

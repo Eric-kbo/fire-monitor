@@ -149,5 +149,5 @@ def latest():
         return { 'val': None, 'err': 'No latest version!'}
     return { 'val': request.host_url + 'app/' + dirs[-1] , 'err': None }
 
-print('http://localhost:3410/')
-app.run(host='0.0.0.0',port=3410)
+print('http://localhost:3411/')
+app.run(host='0.0.0.0',port=3411)
