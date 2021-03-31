@@ -23,6 +23,16 @@
     <van-row>
       <van-col span="24">
         <van-field
+            v-model="typeValue"
+            readonly
+            placeholder="设备类型"
+            @click="typeCheckShow = true"
+        />
+      </van-col>
+    </van-row>
+    <van-row>
+      <van-col span="24">
+        <van-field
             v-model="devicesValue"
             readonly
             placeholder="请选择设备"
@@ -139,6 +149,26 @@
       />
     </van-popup>
 
+    <van-dialog v-model="typeCheckShow" title="请选择类型" @confirm="typeCheckDevice">
+      <template>
+        <van-checkbox-group v-model="typeCheckList">
+          <van-cell-group style="height: 500px; overflow: scroll">
+            <van-cell
+                v-for="(item, index) in typeList"
+                clickable
+                :key="index"
+                :title="`${item.id} - ${item.name}`"
+                @click="toggle(index)"
+            >
+              <template #right-icon>
+                <van-checkbox :name="item.id" ref="checkboxes"/>
+              </template>
+            </van-cell>
+          </van-cell-group>
+        </van-checkbox-group>
+      </template>
+    </van-dialog>
+
     <van-dialog v-model="checkShow" title="请选择设备" @confirm="checkDevice">
       <template>
         <van-checkbox-group v-model="checkList">
@@ -192,6 +222,7 @@ import {
   getAllDeviceslist,
   getNowFormatDate,
 } from "../utils";
+import {getDevicesList} from "@/utils";
 
 export default {
   components: {
@@ -233,6 +264,10 @@ export default {
       devicesValue: "",
       devicesList: [],
       checkList: [],
+      typeValue: "",
+      typeList: [],
+      typeCheckShow: false,
+      typeCheckList: [],
       defaultDate: [],
       statusList: [],
       detailList: [],
@@ -351,10 +386,21 @@ export default {
         this.devicesList = [];
         this.$chntek.statusPrimary(param.toString()).then((res) => {
           param.forEach((x) => {
-            this.devicesList.push({
-              id: x,
-              title: res.find((a) => a.id === x),
-            });
+            const data = res.find((a) => a.id === x);
+            if (data) {
+              this.devicesList.push({
+                id: x,
+                title: data,
+              });
+              if (!this.typeList.find(i => i.id == data.type)) {
+                this.typeList.push(
+                    {
+                      id: data.type,
+                      name: getDevicesList(data.type)
+                    }
+                )
+              }
+            }
           });
           this.checkList = this.devicesValue
               ? this.devicesValue.split(",")
@@ -409,6 +455,10 @@ export default {
     },
     checkDevice() {
       this.devicesValue = this.checkList.toString();
+      this.getRegion();
+    },
+    typeCheckDevice() {
+      this.typeValue = this.typeCheckList.toString();
       this.getRegion();
     },
     toggle(index) {

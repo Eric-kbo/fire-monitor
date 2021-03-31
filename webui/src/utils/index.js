@@ -70,3 +70,21 @@ export function getPosition(data) {
     }
     return '';
 }
+
+export function getDevicesList(str) {
+    if (str) {
+        switch (str) {
+            case 'LowerFlange':
+            case 'lowerflange':
+                return '下法兰消防栓'
+            case 'firehydrant':
+            case 'FireHydrant':
+                return '下法兰消防栓'
+            case 'pressure':
+                return '无线压力表'
+            case 'cylinders':
+                return '消防气瓶'
+        }
+    }
+    return '';
+}
