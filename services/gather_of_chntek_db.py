@@ -166,9 +166,4 @@ if __name__ == '__main__':
     ps = {}
     for account in db.ids:
         print('start '+account)
-        ps[account] = mp.Process(target=gather_of_account,args=(db.ids[account],))
-        ps[account].start()
-        
-    for account in ps:
-        print('join '+account)
-        ps[account].join()
+        gather_of_account(db.ids[account])
