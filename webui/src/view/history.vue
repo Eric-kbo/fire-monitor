@@ -263,6 +263,7 @@ export default {
       fieldValue: "",
       devicesValue: "",
       devicesList: [],
+      allDevicesList: [],
       checkList: [],
       typeValue: "",
       typeList: [],
@@ -287,6 +288,9 @@ export default {
     this.devicesValue = localStorage.getItem("chntek-history-devicesValue")
         ? localStorage.getItem("chntek-history-devicesValue")
         : [];
+    this.typeValue = localStorage.getItem("chntek-history-typeValue")
+        ? localStorage.getItem("chntek-history-typeValue")
+        : [];
     this.contractArea();
     this.contractDevice();
     const nowDate = new Date();
@@ -301,6 +305,7 @@ export default {
       this.statusList = [];
       localStorage.setItem("chntek-history-search", this.fieldValue);
       localStorage.setItem("chntek-history-devicesValue", this.devicesValue);
+      localStorage.setItem("chntek-history-typeValue", this.typeValue);
       const devices = this.devicesValue ? this.devicesValue.split(",") : [];
       if (devices.length > 0) {
         this.searchBtnOn = devices.length;
@@ -308,32 +313,11 @@ export default {
           this.getNewStatus(this.devicesList.find((a) => a.id === x));
         });
       } else {
-        const list = this.fieldValue.split("-");
-        const val = list[list.length - 1];
-        const datas = this.optionList[val];
-        if (datas && datas.length > 0) {
-          this.$chntek
-              .statusPrimary(datas.toString())
-              .then((res) => {
-                this.searchBtnOn = datas.length;
-                datas.forEach((x) => {
-                  this.getStatus(x, res);
-                });
-              })
-              .finally(this.getDetail(this.nowCheck));
-        }
+        this.searchBtnOn = this.devicesList.length;
+        this.devicesList.forEach(x => {
+          this.getNewStatus(x);
+        })
       }
-    },
-    getStatus(val, list) {
-      this.$chntek
-          .statusHistory(val, this.starTime, this.endTime, 1)
-          .then((res) => {
-            this.searchBtnOn = this.searchBtnOn - 1;
-            this.statusList.push({
-              title: list.find((a) => a.id === val),
-              data: res,
-            });
-          });
     },
     getNewStatus(data) {
       this.$chntek
@@ -383,12 +367,12 @@ export default {
             areaList.length > 0
                 ? res[areaList[0]][areaList[1]]
                 : getAllDeviceslist(res, []);
-        this.devicesList = [];
+        this.allDevicesList = [];
         this.$chntek.statusPrimary(param.toString()).then((res) => {
           param.forEach((x) => {
             const data = res.find((a) => a.id === x);
             if (data) {
-              this.devicesList.push({
+              this.allDevicesList.push({
                 id: x,
                 title: data,
               });
@@ -405,6 +389,10 @@ export default {
           this.checkList = this.devicesValue
               ? this.devicesValue.split(",")
               : [];
+          this.typeCheckList = this.typeValue
+              ? this.typeValue.split(",")
+              : [];
+          this.transParam();
           this.getRegion();
         });
       });
@@ -459,7 +447,22 @@ export default {
     },
     typeCheckDevice() {
       this.typeValue = this.typeCheckList.toString();
+      this.devicesValue = '';
+      this.checkList = [];
+      this.transParam();
       this.getRegion();
+    },
+    transParam() {
+      if (this.typeCheckList.length > 0) {
+        this.devicesList = [];
+        this.allDevicesList.forEach(x => {
+          if (this.typeCheckList.find(a => a == x.title.type)) {
+            this.devicesList.push(x);
+          }
+        });
+      } else {
+        this.devicesList = this.allDevicesList;
+      }
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
