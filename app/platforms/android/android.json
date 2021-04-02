@@ -86,15 +86,15 @@
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />",
-              "count": 131
+              "count": 133
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.CHANGE_BADGE\" />",
-              "count": 131
+              "count": 133
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 130
+              "count": 132
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
