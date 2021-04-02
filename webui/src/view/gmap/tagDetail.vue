@@ -9,7 +9,7 @@
                 {{ item.id }}
               </van-col>
               <van-col span="4">
-                {{ item.temperature }}°C
+                {{ item.hydraulic_pressure }}Mpa
               </van-col>
               <van-col span="8">
                 {{ item.item }}

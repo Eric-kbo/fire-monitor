@@ -23,6 +23,16 @@
     <van-row>
       <van-col span="24">
         <van-field
+            v-model="typeValue"
+            readonly
+            placeholder="设备类型"
+            @click="typeCheckShow = true"
+        />
+      </van-col>
+    </van-row>
+    <van-row>
+      <van-col span="24">
+        <van-field
             v-model="devicesValue"
             readonly
             placeholder="请选择设备"
@@ -105,24 +115,17 @@
               </van-row>
 
               <van-row type="flex" justify="end" gutter="10">
-                <template v-if="item.sluice=='开'">
-                  <van-col>
-                    累计流量
-                    <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
-                  </van-col>
-                  <van-col>
-                    本次流量
-                    <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
-                  </van-col>
-                  <van-col>
-                    <van-tag plain type="danger">闸门开</van-tag>
-                  </van-col>
-                </template>
-                <template v-if="item.sluice=='关'">
-                  <van-col>
-                    <van-tag plain type="danger">闸门关</van-tag>
-                  </van-col>
-                </template>
+                <van-col v-if="item.flow!=undefined">
+                  累计流量
+                  <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
+                </van-col>
+                <van-col v-if="item.flow_difference!=undefined">
+                  本次流量
+                  <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
+                </van-col>
+                <van-col v-if="item.sluice!=undefined">
+                  <van-tag plain type="danger">闸门{{ item.sluice }}</van-tag>
+                </van-col>
               </van-row>
 
               <van-row type="flex" justify="end">
@@ -145,6 +148,26 @@
           @finish="onFinish"
       />
     </van-popup>
+
+    <van-dialog v-model="typeCheckShow" title="请选择类型" @confirm="typeCheckDevice">
+      <template>
+        <van-checkbox-group v-model="typeCheckList">
+          <van-cell-group style="height: 500px; overflow: scroll">
+            <van-cell
+                v-for="(item, index) in typeList"
+                clickable
+                :key="index"
+                :title="`${item.id} - ${item.name}`"
+                @click="toggle(index)"
+            >
+              <template #right-icon>
+                <van-checkbox :name="item.id" ref="checkboxes"/>
+              </template>
+            </van-cell>
+          </van-cell-group>
+        </van-checkbox-group>
+      </template>
+    </van-dialog>
 
     <van-dialog v-model="checkShow" title="请选择设备" @confirm="checkDevice">
       <template>
@@ -199,6 +222,7 @@ import {
   getAllDeviceslist,
   getNowFormatDate,
 } from "../utils";
+import {getDevicesList} from "@/utils";
 
 export default {
   components: {
@@ -239,7 +263,12 @@ export default {
       fieldValue: "",
       devicesValue: "",
       devicesList: [],
+      allDevicesList: [],
       checkList: [],
+      typeValue: "",
+      typeList: [],
+      typeCheckShow: false,
+      typeCheckList: [],
       defaultDate: [],
       statusList: [],
       detailList: [],
@@ -259,6 +288,9 @@ export default {
     this.devicesValue = localStorage.getItem("chntek-history-devicesValue")
         ? localStorage.getItem("chntek-history-devicesValue")
         : [];
+    this.typeValue = localStorage.getItem("chntek-history-typeValue")
+        ? localStorage.getItem("chntek-history-typeValue")
+        : [];
     this.contractArea();
     this.contractDevice();
     const nowDate = new Date();
@@ -273,6 +305,7 @@ export default {
       this.statusList = [];
       localStorage.setItem("chntek-history-search", this.fieldValue);
       localStorage.setItem("chntek-history-devicesValue", this.devicesValue);
+      localStorage.setItem("chntek-history-typeValue", this.typeValue);
       const devices = this.devicesValue ? this.devicesValue.split(",") : [];
       if (devices.length > 0) {
         this.searchBtnOn = devices.length;
@@ -280,32 +313,11 @@ export default {
           this.getNewStatus(this.devicesList.find((a) => a.id === x));
         });
       } else {
-        const list = this.fieldValue.split("-");
-        const val = list[list.length - 1];
-        const datas = this.optionList[val];
-        if (datas && datas.length > 0) {
-          this.$chntek
-              .statusPrimary(datas.toString())
-              .then((res) => {
-                this.searchBtnOn = datas.length;
-                datas.forEach((x) => {
-                  this.getStatus(x, res);
-                });
-              })
-              .finally(this.getDetail(this.nowCheck));
-        }
+        this.searchBtnOn = this.devicesList.length;
+        this.devicesList.forEach(x => {
+          this.getNewStatus(x);
+        })
       }
-    },
-    getStatus(val, list) {
-      this.$chntek
-          .statusHistory(val, this.starTime, this.endTime, 1)
-          .then((res) => {
-            this.searchBtnOn = this.searchBtnOn - 1;
-            this.statusList.push({
-              title: list.find((a) => a.id === val),
-              data: res,
-            });
-          });
     },
     getNewStatus(data) {
       this.$chntek
@@ -355,17 +367,32 @@ export default {
             areaList.length > 0
                 ? res[areaList[0]][areaList[1]]
                 : getAllDeviceslist(res, []);
-        this.devicesList = [];
+        this.allDevicesList = [];
         this.$chntek.statusPrimary(param.toString()).then((res) => {
           param.forEach((x) => {
-            this.devicesList.push({
-              id: x,
-              title: res.find((a) => a.id === x),
-            });
+            const data = res.find((a) => a.id === x);
+            if (data) {
+              this.allDevicesList.push({
+                id: x,
+                title: data,
+              });
+              if (!this.typeList.find(i => i.id == data.type)) {
+                this.typeList.push(
+                    {
+                      id: data.type,
+                      name: getDevicesList(data.type)
+                    }
+                )
+              }
+            }
           });
           this.checkList = this.devicesValue
               ? this.devicesValue.split(",")
               : [];
+          this.typeCheckList = this.typeValue
+              ? this.typeValue.split(",")
+              : [];
+          this.transParam();
           this.getRegion();
         });
       });
@@ -417,6 +444,25 @@ export default {
     checkDevice() {
       this.devicesValue = this.checkList.toString();
       this.getRegion();
+    },
+    typeCheckDevice() {
+      this.typeValue = this.typeCheckList.toString();
+      this.devicesValue = '';
+      this.checkList = [];
+      this.transParam();
+      this.getRegion();
+    },
+    transParam() {
+      if (this.typeCheckList.length > 0) {
+        this.devicesList = [];
+        this.allDevicesList.forEach(x => {
+          if (this.typeCheckList.find(a => a == x.title.type)) {
+            this.devicesList.push(x);
+          }
+        });
+      } else {
+        this.devicesList = this.allDevicesList;
+      }
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
