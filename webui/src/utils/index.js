@@ -79,7 +79,7 @@ export function getDevicesList(str) {
                 return '下法兰消防栓'
             case 'firehydrant':
             case 'FireHydrant':
-                return '下法兰消防栓'
+                return '上法兰消防栓'
             case 'pressure':
                 return '无线压力表'
             case 'cylinders':
