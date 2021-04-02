@@ -158,10 +158,9 @@
                 clickable
                 :key="index"
                 :title="`${item.id} - ${item.name}`"
-                @click="toggle(index)"
             >
               <template #right-icon>
-                <van-checkbox :name="item.id" ref="checkboxes"/>
+                <van-checkbox :name="item.name" ref="checkboxes"/>
               </template>
             </van-cell>
           </van-cell-group>
@@ -178,7 +177,6 @@
                 clickable
                 :key="index"
                 :title="`${item.id} - ${item.title.location}`"
-                @click="toggle(index)"
             >
               <template #right-icon>
                 <van-checkbox :name="item.id" ref="checkboxes"/>
@@ -456,7 +454,7 @@ export default {
       if (this.typeCheckList.length > 0) {
         this.devicesList = [];
         this.allDevicesList.forEach(x => {
-          if (this.typeCheckList.find(a => a == x.title.type)) {
+          if (this.typeCheckList.find(a => a == getDevicesList(x.title.type))) {
             this.devicesList.push(x);
           }
         });
