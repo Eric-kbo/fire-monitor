@@ -152,12 +152,12 @@
     <van-dialog v-model="typeCheckShow" title="请选择类型" @confirm="typeCheckDevice">
       <template>
         <van-checkbox-group v-model="typeCheckList">
-          <van-cell-group style="height: 500px; overflow: scroll">
+          <van-cell-group style="max-height: 500px; overflow: scroll">
             <van-cell
                 v-for="(item, index) in typeList"
                 clickable
                 :key="index"
-                :title="`${item.id} - ${item.name}`"
+                :title="item.name"
             >
               <template #right-icon>
                 <van-checkbox :name="item.name" ref="checkboxes"/>
@@ -171,7 +171,7 @@
     <van-dialog v-model="checkShow" title="请选择设备" @confirm="checkDevice">
       <template>
         <van-checkbox-group v-model="checkList">
-          <van-cell-group style="height: 500px; overflow: scroll">
+          <van-cell-group style="max-height: 500px; overflow: scroll">
             <van-cell
                 v-for="(item, index) in devicesList"
                 clickable
