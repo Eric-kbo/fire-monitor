@@ -1,1 +1,1 @@
-cordova.define("cordova_app_version_plugin.getAppVersion", function(require, exports, module) { module.exports.getAppVersion = function() { return "1.1.4";};});
+cordova.define("cordova_app_version_plugin.getAppVersion", function(require, exports, module) { module.exports.getAppVersion = function() { return "1.1.5";};});

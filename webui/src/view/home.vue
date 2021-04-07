@@ -28,7 +28,7 @@
 							<van-row>
 								<van-col span="6">
 									温度:
-									<van-tag plain type="primary">{{ item.temperature }}</van-tag>
+									<van-tag plain type="success">{{ item.temperature }}</van-tag>
 								</van-col>
 								<van-col span="6">
 									压力:
@@ -36,7 +36,7 @@
 								</van-col>
 								<van-col span="6">
 									电量:
-									<van-tag plain type="danger">{{ item.energy }}%</van-tag>
+									<van-tag plain type="success">{{ item.energy }}%</van-tag>
 								</van-col>
 								<van-col span="12">
 									时间:

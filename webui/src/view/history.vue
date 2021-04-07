@@ -25,7 +25,7 @@
         <van-field
             v-model="typeValue"
             readonly
-            placeholder="设备类型"
+            placeholder="请选择类型"
             @click="typeCheckShow = true"
         />
       </van-col>
@@ -103,28 +103,28 @@
                 </van-col>
                 <van-col>
                   温度
-                  <van-tag plain type="primary"
+                  <van-tag plain type="success"
                   >{{ item.temperature }}°C
                   </van-tag
                   >
                 </van-col>
                 <van-col>
                   电量
-                  <van-tag plain type="danger">{{ item.energy }}%</van-tag>
+                  <van-tag plain type="success">{{ item.energy }}%</van-tag>
                 </van-col>
               </van-row>
 
               <van-row type="flex" justify="end" gutter="10">
                 <van-col v-if="item.flow!=undefined">
                   累计流量
-                  <van-tag plain type="primary">{{ item.flow }}m³</van-tag>
+                  <van-tag plain type="success">{{ item.flow }}m³</van-tag>
                 </van-col>
                 <van-col v-if="item.flow_difference!=undefined">
                   本次流量
                   <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
                 </van-col>
                 <van-col v-if="item.sluice!=undefined">
-                  <van-tag plain type="danger">闸门{{ item.sluice }}</van-tag>
+                  阀门<van-tag plain type="danger">{{ item.sluice }}</van-tag>
                 </van-col>
               </van-row>
 

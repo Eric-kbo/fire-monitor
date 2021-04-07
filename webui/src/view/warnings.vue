@@ -40,7 +40,7 @@
 										<van-row type="flex" justify="end" gutter="10">
 											<van-col>
 												温度
-												<van-tag plain type="primary">{{ item.temperature }}°C</van-tag>
+												<van-tag plain type="success">{{ item.temperature }}°C</van-tag>
 											</van-col>
 											<van-col>
 												压力
@@ -48,11 +48,10 @@
 											</van-col>
 											<van-col>
 												电量
-												<van-tag plain type="danger">{{ item.energy }}%</van-tag>
+												<van-tag plain type="success">{{ item.energy }}%</van-tag>
 											</van-col>
 										</van-row>
 										<van-row type="flex" justify="end" gutter="10">
-											信息
 											<van-tag plain type="danger">{{ item.type }}</van-tag>
 										</van-row>
 										<van-row type="flex" justify="end" gutter="10">
@@ -93,7 +92,7 @@
 										<van-row type="flex" justify="end" gutter="10">
 											<van-col>
 												温度:
-												<van-tag plain type="primary">{{ item.temperature }}°C</van-tag>
+												<van-tag plain type="success">{{ item.temperature }}°C</van-tag>
 											</van-col>
 											<van-col>
 												压力:
@@ -101,11 +100,10 @@
 											</van-col>
 											<van-col>
 												电量:
-												<van-tag plain type="danger">{{ item.energy }}%</van-tag>
+												<van-tag plain type="success">{{ item.energy }}%</van-tag>
 											</van-col>
 										</van-row>
 										<van-row type="flex" justify="end" gutter="10">
-											信息:
 											<van-tag plain type="danger">{{ item.type }}</van-tag>
 										</van-row>
 										<van-row type="flex" justify="end" gutter="10">
