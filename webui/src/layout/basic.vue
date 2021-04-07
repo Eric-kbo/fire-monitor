@@ -14,7 +14,8 @@
 			</template>
 		</van-nav-bar>
 		<!-- 模块 -->
-		<gmap v-show="active == 'gmap'"></gmap>
+		<gmap v-show="active == 'gmap'" @change="gmapChange"></gmap>
+		<tagDetail v-if="active == 'tagDetail'&&tagDetailData" :model="tagDetailData"></tagDetail>
 		<warnings v-show="active == 'warnings'" :model="warningsData" :allCount="warningsAllCount" @change="warningsChange"></warnings>
 		<History v-show="active == 'history'"></History>
 		<!-- 底部切换菜单 -->
@@ -28,6 +29,7 @@
 
 <script>
 import gmap from '../view/gmap/gmap.vue';
+import tagDetail from '../view/gmap/tagDetail.vue';
 import warnings from '../view/warnings.vue';
 import History from '../view/history.vue';
 import { formatDateBeforDay, getAllDeviceslist } from '../utils';
@@ -35,6 +37,7 @@ export default {
 	name: 'basic',
 	components: {
 		gmap,
+    tagDetail,
 		warnings,
 		History
 	},
@@ -46,7 +49,8 @@ export default {
 			actions: [{ text: '版本1.1.4', disabled: true }, { text: '更新' }, { text: '注销' }],
 			//wanings
 			warningsData: [],
-			warningsAllCount: 0
+			warningsAllCount: 0,
+      tagDetailData:[]
 		};
 	},
 	created() {
@@ -61,27 +65,22 @@ export default {
 	},
 	methods: {
 		onClickLeft() {
-			this.$router.go(-1);
+			this.active='gmap';
 		},
 		onClickRight() {},
 		getLeft() {
-			const path = this.$route.name;
-			switch (path) {
-				case 'home':
-				case 'gmap':
-				case 'history':
-				case 'warnings':
-					return false;
-				default:
-					return true;
-			}
+      if(this.active=='tagDetail'){
+        return true;
+      }
 		},
 		async onSelect(action) {
 			switch (action.text) {
 				case '注销':
 					window.cordova.plugins.backgroundMode.disable();
 					localStorage.clear();
-					this.$router.go(0);
+					this.$router.push({
+            name:'login'
+          });
 					break;
 				case '更新':
 					await this.$chntek.update();
@@ -120,7 +119,12 @@ export default {
 		warningsChange() {
 			this.warningsData=[];
 			this.getNowStatus();
-		}
+		},
+    gmapChange(val){
+      console.log(val);
+      this.active='tagDetail';
+      this.tagDetailData=val;
+    }
 	}
 };
 </script>
