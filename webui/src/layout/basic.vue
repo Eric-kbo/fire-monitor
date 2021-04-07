@@ -13,11 +13,14 @@
 				</van-popover>
 			</template>
 		</van-nav-bar>
+    <div style="margin-top: 46px;">
+      <gmap v-show="active == 'gmap'" @change="gmapChange"></gmap>
+      <tagDetail v-if="active == 'tagDetail'&&tagDetailData" :model="tagDetailData"></tagDetail>
+      <warnings v-show="active == 'warnings'" :model="warningsData" :allCount="warningsAllCount" @change="warningsChange"></warnings>
+      <History v-show="active == 'history'"></History>
+    </div>
 		<!-- 模块 -->
-		<gmap v-show="active == 'gmap'" @change="gmapChange"></gmap>
-		<tagDetail v-if="active == 'tagDetail'&&tagDetailData" :model="tagDetailData"></tagDetail>
-		<warnings v-show="active == 'warnings'" :model="warningsData" :allCount="warningsAllCount" @change="warningsChange"></warnings>
-		<History v-show="active == 'history'"></History>
+		
 		<!-- 底部切换菜单 -->
 		<van-tabbar v-model="active">
 			<van-tabbar-item replace name="gmap" icon="map-marked">GIS模块</van-tabbar-item>
@@ -128,4 +131,13 @@ export default {
 	}
 };
 </script>
-<style scoped></style>
+<style>
+ .van-nav-bar .van-nav-bar__content{
+    position: fixed !important;
+    width: 100% !important;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 10000;
+  }
+</style>
