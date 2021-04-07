@@ -209,12 +209,13 @@ export default {
       }
     },
     showMoreDetail() {
-      this.$router.push({
-        name: 'tagDetail',
-        params: {
-          ids: this.currentList
-        }
-      })
+      this.$emit('change',this.currentList)
+      // this.$router.push({
+      //   name: 'tagDetail',
+      //   params: {
+      //     ids: this.currentList
+      //   }
+      // })
     },
   }
 }
