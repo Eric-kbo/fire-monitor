@@ -75,7 +75,7 @@ POST http://iot.chntek.com:3411/app/upload
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="chntek-1.1.5.apk"
+Content-Disposition: form-data; name="file"; filename="chntek-1.1.6.apk"
 Content-Type: application/octet-stream
 
 < C:\Users\SLTru\Desktop\chntek-fire-fighting\app\platforms\android\app\build\outputs\apk\debug\app-debug.apk
