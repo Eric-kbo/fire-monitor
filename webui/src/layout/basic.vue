@@ -16,7 +16,7 @@
 		<!-- 模块 -->
 		<gmap v-show="active == 'gmap'"></gmap>
 		<warnings v-show="active == 'warnings'" :model="warningsData" :allCount="warningsAllCount" @change="warningsChange"></warnings>
-		<History v-if="active == 'history'"></History>
+		<History v-show="active == 'history'"></History>
 		<!-- 底部切换菜单 -->
 		<van-tabbar v-model="active">
 			<van-tabbar-item replace name="gmap" icon="map-marked">GIS模块</van-tabbar-item>
