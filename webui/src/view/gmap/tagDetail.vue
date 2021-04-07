@@ -46,6 +46,7 @@ import {
 
 export default {
   name: "tagDetail",
+  
   components: {
     [Collapse.name]: Collapse,
     [CollapseItem.name]: CollapseItem,
@@ -54,6 +55,18 @@ export default {
     [List.name]: List,
     [Cell.name]: Cell,
   },
+  props: {
+    model: {
+      type: [Object,Array,String,Number]
+    }
+  },
+  watch:{
+    model(newV){
+      this.model=newV;
+      this.list = this.model;
+    }
+  },
+ 
   data() {
     return {
       activeNames: [0],
@@ -61,14 +74,17 @@ export default {
     }
   },
   created() {
-    if (this.$route.params && this.$route.params.ids) {
-      this.list = this.$route.params.ids;
-    } else {
-      this.$router.push({
-            name: 'gmap'
-          }
-      )
-    }
+    // if (this.$route.params && this.$route.params.ids) {
+    //   this.list = this.$route.params.ids;
+    // } else {
+    //   this.$router.push({
+    //         name: 'gmap'
+    //       }
+    //   )
+    // }
+  },
+  mounted() {
+    this.list = this.model;
   },
   methods: {
     getPosition(data) {
