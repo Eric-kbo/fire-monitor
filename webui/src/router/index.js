@@ -59,7 +59,8 @@ const routes = [
                 path: '/warnings',
                 component: () => import('../view/warnings'),
                 meta: {
-                    title: '实时告警'
+                    title: '实时告警',
+                    keepAlive: true // 需要被缓存
                 }
             }
         ]

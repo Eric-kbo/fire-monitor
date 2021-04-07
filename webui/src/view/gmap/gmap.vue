@@ -96,6 +96,7 @@ import {
 } from 'vant';
 
 export default {
+  name:'gmap',
   components: {
     BmlMarkerClusterer,
     [Collapse.name]: Collapse,
