@@ -104,13 +104,13 @@ def gather(token,ids,today=datetime.datetime.now()):
         primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
         primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else p['location']
         primaries[tid]['type'] = p['type'] if 'type' in p else None  
-    
-        if not w['WarnName']: continue
+
+        if not w['warmName']: continue
         monitor_time = w['MonitorsTime']
         if monitor_time not in statues[tid]: continue
         status_of_time = statues[tid][monitor_time]
         if 'sluice' in status_of_time:
-            status_of_time['sluice'] = '开' if -1 != w['WarnName'].find('漏水/取水') else '关'
+            status_of_time['sluice'] = '开' if -1 != w['warmName'].find('漏水/取水') else '关'
 
         try:
             warnings[tid].append({
@@ -120,7 +120,7 @@ def gather(token,ids,today=datetime.datetime.now()):
                 'time':               monitor_time,
                 'signal_intensity':   status_of_time['signal_intensity'],          
                 'conductivity':       status_of_time['conductivity'],
-                'type': w['WarnName'],
+                'type': w['warmName'],
                 'time': w['MonitorsTime'],
                 'location': w['Prefecturecity'] + w['Distriancounty'] + w['Customerunit']
             })
