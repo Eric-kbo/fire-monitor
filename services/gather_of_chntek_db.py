@@ -4,7 +4,8 @@ import json
 import os
 import chntek_db as db
 
-def gather(token,ids,today=datetime.datetime.now()):
+
+def gather(regions,token,ids,today=datetime.datetime.now()):
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/HistoryData?ids={ids}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
     r = r.json()
 
@@ -16,20 +17,18 @@ def gather(token,ids,today=datetime.datetime.now()):
         status_list = r['val'][tid]
         if 0 == len(status_list): continue
 
-        primary_later = {}
-        
         try:
-            with open(f'db/devices/{tid}/primary.json','r') as f:
-                primary_later = json.load(f)
+            city,county = regions[tid]
         except:
-            pass
+            city = 'None'
+            county = 'None'
 
         primary = {
             'id':tid,
             'longitude':status_list[0]['Longitude'] if status_list[0]['Longitude'] else '', 
             'latitude': status_list[0]['Latitude'] if status_list[0]['Latitude'] else '',
-            'city':primary_later['city'] if 'city' in primary_later else '',
-            'county':primary_later['county'] if 'county' in primary_later else '', 
+            'city': city,
+            'county': county, 
             'location': status_list[0]['Customerunit'] if status_list[0]['Customerunit'] else '',
             'type': status_list[0]['TerminalType'] if status_list[0]['TerminalType'] else None,  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
         }
@@ -100,8 +99,8 @@ def gather(token,ids,today=datetime.datetime.now()):
         primaries[tid]['id'] = tid
         primaries[tid]['longitude'] = w['Longitude'] if w['Longitude'] else p['longitude']
         primaries[tid]['latitude'] = w['Latitude'] if w['Latitude'] else p['latitude']
-        primaries[tid]['city'] = w['Prefecturecity'] if w['Prefecturecity'] else p['city']
-        primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
+        # primaries[tid]['city'] = w['Prefecturecity'] if w['Prefecturecity'] else p['city']
+        # primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
         primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else p['location']
         primaries[tid]['type'] = p['type'] if 'type' in p else None  
 
@@ -153,17 +152,27 @@ def gather(token,ids,today=datetime.datetime.now()):
 import sys
 import multiprocessing as mp
 
-def gather_of_account(ids):
-    r = requests.get(f'http://iot.chntek.com:3410/api/user/login?account=test&password=123')
-    token = r.json()['val']['token']
-
+def gather_of_account(ids,regions,token):
     for id in ids:
         for i in range(0 if len(sys.argv) == 1 else int(sys.argv[1]),-1,-1):
-            gather(token,id,datetime.datetime.now() - datetime.timedelta(days=i))
+            gather(regions,token,id,datetime.datetime.now() - datetime.timedelta(days=i))
 
 if __name__ == '__main__':
     print('program [recent days]')
     ps = {}
+
+    r = requests.get(f'http://iot.chntek.com:3410/api/user/login?account=test&password=123')
+    token = r.json()['val']['token']
+
+    r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/Regions',headers={'Authorization': token})
+    regions = r.json()['val']
+    regions2 = {}
+    for city in regions:
+        for county,ids in regions[city].items():
+            for id in ids:
+                regions2[id] = city,county
+    print(regions2)
+
     for account in db.ids:
         print('start '+account)
-        gather_of_account(db.ids[account])
+        gather_of_account(db.ids[account],regions2,token)
