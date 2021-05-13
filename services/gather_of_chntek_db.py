@@ -6,70 +6,70 @@ import chntek_db as db
 
 
 def gather(regions,token,id,today=datetime.datetime.now()):
+    os.makedirs(f'db/devices/{id}',exist_ok=True)
+    os.makedirs(f'db/devices/{id}/status',exist_ok=True)
+    os.makedirs(f'db/devices/{id}/warnings',exist_ok=True)
+
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/HistoryData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
     r = r.json()
+    
+    if not r['val']: return
+    status_list = r['val'][id]
+    if not status_list: return
 
-    for tid in r['val']:
-        os.makedirs(f'db/devices/{id}',exist_ok=True)
-        os.makedirs(f'db/devices/{id}/status',exist_ok=True)
-        os.makedirs(f'db/devices/{id}/warnings',exist_ok=True)
-        
-        status_list = r['val'][id]
-        if 0 == len(status_list): continue
+    try:
+        city,county = regions[id]
+    except:
+        city = 'None'
+        county = 'None'
 
-        try:
-            city,county = regions[id]
-        except:
-            city = 'None'
-            county = 'None'
+    primary = {
+        'id':id,
+        'longitude':status_list[0]['Longitude'] if status_list[0]['Longitude'] else '', 
+        'latitude': status_list[0]['Latitude'] if status_list[0]['Latitude'] else '',
+        'city': city,
+        'county': county, 
+        'location': status_list[0]['Customerunit'] if status_list[0]['Customerunit'] else '',
+        'type': status_list[0]['TerminalType'] if status_list[0]['TerminalType'] else None,  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+    }
+    
+    status = []
 
-        primary = {
-            'id':id,
-            'longitude':status_list[0]['Longitude'] if status_list[0]['Longitude'] else '', 
-            'latitude': status_list[0]['Latitude'] if status_list[0]['Latitude'] else '',
-            'city': city,
-            'county': county, 
-            'location': status_list[0]['Customerunit'] if status_list[0]['Customerunit'] else '',
-            'type': status_list[0]['TerminalType'] if status_list[0]['TerminalType'] else None,  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
+    last = None
+    for s in status_list:
+        flow = float(s['flow'])
+        info = {
+            'hydraulic_pressure': s['pressure'],
+            'temperature':        s['temper'],
+            'energy':             s['electricity'],
+            'time':               s['MonitorsTime'],
+            'signal_intensity':   s['rssi'],
+            'conductivity':       s['conductivity'],
         }
-        
-        status = []
 
-        last = None
-        for s in status_list:
-            flow = float(s['flow'])
-            info = {
-                'hydraulic_pressure': s['pressure'],
-                'temperature':        s['temper'],
-                'energy':             s['electricity'],
-                'time':               s['MonitorsTime'],
-                'signal_intensity':   s['rssi'],
-                'conductivity':       s['conductivity'],
-            }
+        if primary['type'] == 'firehydrant' or primary['type'] == 'LowerFlange': 
+            info['sluice'] = '关'
 
-            if primary['type'] == 'firehydrant' or primary['type'] == 'LowerFlange': 
-                info['sluice'] = '关'
+        if primary['type'] == 'LowerFlange':
+            info['flow'] = flow
+            info['flow_difference'] = 0.0
+            
+            if last:
+                flow_difference = last['flow'] - flow
+                if flow_difference < 0: flow_difference = 0
+                last['flow_difference'] = round(flow_difference,1)
+            last = info
 
-            if primary['type'] == 'LowerFlange':
-                info['flow'] = flow
-                info['flow_difference'] = 0.0
-                
-                if last:
-                    flow_difference = last['flow'] - flow
-                    if flow_difference < 0: flow_difference = 0
-                    last['flow_difference'] = round(flow_difference,1)
-                last = info
+        status.append(info)
 
-            status.append(info)
-
-        print(f'gather db/devices/{id}/primary.json')
-        with open(f'db/devices/{id}/primary.json','w') as f:
-            f.write(json.dumps(primary,indent=4,ensure_ascii=False))
-        print(f'gather db/devices/{id}/status/{today.date()}.json')
-        with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
-            f.write(json.dumps(status,indent=4,ensure_ascii=False))
-        with open(f'db/devices/{id}/warnings/{today.date()}.json','w') as f:
-            f.write(json.dumps([],indent=4,ensure_ascii=False))
+    print(f'gather db/devices/{id}/primary.json')
+    with open(f'db/devices/{id}/primary.json','w') as f:
+        f.write(json.dumps(primary,indent=4,ensure_ascii=False))
+    print(f'gather db/devices/{id}/status/{today.date()}.json')
+    with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
+        f.write(json.dumps(status,indent=4,ensure_ascii=False))
+    with open(f'db/devices/{id}/warnings/{today.date()}.json','w') as f:
+        f.write(json.dumps([],indent=4,ensure_ascii=False))
 
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/RealTimeData?searchDate={today.date()}',headers={'Authorization': token})
     r = r.json()
