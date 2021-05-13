@@ -47,6 +47,8 @@ def regions():
                 regions[city][county].append(i)
         except FileNotFoundError as e:
             print(e)
+        except json.JSONDecodeError as e:
+            print(e)
 
     return { 'val': regions,'err':None}
 

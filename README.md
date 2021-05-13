@@ -53,8 +53,10 @@
 | 启泰智慧消防APP-1.1.3        | 界面       | ~~综合显示-流量总/差~~<br />~~GIS模块-阀门状态~~<br />~~GIS模块-流量总/差~~ | 2天  | 刘楚门               |
 |                              | 接口实现   | ~~后端-流量总/差~~<br />~~后端-阀门状态~~                    | 1天  | 刘楚门               |
 | 启泰智慧消防APP-1.1.4        | 界面       | ~~GIS-动态显示字段~~<br />~~GIS-温度改成压力~~<br />~~GIS-设备类型字段~~<br />~~历史数据-动态显示字段~~<br />~~历史数据-增加设备类型的筛选~~<br />~~历史数据-设备类型字段~~ | 3天  | 周兴邦               |
-| 启泰智慧消防APP-1.1.5        | 优化       | ~~数据项的分隔线不明显~~<br />~~切换页面时数据刷新慢~~       | 1天  | 熊畅明               |
+| 启泰智慧消防APP-1.1.6        | 优化       | ~~数据项的分隔线不明显~~<br />~~切换页面时数据刷新慢~~       | 1天  | 熊畅明               |
 | 启泰智慧消防APP-1.1.4        | 接口实现   | ~~后端-压力表~~<br />~~后端-上法兰消防栓~~<br />~~后端-下法兰流量终端~~ | 2天  | 刘楚门               |
+| 启泰智慧消防APP-1.1.7        | 界面       | 历史数据-？？？？                                            | 1天  | 刘楚门               |
+|                              | 接口实现   | 后端-液位计                                                  | 2天  | 何云龙               |
 
 # 前端
 
@@ -85,7 +87,7 @@ password: 'xf.sky.l' 	#密码
 #### 获取区域设备编号
 
 ```python
-HTTP GET http://dungbeetles.xyz:3410/devices/regions
+HTTP GET http://iot.chntek.com:3411/devices/regions
 #输入
 account: 'CSCB001'		#用户名
 #输出
@@ -114,7 +116,7 @@ account: 'CSCB001'		#用户名
 
 ```python
 #查询设备信息
-HTTP GET http://dungbeetles.xyz:3410/devices/primary
+HTTP GET http://iot.chntek.com:3411/devices/primary
 #输入
 ids: '设备A,设备B' #被查询的设备编号，多个用逗号分隔
 #输出
@@ -147,7 +149,7 @@ ids: '设备A,设备B' #被查询的设备编号，多个用逗号分隔
 
 ```python
 #查询最近的设备状态
-HTTP GET http://dungbeetles.xyz:3410/devices/status-recent
+HTTP GET http://iot.chntek.com:3411/devices/status-recent
 #输入
 id: '设备A' #被查询的设备编号
 size: 2 #限制查询数据量为2条
@@ -194,7 +196,7 @@ size: 2 #限制查询数据量为2条
 
 ```python
 #查询历史的设备状态
-HTTP GET http://dungbeetles.xyz:3410/devices/status-history
+HTTP GET http://iot.chntek.com:3411/devices/status-history
 #输入
 id: '设备A' #被查询的设备编号
 size: 2 #限制查询数据量为2条
@@ -240,7 +242,7 @@ date_end: '2010-12-24' #指定日期的状态
 
 ```python
 #查询指定日期的告警状态
-HTTP GET http://dungbeetles.xyz:3410/devices/warnings
+HTTP GET http://iot.chntek.com:3411/devices/warnings
 #输入
 id:'设备A'
 date:'2020-10-01' 	#指定日期的告警状态，返回该日的数据
@@ -279,7 +281,7 @@ size: 2 #数量数据限制
 
 ```python
 #上传一个新版本，文件名格式：chntek-<版本号>.apk
-HTTP GET http://dungbeetles.xyz:3410/app/upload
+HTTP GET http://iot.chntek.com:3411/app/upload
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 #输入
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -299,7 +301,7 @@ Content-Type: application/octet-stream
 
 ```python
 #获取最新版本
-HTTP GET http://dungbeetles.xyz:3410/app/latest
+HTTP GET http://iot.chntek.com:3411/app/latest
 #输入
 #输出
 {

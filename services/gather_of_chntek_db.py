@@ -128,7 +128,6 @@ def gather(regions,token,id,today=datetime.datetime.now()):
     with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
         f.write(json.dumps(status,indent=4,ensure_ascii=False))
 
-    os.makedirs(f'db/devices/{id}/warnings',exist_ok=True)
     print(f'gather db/devices/{id}/warnings/{today.date()}.json')
     with open(f'db/devices/{id}/warnings/{today.date()}.json','w') as f:
         f.write(json.dumps(warnings,indent=4,ensure_ascii=False))
