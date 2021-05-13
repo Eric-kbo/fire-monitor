@@ -5,8 +5,8 @@ import os
 import chntek_db as db
 
 
-def gather(regions,token,ids,today=datetime.datetime.now()):
-    r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/HistoryData?ids={ids}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
+def gather(regions,token,id,today=datetime.datetime.now()):
+    r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/HistoryData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
     r = r.json()
 
     for tid in r['val']:
@@ -74,45 +74,36 @@ def gather(regions,token,ids,today=datetime.datetime.now()):
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/RealTimeData?searchDate={today.date()}',headers={'Authorization': token})
     r = r.json()
 
-    statues = {}
-    warnings = {}
-    primaries = {}
+    status2 = {}
+    warnings = []
+    primary = {}
 
     for w in r['val']:
         tid = w['ProductTerId']
+        if tid != id:
+            continue
+        
         try:   
-            if tid not in primaries:
-                with open(f'db/devices/{tid}/primary.json','r') as f:
-                    primaries[tid] = json.load(f)
-            if tid not in statues:
-                statues[tid] = {}
-                with open(f'db/devices/{tid}/status/{today.date()}.json','r') as f:
-                    for status in json.load(f):
-                        statues[tid][status['time']] = status
+            with open(f'db/devices/{tid}/primary.json','r') as f:
+                primary = json.load(f)
+            with open(f'db/devices/{tid}/status/{today.date()}.json','r') as f:
+                for status in json.load(f):
+                    status2[status['time']] = status
         except:
             continue
 
-        if tid not in warnings:
-            warnings[tid] = []
-
-        p = primaries[tid]
-        primaries[tid]['id'] = tid
-        primaries[tid]['longitude'] = w['Longitude'] if w['Longitude'] else p['longitude']
-        primaries[tid]['latitude'] = w['Latitude'] if w['Latitude'] else p['latitude']
-        # primaries[tid]['city'] = w['Prefecturecity'] if w['Prefecturecity'] else p['city']
-        # primaries[tid]['county'] = w['Distriancounty'] if w['Distriancounty'] else p['county']
-        primaries[tid]['location'] = w['Customerunit'] if w['Customerunit'] else p['location']
-        primaries[tid]['type'] = p['type'] if 'type' in p else None  
+        primary['id'] = tid
+        primary['location'] = w['Customerunit'] if w['Customerunit'] else primary['location']
 
         if not w['warmName']: continue
         monitor_time = w['MonitorsTime']
-        if monitor_time not in statues[tid]: continue
-        status_of_time = statues[tid][monitor_time]
+        if monitor_time not in status2: continue
+        status_of_time = status2[monitor_time]
         if 'sluice' in status_of_time:
             status_of_time['sluice'] = '开' if -1 != w['warmName'].find('漏水/取水') else '关'
 
         try:
-            warnings[tid].append({
+            warnings.append({
                 'hydraulic_pressure': status_of_time['hydraulic_pressure'],
                 'temperature':        status_of_time['temperature'],
                 'energy':             status_of_time['energy'],
@@ -126,28 +117,22 @@ def gather(regions,token,ids,today=datetime.datetime.now()):
         except:
             continue
 
-    for tid in primaries:
-        p = primaries[tid]
-        print(f'update db/devices/{tid}/primary.json')
-        with open(f'db/devices/{tid}/primary.json','w') as f:
-            f.write(json.dumps(p,indent=4,ensure_ascii=False))
+    print(f'update db/devices/{tid}/primary.json')
+    with open(f'db/devices/{tid}/primary.json','w') as f:
+        f.write(json.dumps(primary,indent=4,ensure_ascii=False))
 
-    for tid in statues:
-        s = statues[tid]
-        status = []
-        for t in s:
-            status.append(s[t])
+    status = []
+    for t,v in status2.items():
+        status.append(v)
 
-        print(f'update db/devices/{tid}/status/{today.date()}.json')
-        with open(f'db/devices/{tid}/status/{today.date()}.json','w') as f:
-            f.write(json.dumps(status,indent=4,ensure_ascii=False))
+    print(f'update db/devices/{tid}/status/{today.date()}.json')
+    with open(f'db/devices/{tid}/status/{today.date()}.json','w') as f:
+        f.write(json.dumps(status,indent=4,ensure_ascii=False))
 
-    for tid in warnings:
-        w = warnings[tid]
-        os.makedirs(f'db/devices/{tid}/warnings',exist_ok=True)
-        print(f'gather db/devices/{tid}/warnings/{today.date()}.json')
-        with open(f'db/devices/{tid}/warnings/{today.date()}.json','w') as f:
-            f.write(json.dumps(w,indent=4,ensure_ascii=False))
+    os.makedirs(f'db/devices/{tid}/warnings',exist_ok=True)
+    print(f'gather db/devices/{tid}/warnings/{today.date()}.json')
+    with open(f'db/devices/{tid}/warnings/{today.date()}.json','w') as f:
+        f.write(json.dumps(warnings,indent=4,ensure_ascii=False))
 
 import sys
 import multiprocessing as mp
@@ -171,6 +156,7 @@ if __name__ == '__main__':
         for county,ids in regions[city].items():
             for id in ids:
                 regions2[id] = city,county
+
     print(regions2)
 
     for account in db.ids:
