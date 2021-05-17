@@ -45,10 +45,12 @@ def regions():
                 if county not in regions[city]:
                     regions[city][county] = []
                 regions[city][county].append(i)
+        except KeyError:
+            print(i,e)    
         except FileNotFoundError as e:
-            print(e)
+            print(i,e)
         except json.JSONDecodeError as e:
-            print(e)
+            print(i,e)
 
     return { 'val': regions,'err':None}
 
@@ -61,8 +63,10 @@ def primary():
         try:
             with open(f'db/devices/{i}/primary.json') as f:
                 primaries.append(json.load(f))
+        except KeyError:
+            print(i,e)    
         except FileNotFoundError as e:
-            print(e)
+            print(i,e)
 
     return { 'val':primaries, 'err':None}
 

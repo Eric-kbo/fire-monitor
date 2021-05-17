@@ -33,7 +33,7 @@ def gather(regions,token,id,today=datetime.datetime.now()):
         'type': status_list[0]['TerminalType'] if status_list[0]['TerminalType'] else None,  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶
     }
     
-    status = []
+    status_list2 = []
 
     last = None
     for s in status_list:
@@ -60,47 +60,39 @@ def gather(regions,token,id,today=datetime.datetime.now()):
                 last['flow_difference'] = round(flow_difference,1)
             last = info
 
-        status.append(info)
+        status_list2.append(info)
 
     print(f'gather db/devices/{id}/primary.json')
     with open(f'db/devices/{id}/primary.json','w') as f:
         f.write(json.dumps(primary,indent=4,ensure_ascii=False))
     print(f'gather db/devices/{id}/status/{today.date()}.json')
     with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
-        f.write(json.dumps(status,indent=4,ensure_ascii=False))
+        f.write(json.dumps(status_list2,indent=4,ensure_ascii=False))
     with open(f'db/devices/{id}/warnings/{today.date()}.json','w') as f:
         f.write(json.dumps([],indent=4,ensure_ascii=False))
 
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/RealTimeData?searchDate={today.date()}',headers={'Authorization': token})
     r = r.json()
 
-    status2 = {}
+
+    status_list3 = {}
     warnings = []
-    primary = {}
 
+    for status in status_list2:
+        status_list3[status['time']] = status 
+    
     for w in r['val']:
-        if w['ProductTerId'] != id:
-            continue
+        if w['ProductTerId'] != id: continue
         
-        try:   
-            with open(f'db/devices/{id}/primary.json','r') as f:
-                primary = json.load(f)
-            with open(f'db/devices/{id}/status/{today.date()}.json','r') as f:
-                for status in json.load(f):
-                    status2[status['time']] = status
-        except:
-            continue
-
-        primary['id'] = id
         primary['location'] = w['Customerunit'] if w['Customerunit'] else primary['location']
 
         if not w['warmName']: continue
         monitor_time = w['MonitorsTime']
-        if monitor_time not in status2: continue
-        status_of_time = status2[monitor_time]
-        if 'sluice' in status_of_time:
-            status_of_time['sluice'] = '开' if -1 != w['warmName'].find('漏水/取水') else '关'
+        status_of_time = status_list3[monitor_time]
 
+        if 'sluice' in status_of_time:
+            status_list3[monitor_time]['sluice'] = '开' if -1 != w['warmName'].find('漏水/取水') else '关'
+       
         try:
             warnings.append({
                 'hydraulic_pressure': status_of_time['hydraulic_pressure'],
@@ -116,21 +108,24 @@ def gather(regions,token,id,today=datetime.datetime.now()):
         except:
             continue
 
-    print(f'update db/devices/{id}/primary.json')
-    with open(f'db/devices/{id}/primary.json','w') as f:
-        f.write(json.dumps(primary,indent=4,ensure_ascii=False))
+    if primary:
+        print(f'update db/devices/{id}/primary.json')
+        with open(f'db/devices/{id}/primary.json','w') as f:
+            f.write(json.dumps(primary,indent=4,ensure_ascii=False))
 
-    status = []
-    for t,v in status2.items():
-        status.append(v)
+    status_list4 = []
+    for t,v in status_list3.items():
+        status_list4.append(v)
 
-    print(f'update db/devices/{id}/status/{today.date()}.json')
-    with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
-        f.write(json.dumps(status,indent=4,ensure_ascii=False))
+    if status_list4:
+        print(f'update db/devices/{id}/status/{today.date()}.json')
+        with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
+            f.write(json.dumps(status_list4,indent=4,ensure_ascii=False))
 
-    print(f'gather db/devices/{id}/warnings/{today.date()}.json')
-    with open(f'db/devices/{id}/warnings/{today.date()}.json','w') as f:
-        f.write(json.dumps(warnings,indent=4,ensure_ascii=False))
+    if warnings:
+        print(f'gather db/devices/{id}/warnings/{today.date()}.json')
+        with open(f'db/devices/{id}/warnings/{today.date()}.json','w') as f:
+            f.write(json.dumps(warnings,indent=4,ensure_ascii=False))
 
 import sys
 import multiprocessing as mp
