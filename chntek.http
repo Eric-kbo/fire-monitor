@@ -36,7 +36,7 @@ GET http://iot.chntek.com:3410/api/user/login
 
 ###查询所有区域设备
 GET http://iot.chntek.com:3410/api/Terminal/Regions
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyMTA0NTE0NiwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.eFhrLGA5ApCJx_p_FhIOhl7tlU5mCNZLcyzOHuddYbg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyNDU4OTU4OSwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.xJNEiatGDMZABtx4s6hQ7kPT5n9TnjpKLST6dDpx_lA
 
 ###查询所有设备
 GET http://iot.chntek.com:3410/api/Terminal/GetAllDevice
@@ -44,10 +44,10 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxz
 
 ###查询设备状态
 GET http://iot.chntek.com:3410/api/Terminal/HistoryData
-    ?ids=CSSW00012
-    &date_begin=2021-05-13
-    &date_end=2021-05-13
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyMTA0NTE0NiwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.eFhrLGA5ApCJx_p_FhIOhl7tlU5mCNZLcyzOHuddYbg
+    ?ids=2021011501
+    &date_begin=2021-05-09
+    &date_end=2021-05-24
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyNDUyODYxOCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.aqEdcES1bSNgo5To9zim7B_NkhgxszKa3kZcUWSXA3A
 
 ###查询告警状态
 # 11: 'WorkpiecName', // 信号低报警
@@ -66,8 +66,8 @@ GET http://iot.chntek.com:3410/api/Terminal/RealTimeData
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyMTA0NTE0NiwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.eFhrLGA5ApCJx_p_FhIOhl7tlU5mCNZLcyzOHuddYbg
 
 ###液位计
-GET http://iot.chntek.com:3410/Terminal/LiquidRealTimeData?searchDate=2021-05-13
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyMTA0NTE0NiwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.eFhrLGA5ApCJx_p_FhIOhl7tlU5mCNZLcyzOHuddYbg
+GET http://iot.chntek.com:3410/api/Terminal/LiquidRealTimeData?date_Begin=2021-05-01&date_End=2021-05-09&ids=2021011501
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyNDUyODYxOCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.aqEdcES1bSNgo5To9zim7B_NkhgxszKa3kZcUWSXA3A
 
 ###
 POST http://iot.chntek.com:3411/app/upload
