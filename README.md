@@ -187,6 +187,14 @@ size: 2 #限制查询数据量为2条
 		},
 		{
             # cylinders：消防气瓶
+		},
+		{
+            # LiquidLevel：液位计
+            "main_measure": "1.452596", #主测量信息
+            "temperature": "22.5", #压力
+            "signal_intensity": "96", #信号强度
+            "energy": 100,			#能量
+            "time": "2021-05-09 23:59:14" #检测时间
 		}
     ]
 }
