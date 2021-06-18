@@ -115,7 +115,7 @@ def status_history():
 
 @app.route('/devices/warning-types', methods=['GET'])
 def warning_types():
-    with open(f'db/warning_types.json') as f:
+    with open(f'db/warning-types.json',encoding='utf-8') as f:
         warning_types = json.load(f)
     return {'val':warning_types,'err':None}
 
