@@ -282,6 +282,13 @@ type:'信号低报警' #告警类型
 }
 ```
 
+```python
+#告警类型
+HTTP GET http://iot.chntek.com:3411/devices/warning-types
+```
+
+
+
 ### 版本管理
 
 #### 上传版本

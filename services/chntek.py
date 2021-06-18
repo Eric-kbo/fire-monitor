@@ -115,19 +115,9 @@ def status_history():
 
 @app.route('/devices/warning-types', methods=['GET'])
 def warning_types():
-    warning_types = set()
-    for device in os.listdir('db/devices'):
-        for warning in os.listdir(f'db/devices/{device}/warnings'):
-            warnings = []
-            with open(f'db/devices/{device}/warnings/{warning}') as f:
-                warnings = json.load(f)
-
-            for w in warnings:
-                for t in w['type'].split('，'):
-                    for t in t.split('、'):
-                        warning_types.add(t)
-
-    return {'val':list(warning_types),'err':None}
+    with open(f'db/warning_types.json') as f:
+        warning_types = json.load(f)
+    return {'val':warning_types,'err':None}
 
 @app.route('/devices/warnings', methods=['GET'])
 def warnings():
