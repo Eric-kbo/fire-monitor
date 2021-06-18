@@ -5,6 +5,7 @@ import os
 import chntek_db as db
 
 
+
 def gather(regions,token,id,today=datetime.datetime.now()):
     os.makedirs(f'db/devices/{id}',exist_ok=True)
     os.makedirs(f'db/devices/{id}/status',exist_ok=True)
@@ -124,7 +125,6 @@ def gather(regions,token,id,today=datetime.datetime.now()):
     ###查询告警状态
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/RealTimeData?searchDate={today.date()}',headers={'Authorization': token})
     r = r.json()
-
 
     status_list3 = {}
     warnings = []

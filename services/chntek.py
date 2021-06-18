@@ -113,6 +113,22 @@ def status_history():
         if len(status) > size: break
     return { 'val': status[0:size], 'err':None}
 
+@app.route('/devices/warning-types', methods=['GET'])
+def warning_types():
+    warning_types = set()
+    for device in os.listdir('db/devices'):
+        for warning in os.listdir(f'db/devices/{device}/warnings'):
+            warnings = []
+            with open(f'db/devices/{device}/warnings/{warning}') as f:
+                warnings = json.load(f)
+
+            for w in warnings:
+                for t in w['type'].split('，'):
+                    for t in t.split('、'):
+                        warning_types.add(t)
+
+    return {'val':list(warning_types),'err':None}
+
 @app.route('/devices/warnings', methods=['GET'])
 def warnings():
     id = request.args['id']
@@ -122,6 +138,11 @@ def warnings():
     except KeyError:
         size = 20
 
+    try:
+        types = request.args['type'].split(',')
+    except:
+        types=[]
+
     warnings = []
     try:
         with open(f'db/devices/{id}/warnings/{date}.json') as f:
@@ -129,7 +150,13 @@ def warnings():
     except FileNotFoundError as e:
         print(e)
 
-    return { 'val': warnings[0:size], 'err':None }
+    val = []
+    for w in warnings:
+        if not types: val.append(w)
+        for t in types: 
+            if w['type'] == t: val.append(w)
+
+    return { 'val': val[0:size], 'err':None }
 
 from werkzeug.utils import secure_filename
 os.makedirs(f'static/app', exist_ok=True)
