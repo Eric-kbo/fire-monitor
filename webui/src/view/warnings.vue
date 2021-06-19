@@ -10,10 +10,12 @@
     <van-row>
       <van-col span="24">
         <van-field
+            :disabled="loading"
             v-model="typeValue"
+            :right-icon="loading?'fail':'success'"
             readonly
             placeholder="点击选择告警类型"
-            @click="typeCheckShow = true"/>
+            @click="typeClick()"/>
       </van-col>
     </van-row>
     <van-tabs type="card" v-model="active" @click="tagChange" style="background-color: white">
@@ -426,6 +428,11 @@ export default {
             }
           }
         });
+      }
+    },
+    typeClick() {
+      if (!this.loading) {
+        this.typeCheckShow = true
       }
     },
   }
