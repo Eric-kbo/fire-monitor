@@ -67,7 +67,11 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxz
 
 ###液位计
 GET http://iot.chntek.com:3410/api/Terminal/LiquidRealTimeData?date_Begin=2021-05-01&date_End=2021-05-09&ids=2021011501
+<<<<<<< HEAD
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyNDUzOTI4MCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.q37RIhAlKqjrUEsla6Ego6mSKgNSnpBYViNcZGP6NbE
+=======
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCIsImV4cCI6MTYyNDUyODYxOCwiaXNzIjoiSnd0S2V5TmFtZSIsImF1ZCI6Ikp3dEtleU5hbWUifQ.aqEdcES1bSNgo5To9zim7B_NkhgxszKa3kZcUWSXA3A
+>>>>>>> 16a13310eba5b401d0b530a433bbaa3d174d1939
 
 ###
 POST http://iot.chntek.com:3411/app/upload

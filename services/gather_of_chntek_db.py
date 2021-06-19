@@ -11,6 +11,56 @@ def gather(regions,token,id,today=datetime.datetime.now()):
     os.makedirs(f'db/devices/{id}/status',exist_ok=True)
     os.makedirs(f'db/devices/{id}/warnings',exist_ok=True)
 
+    # 新接口 查询液位计数据
+    # print("start -new api id:", id)
+    r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/LiquidRealTimeData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
+    r = r.json()
+    if r['val']:
+        # print("LiquidRealTimeData id:", id)
+        # print("LiquidRealTimeData var:", r['val'])
+        yeweiji_list = r['val'][id]
+        if yeweiji_list: #假如液位计有数据
+            try:
+                city,county = regions[id]
+            except:
+                city = 'None'
+                county = 'None'
+
+            # 液位计类型
+            devType = 'LiquidReal'
+            if yeweiji_list[0]:
+                if 'TerminalType' in yeweiji_list[0]: #检查字典里存在此字段，现在的数据里没有此字段
+                    devType = yeweiji_list[0]['TerminalType']
+
+            primary = {
+                'id':id,
+                'longitude':yeweiji_list[0]['Longitude'] if yeweiji_list[0]['Longitude'] else '', 
+                'latitude': yeweiji_list[0]['Latitude'] if yeweiji_list[0]['Latitude'] else '',
+                'city': city,
+                'county': county, 
+                'location': yeweiji_list[0]['Customerunit'] if yeweiji_list[0]['Customerunit'] else '',
+                'type': devType,  #设备类型 firehydrant：消防栓，pressure：无线压力表，cylinders：消防气瓶, LiquidReal:液位计
+            }
+
+            yeweiji_list2 = []
+            for s in yeweiji_list:
+                info = {
+                    'main_measure':         s['MainMeasure'],
+                    'temperature':          s['Temperature'],                    
+                    'signal_intensity':     s['signal'],
+                    'energy':               s['BatteryPower'],
+                    'time':                 s['MonitoringTime'],
+                }
+                yeweiji_list2.append(info)
+
+            print(f'gather db/devices/{id}/primary.json')
+            with open(f'db/devices/{id}/primary.json','w') as f:
+                f.write(json.dumps(primary,indent=4,ensure_ascii=False))
+            print(f'gather db/devices/{id}/status/{today.date()}.json')
+            with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
+                f.write(json.dumps(yeweiji_list2,indent=4,ensure_ascii=False))
+
+    # 查询设备状态    
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/HistoryData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
     r = r.json()
     
@@ -72,6 +122,7 @@ def gather(regions,token,id,today=datetime.datetime.now()):
     with open(f'db/devices/{id}/warnings/{today.date()}.json','w') as f:
         f.write(json.dumps([],indent=4,ensure_ascii=False))
 
+    ###查询告警状态
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/RealTimeData?searchDate={today.date()}',headers={'Authorization': token})
     r = r.json()
 
