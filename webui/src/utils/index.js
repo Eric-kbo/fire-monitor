@@ -88,3 +88,11 @@ export function getDevicesList(str) {
     }
     return '';
 }
+
+export function sortWarning(p) {
+    return function (m, n) {
+        var a = new Date(m.data[p]);
+        var b = new Date(n.data[p]);
+        return b.getTime() - a.getTime();
+    }
+}
