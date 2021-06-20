@@ -182,7 +182,7 @@ import {
   Checkbox,
   CheckboxGroup,
 } from 'vant';
-import {formatDateBeforDay, getAllDeviceslist} from '../utils';
+import {formatDateBeforDay, getAllDeviceslist, sortWarning} from '../utils';
 
 export default {
   name: 'warnings',
@@ -331,6 +331,7 @@ export default {
               title: data,
               data: res[0]
             });
+            this.nowStatus.sort(sortWarning('time')) // 时间排序
           }
           this.abNormalCount = this.nowStatus.length;
           this.normalCount = this.allCount - this.abNormalCount;
@@ -350,6 +351,7 @@ export default {
                   title: data,
                   data: res[0]
                 });
+                this.hisStatus.sort(sortWarning('time'))
               }
             }
             if (index === this.allDevices.length - 1) {
@@ -377,6 +379,7 @@ export default {
               title: data,
               data: res[0]
             });
+            this.hisStatus.sort(sortWarning('time'))
           }
         }
       });

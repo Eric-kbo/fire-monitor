@@ -36,7 +36,7 @@ import gmap from '../view/gmap/gmap.vue';
 import tagDetail from '../view/gmap/tagDetail.vue';
 import warnings from '../view/warnings.vue';
 import History from '../view/history.vue';
-import {formatDateBeforDay, getAllDeviceslist} from '../utils';
+import {formatDateBeforDay, getAllDeviceslist, sortWarning} from '../utils';
 
 export default {
   name: 'basic',
@@ -118,6 +118,7 @@ export default {
               title: data,
               data: res[0]
             });
+            this.warningsData.sort(sortWarning('time'))
           }
         }
       });
