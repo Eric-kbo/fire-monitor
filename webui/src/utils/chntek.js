@@ -12,51 +12,72 @@ function Chntek() {
     this.ids = 0;
 
     this.regions = async (val) => {
-        const { data } = await axios.get(`${proxyHost}/devices/regions`, {
+        const {data} = await axios.get(`${proxyHost}/devices/regions`, {
             // params: {account: this.account},
-            params: { account: val },
-            headers: { 'Authorization': this.token }
+            params: {account: val},
+            headers: {'Authorization': this.token}
         });
         if (data.val) return data.val;
     };
     this.statusRecent = async (val) => {
-        const { data } = await axios.get(`${proxyHost}/devices/status-recent`, {
+        const {data} = await axios.get(`${proxyHost}/devices/status-recent`, {
             // params: {account: this.account},
-            params: { id: val },
-            headers: { 'Authorization': this.token }
+            params: {id: val},
+            headers: {'Authorization': this.token}
         });
         if (data.val) return data.val;
     };
     this.statusHistory = async (val, date_begin, date_end, size) => {
-        const { data } = await axios.get(`${proxyHost}/devices/status-history`, {
+        const {data} = await axios.get(`${proxyHost}/devices/status-history`, {
             // params: {account: this.account},
-            params: { id: val, date_begin: date_begin, date_end: date_end, size: size },
-            headers: { 'Authorization': this.token }
+            params: {id: val, date_begin: date_begin, date_end: date_end, size: size},
+            headers: {'Authorization': this.token}
         });
         if (data.val) return data.val;
     };
     this.statusPrimary = async (val) => {
-        const { data } = await axios.get(`${proxyHost}/devices/primary`, {
+        const {data} = await axios.get(`${proxyHost}/devices/primary`, {
             // params: {account: this.account},
-            params: { ids: val },
-            headers: { 'Authorization': this.token }
+            params: {ids: val},
+            headers: {'Authorization': this.token}
         });
         if (data.val) return data.val;
     };
 
+    this.waringTypes = async () => {
+        const {data} = await axios.get(`${proxyHost}/devices/warning-types`, {
+            headers: {'Authorization': this.token}
+        });
+        if (data.val) return data.val;
+    };
 
     this.login = async (account, password) => {
-        let res = await axios.get(`${host}/api/user/login`, { params: { account, password } });
+        let res = await axios.get(`${host}/api/user/login`, {params: {account, password}});
         if (res.data.err) throw res.data.err;
         localStorage.setItem('chntek-account', account);
         localStorage.setItem('chntek-token', res.data.val.token);
     };
 
-    this.warrigs = async (val, date, size) => {
-        const { data } = await axios.get(`${proxyHost}/devices/warnings`, {
+    // this.warrigs = async (val, date, size) => {
+    //     const {data} = await axios.get(`${proxyHost}/devices/warnings`, {
+    //         // params: {account: this.account},
+    //         params: {id: val, date: date, size: size},
+    //         headers: {'Authorization': this.token}
+    //     });
+    //     if (data.val) return data.val;
+    // };
+
+    this.warrigs = async (val, date, size, type = '') => {
+        const param = {
+            id: val, date: date, size: size
+        }
+        if (type) {
+            param.type = type
+        }
+        const {data} = await axios.get(`${proxyHost}/devices/warnings`, {
             // params: {account: this.account},
-            params: { id: val, date: date, size: size },
-            headers: { 'Authorization': this.token }
+            params: param,
+            headers: {'Authorization': this.token}
         });
         if (data.val) return data.val;
     };
@@ -65,7 +86,7 @@ function Chntek() {
         let val = [];
         for (let id of this.ids) {
             if (this.devices[id] == undefined || this.devices[id].latitude == null || this.devices[id].longitude == null) continue;
-            const { data } = await axios.get(`${proxyHost}/devices/status-recent`, { params: { id } });
+            const {data} = await axios.get(`${proxyHost}/devices/status-recent`, {params: {id}});
 
             for (let k in data.val[0]) {
                 this.devices[id][k] = data.val[0][k]
@@ -78,7 +99,7 @@ function Chntek() {
 
     this.update = async () => {
         let version = window.cordova.plugins.version.getAppVersion();
-        const { data } = await axios.get(`${proxyHost}/app/latest`);
+        const {data} = await axios.get(`${proxyHost}/app/latest`);
 
         if (data.err) {
             alert('无法获取最新版本')
@@ -106,7 +127,8 @@ function Chntek() {
     }
 }
 
-document.addEventListener('deviceready', async () => { })
+document.addEventListener('deviceready', async () => {
+})
 
 
 const chntek = new Chntek();
