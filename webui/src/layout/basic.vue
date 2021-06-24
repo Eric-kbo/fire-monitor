@@ -51,7 +51,7 @@ export default {
       active: 'gmap',
       showPopover: false,
       // 通过 actions 属性来定义菜单选项
-      actions: [{text: '版本1.1.6', disabled: true}, {text: '更新'}, {text: '注销'}],
+      actions: [{text: '版本1.1.7', disabled: true}, {text: '更新'}, {text: '注销'}],
       //wanings
       warningsData: [],
       warningsAllCount: 0,

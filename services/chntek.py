@@ -144,8 +144,7 @@ def warnings():
     for w in warnings:
         if not types: val.append(w)
         for t in types: 
-            if w['type'] == t: val.append(w)
-
+            if -1 != w['type'].find(t): val.append(w)
     return { 'val': val[0:size], 'err':None }
 
 from werkzeug.utils import secure_filename
