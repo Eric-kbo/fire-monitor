@@ -18,7 +18,7 @@
 
       </van-row>
       <van-row>
-        <div style="margin: 4px 16px 4px 16px;">
+        <div style="margin: 4px 20% 4px 20%;">
           <van-field
               style="border-radius: 25px;"
               v-model="username"
@@ -29,7 +29,7 @@
         </div>
       </van-row>
       <van-row>
-        <div style="margin: 4px 16px 4px 16px;">
+        <div style="margin: 4px 20% 4px 20%;">
           <van-field
               style="border-radius: 25px;"
               v-model="password"
@@ -47,7 +47,7 @@
         </div>
       </van-row>
       <van-row>
-        <div style="margin: 16px;">
+        <div style="margin: 4px 20% 4px 20%;">
           <van-button @click="onSubmit" round block type="info" native-type="submit">
             登录
           </van-button>

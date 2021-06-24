@@ -94,21 +94,21 @@
           <template v-for="(item, key) in detailList">
             <van-cell-group :key="key">
               <van-row type="flex" justify="end" gutter="10">
-                <van-col>
+                <van-col v-if="item.hydraulic_pressure!=undefined">
                   水压
                   <van-tag plain type="success"
                   >{{ item.hydraulic_pressure }}MPa
                   </van-tag
                   >
                 </van-col>
-                <van-col>
+                <van-col v-if="item.temperature!=undefined">
                   温度
                   <van-tag plain type="success"
                   >{{ item.temperature }}°C
                   </van-tag
                   >
                 </van-col>
-                <van-col>
+                <van-col v-if="item.energy!=undefined">
                   电量
                   <van-tag plain type="success">{{ item.energy }}%</van-tag>
                 </van-col>
@@ -124,7 +124,19 @@
                   <van-tag plain type="success">{{ item.flow_difference }}m³</van-tag>
                 </van-col>
                 <van-col v-if="item.sluice!=undefined">
-                  阀门<van-tag plain type="danger">{{ item.sluice }}</van-tag>
+                  阀门
+                  <van-tag plain type="danger">{{ item.sluice }}</van-tag>
+                </van-col>
+              </van-row>
+
+              <van-row type="flex" justify="end" gutter="10">
+                <van-col v-if="item.main_measure!=undefined">
+                  主测量值
+                  <van-tag plain type="primary">{{ item.main_measure }}m</van-tag>
+                </van-col>
+                <van-col v-if="item.signal_intensity!=undefined">
+                  信号强度
+                  <van-tag plain type="success">{{ item.signal_intensity }}db</van-tag>
                 </van-col>
               </van-row>
 

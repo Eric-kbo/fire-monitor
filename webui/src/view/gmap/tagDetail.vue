@@ -25,7 +25,8 @@
             <van-cell v-if="item.hydraulic_pressure" title="当前水压" :value="item.hydraulic_pressure+'Mpa'"/>
             <van-cell v-if="item.temperature!=undefined" title="当前温度" :value="item.temperature+'°C'"/>
             <van-cell v-if="item.energy!=undefined" title="当前电量" :value="item.energy+'%'"/>
-            <van-cell v-if="item.signal_intensity!=undefined" title="信号强度" :value="item.signal_intensity"/>
+            <van-cell v-if="item.main_measure!=undefined" title="主测量值" :value="item.main_measure+'m'"/>
+            <van-cell v-if="item.signal_intensity!=undefined" title="信号强度" :value="item.signal_intensity+'db'"/>
             <van-cell v-if="item.flow!=undefined" title="累计流量" :value="item.flow"/>
             <van-cell v-if="item.flow_difference!=undefined" title="本次流量" :value="item.flow_difference"/>
             <van-cell v-if="item.sluice" title="阀门状态" :value="item.sluice"/>
@@ -46,7 +47,7 @@ import {
 
 export default {
   name: "tagDetail",
-  
+
   components: {
     [Collapse.name]: Collapse,
     [CollapseItem.name]: CollapseItem,
@@ -57,16 +58,16 @@ export default {
   },
   props: {
     model: {
-      type: [Object,Array,String,Number]
+      type: [Object, Array, String, Number]
     }
   },
-  watch:{
-    model(newV){
-      this.model=newV;
+  watch: {
+    model(newV) {
+      this.model = newV;
       this.list = this.model;
     }
   },
- 
+
   data() {
     return {
       activeNames: [0],

@@ -52,6 +52,10 @@
             当前电量:
             <span class="flex_1">{{ showTag.energy }}%</span>
           </p>
+          <p class="display-flex message" v-if="showTag.main_measure">
+            主测量值:
+            <span class="flex_1">{{ showTag.main_measure }}m</span>
+          </p>
           <p class="display-flex message" v-if="showTag.signal_intensity">
             信号强度:
             <span class="flex_1">{{ showTag.signal_intensity }}db</span>
@@ -96,7 +100,7 @@ import {
 } from 'vant';
 
 export default {
-  name:'gmap',
+  name: 'gmap',
   components: {
     BmlMarkerClusterer,
     [Collapse.name]: Collapse,
@@ -174,6 +178,7 @@ export default {
           temperature: data.temperature,
           energy: data.energy,
           signal_intensity: data.signal_intensity,
+          main_measure: data.main_measure,
           time: data.time,
           sluice: data.sluice,
           flow: data.flow,
@@ -209,7 +214,7 @@ export default {
       }
     },
     showMoreDetail() {
-      this.$emit('change',this.currentList)
+      this.$emit('change', this.currentList)
       // this.$router.push({
       //   name: 'tagDetail',
       //   params: {
